@@ -92,3 +92,32 @@ export async function sendConfirmationToStudent(data: AppointmentData): Promise<
         EMAILJS_PUBLIC_KEY,
     );
 }
+
+// ── Wrapper used by MentorDetail → sends appointment request to mentor ────────
+export interface MentorAppointmentData {
+    mentorName: string;
+    mentorEmail: string;
+    studentName: string;
+    studentEmail: string;
+    concern: string;
+}
+
+export async function sendAppointmentRequest(data: MentorAppointmentData): Promise<void> {
+    await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_ADMIN_TEMPLATE_ID,
+        {
+            admin_email: data.mentorEmail,
+            student_name: data.studentName,
+            student_email: data.studentEmail,
+            student_phone: 'N/A',
+            student_year: 'N/A',
+            appointment_type: 'Mentor Session',
+            preferred_date: 'To be decided by mentor',
+            preferred_time: 'To be decided by mentor',
+            concern: data.concern,
+            is_first_visit: 'N/A',
+        },
+        EMAILJS_PUBLIC_KEY,
+    );
+}

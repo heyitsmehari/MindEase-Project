@@ -21,9 +21,9 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard icon={<Users className="text-blue-600"/>} label="Total Members" value={stats.users} bg="bg-blue-50" />
-        <StatCard icon={<FileText className="text-emerald-600"/>} label="Total Posts" value={stats.articles} bg="bg-emerald-50" />
-        <StatCard icon={<AlertCircle className="text-orange-600"/>} label="Pending Requests" value={stats.pending} bg="bg-orange-50" />
+        <StatCard icon={<Users className="text-blue-600" />} label="Total Members" value={stats.users} bg="bg-blue-50" />
+        <StatCard icon={<FileText className="text-emerald-600" />} label="Total Posts" value={stats.articles} bg="bg-emerald-50" />
+        <StatCard icon={<AlertCircle className="text-orange-600" />} label="Pending Requests" value={stats.pending} bg="bg-orange-50" />
       </div>
     </div>
   );

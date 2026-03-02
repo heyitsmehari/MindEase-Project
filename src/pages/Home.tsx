@@ -8,7 +8,7 @@ import {
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { MENTORS } from '../data/mentorData';
 import { db } from '../firebase';
-import { collection, query, where, onSnapshot, getCountFromServer } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 // ─── THEME ───────────────────────────────────────────────────────────
 // bg:       #FFF5F7  (lightest lavender)
@@ -261,11 +261,12 @@ const Home: React.FC = () => {
     return () => clearInterval(t);
   }, []);
 
-  // Fetch live user count from Firestore
+  // Fetch live user count from Firestore — real-time listener
   useEffect(() => {
-    getCountFromServer(collection(db, 'users'))
-      .then(s => setLiveUsers(s.data().count))
-      .catch(() => { });
+    const unsub = onSnapshot(collection(db, 'users'), (snap) => {
+      setLiveUsers(snap.size);
+    });
+    return () => unsub();
   }, []);
 
   useEffect(() => {
@@ -540,328 +541,328 @@ const Home: React.FC = () => {
 
           </div>
         </section>
-      {/* ══ FEATURE CARDS ════════════════════════════════ */}
-      <section className="px-6 py-16">
-        <FadeIn>
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-7">
-            <FeatureCard icon={<MessageCircle size={28} />} title="AI Support"
-              desc="Instant anonymous help tailored for the NITK community — available every second of every day."
-              link="/chatbot" accent="#D4617Aff" light="#FFE8ED" />
-            <FeatureCard icon={<BarChart3 size={28} />} title="Mood Tracker"
-              desc="Visualize your emotional patterns and understand your mental health trends over time."
-              link="/mood" accent="#C44A6A" light="#FFE0E6" />
-            <FeatureCard icon={<Users size={28} />} title="Student Stories"
-              desc="Read anonymous journeys from peers — and share yours to help someone feel less alone."
-              link="/stories" accent="#E892A5" light="#F3EBFF" />
-          </div>
-        </FadeIn>
-      </section>
-
-      {/* ══ QUOTE MARQUEE CAROUSEL ════════════════════════ */}
-      <section className="py-20 overflow-hidden">
-        <FadeIn>
-          <div className="text-center mb-14 px-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-5"
-              style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}>
-              <Heart size={13} className="fill-current" /> Healing Spaces
+        {/* ══ FEATURE CARDS ════════════════════════════════ */}
+        <section className="px-6 py-16">
+          <FadeIn>
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-7">
+              <FeatureCard icon={<MessageCircle size={28} />} title="AI Support"
+                desc="Instant anonymous help tailored for the NITK community — available every second of every day."
+                link="/chatbot" accent="#D4617Aff" light="#FFE8ED" />
+              <FeatureCard icon={<BarChart3 size={28} />} title="Mood Tracker"
+                desc="Visualize your emotional patterns and understand your mental health trends over time."
+                link="/mood" accent="#C44A6A" light="#FFE0E6" />
+              <FeatureCard icon={<Users size={28} />} title="Student Stories"
+                desc="Read anonymous journeys from peers — and share yours to help someone feel less alone."
+                link="/stories" accent="#E892A5" light="#F3EBFF" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#3D1520' }}>
-              Words That{' '}
-              <span style={{ background: 'linear-gradient(135deg, #D4617A, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Heal
-              </span>
-            </h2>
-            <p className="text-base font-medium max-w-lg mx-auto" style={{ color: '#7A3545', opacity: 0.75 }}>
-              Gentle reminders that you are enough, and help is always near.
-            </p>
-          </div>
-        </FadeIn>
+          </FadeIn>
+        </section>
 
-        {/* Row 1 — scrolls left */}
-        <div className="relative mb-5" style={{ maskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)' }}>
-          <div className="flex gap-5 marquee-left" style={{ width: 'max-content' }}>
-            {[...QUOTE_CARDS, ...QUOTE_CARDS].map((q, i) => (
-              <QuoteCard key={i} {...q} />
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2 — scrolls right */}
-        <div className="relative" style={{ maskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)' }}>
-          <div className="flex gap-5 marquee-right" style={{ width: 'max-content' }}>
-            {[...QUOTE_CARDS_ALT, ...QUOTE_CARDS_ALT].map((q, i) => (
-              <QuoteCard key={i} {...q} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ SERVICES ════════════════════════════════════ */}
-      <section className="py-20 px-6">
-        <FadeIn>
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Wellness Hub</h2>
-                <p className="mt-3 text-lg" style={{ color: '#7A3545' }}>Everything you need for emotional resilience.</p>
+        {/* ══ QUOTE MARQUEE CAROUSEL ════════════════════════ */}
+        <section className="py-20 overflow-hidden">
+          <FadeIn>
+            <div className="text-center mb-14 px-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-5"
+                style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}>
+                <Heart size={13} className="fill-current" /> Healing Spaces
               </div>
-              <button onClick={() => navigate('/sessions')}
-                className="px-7 py-3 font-bold rounded-xl transition-all shrink-0"
-                style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.16)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.08)'}
-              >
-                View All Services
-              </button>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-              <ServiceTile icon={<Video size={26} />} title="Video Therapy" link="/sessions" accent="#D4617A" />
-              <ServiceTile icon={<Calendar size={26} />} title="Counseling" link="/appointment" accent="#EC4899" />
-              <ServiceTile icon={<BookOpen size={26} />} title="Wellness Events" link="/events" accent="#C44A6A" />
-              <ServiceTile icon={<Users size={26} />} title="Peer Mentors" link="/mentor" accent="#059669" />
-            </div>
-          </div>
-        </FadeIn>
-      </section>
-
-      {/* ══ MENTOR CAROUSEL ══════════════════════════════ */}
-      <section className="py-20 px-6">
-        <FadeIn>
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-14">
-              <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
-                style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F9C5CC', color: '#D4617A' }}>
-                <Award size={14} /> Expert Mentors
-              </span>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Meet Your Guides</h2>
-              <p className="mt-4 max-w-xl mx-auto text-base" style={{ color: '#7A3545' }}>
-                Certified professionals who specialize in student mental health — ready to walk with you.
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#3D1520' }}>
+                Words That{' '}
+                <span style={{ background: 'linear-gradient(135deg, #D4617A, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  Heal
+                </span>
+              </h2>
+              <p className="text-base font-medium max-w-lg mx-auto" style={{ color: '#7A3545', opacity: 0.75 }}>
+                Gentle reminders that you are enough, and help is always near.
               </p>
             </div>
+          </FadeIn>
 
-            <div className="relative flex items-center justify-center gap-6">
-              <button onClick={() => goMentor(-1)}
-                className="absolute left-0 z-20 w-11 h-11 rounded-2xl flex items-center justify-center transition-all"
-                style={{ background: 'rgba(212,97,122,0.10)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.22)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.10)'}
-              >
-                <ChevronLeft size={20} />
-              </button>
-
-              <div className="flex items-center justify-center gap-5 w-full overflow-hidden px-14">
-                {mentorVisible.map((mIdx, pos) => {
-                  const mentor = MENTORS[mIdx];
-                  const isActive = pos === 1;
-                  return (
-                    <motion.div
-                      key={`${mIdx}-${pos}`}
-                      layout
-                      animate={{ scale: isActive ? 1 : 0.85, opacity: isActive ? 1 : 0.45 }}
-                      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                      onClick={() => isActive ? navigate(`/mentor/${mentor.id}`) : (pos === 0 ? goMentor(-1) : goMentor(1))}
-                      className="relative rounded-[2rem] p-6 cursor-pointer shrink-0 group transition-all"
-                      style={{
-                        width: isActive ? '270px' : '210px',
-                        background: 'rgba(255,255,255,0.65)',
-                        border: isActive ? '2px solid #F4A0B0' : '1.5px solid #FFE8ED',
-                        backdropFilter: 'blur(16px)',
-                        boxShadow: isActive ? '0 20px 60px rgba(212,97,122,0.15), 0 4px 16px rgba(0,0,0,0.06)' : 'none',
-                      }}
-                    >
-                      <div className="rounded-[1.5rem] overflow-hidden mb-5 aspect-square">
-                        <img src={mentor.image} alt={mentor.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                      </div>
-                      {isActive && (
-                        <div className="absolute top-5 right-5 flex items-center gap-1 px-2.5 py-1 rounded-full"
-                          style={{ background: 'rgba(254,240,138,0.5)', border: '1px solid rgba(234,179,8,0.35)' }}>
-                          <Star size={11} className="text-yellow-500 fill-yellow-500" />
-                          <span className="text-yellow-700 text-xs font-black">{mentor.rating}</span>
-                        </div>
-                      )}
-                      <h3 className="font-black text-base leading-tight mb-1 transition-colors" style={{ color: '#3D1520' }}>{mentor.name}</h3>
-                      <p className="text-xs font-bold mb-2" style={{ color: '#D4617A' }}>{mentor.role}</p>
-                      <p className="text-xs" style={{ color: '#7A3545', opacity: 0.7 }}>{mentor.specialty}</p>
-                      {isActive && (
-                        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                          className="mt-4 pt-4 flex items-center justify-between"
-                          style={{ borderTop: '1.5px solid #FFE8ED' }}>
-                          <span className="text-xs" style={{ color: '#7A3545', opacity: 0.55 }}>{mentor.experience}</span>
-                          <span className="text-xs font-black px-3 py-1.5 rounded-xl"
-                            style={{ background: 'rgba(212,97,122,0.10)', color: '#D4617A' }}>
-                            View Profile →
-                          </span>
-                        </motion.div>
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              <button onClick={() => goMentor(1)}
-                className="absolute right-0 z-20 w-11 h-11 rounded-2xl flex items-center justify-center transition-all"
-                style={{ background: 'rgba(212,97,122,0.10)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.22)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.10)'}
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-
-            {/* Dots */}
-            <div className="flex justify-center gap-2 mt-8">
-              {MENTORS.map((_, i) => (
-                <button key={i} onClick={() => setMentorIdx(i)}
-                  className="rounded-full transition-all duration-300"
-                  style={{
-                    width: i === mentorIdx ? 24 : 7, height: 7,
-                    background: i === mentorIdx ? 'linear-gradient(90deg, #D4617A, #C44A6A)' : '#F9C5CC',
-                  }}
-                />
+          {/* Row 1 — scrolls left */}
+          <div className="relative mb-5" style={{ maskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)' }}>
+            <div className="flex gap-5 marquee-left" style={{ width: 'max-content' }}>
+              {[...QUOTE_CARDS, ...QUOTE_CARDS].map((q, i) => (
+                <QuoteCard key={i} {...q} />
               ))}
             </div>
+          </div>
 
-            <div className="text-center mt-10">
-              <button onClick={() => navigate('/mentor')}
-                className="px-10 py-4 font-black text-white rounded-2xl transition-all text-base"
-                style={{ background: 'linear-gradient(135deg, #D4617A, #C44A6A)', boxShadow: '0 8px 30px rgba(212,97,122,0.30)' }}
-                onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 12px 45px rgba(212,97,122,0.50)')}
-                onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 8px 30px rgba(212,97,122,0.30)')}
-              >
-                Meet All Mentors →
-              </button>
+          {/* Row 2 — scrolls right */}
+          <div className="relative" style={{ maskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)' }}>
+            <div className="flex gap-5 marquee-right" style={{ width: 'max-content' }}>
+              {[...QUOTE_CARDS_ALT, ...QUOTE_CARDS_ALT].map((q, i) => (
+                <QuoteCard key={i} {...q} />
+              ))}
             </div>
           </div>
-        </FadeIn>
-      </section>
+        </section>
 
-      {/* ══ LIVE STUDENT VOICES ════════════════════════════ */}
-      <LiveStudentVoices />
+        {/* ══ SERVICES ════════════════════════════════════ */}
+        <section className="py-20 px-6">
+          <FadeIn>
+            <div className="max-w-6xl mx-auto">
+              <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Wellness Hub</h2>
+                  <p className="mt-3 text-lg" style={{ color: '#7A3545' }}>Everything you need for emotional resilience.</p>
+                </div>
+                <button onClick={() => navigate('/sessions')}
+                  className="px-7 py-3 font-bold rounded-xl transition-all shrink-0"
+                  style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.16)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.08)'}
+                >
+                  View All Services
+                </button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+                <ServiceTile icon={<Video size={26} />} title="Video Therapy" link="/sessions" accent="#D4617A" />
+                <ServiceTile icon={<Calendar size={26} />} title="Counseling" link="/appointment" accent="#EC4899" />
+                <ServiceTile icon={<BookOpen size={26} />} title="Wellness Events" link="/events" accent="#C44A6A" />
+                <ServiceTile icon={<Users size={26} />} title="Peer Mentors" link="/mentor" accent="#059669" />
+              </div>
+            </div>
+          </FadeIn>
+        </section>
+
+        {/* ══ MENTOR CAROUSEL ══════════════════════════════ */}
+        <section className="py-20 px-6">
+          <FadeIn>
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-14">
+                <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
+                  style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F9C5CC', color: '#D4617A' }}>
+                  <Award size={14} /> Expert Mentors
+                </span>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Meet Your Guides</h2>
+                <p className="mt-4 max-w-xl mx-auto text-base" style={{ color: '#7A3545' }}>
+                  Certified professionals who specialize in student mental health — ready to walk with you.
+                </p>
+              </div>
+
+              <div className="relative flex items-center justify-center gap-6">
+                <button onClick={() => goMentor(-1)}
+                  className="absolute left-0 z-20 w-11 h-11 rounded-2xl flex items-center justify-center transition-all"
+                  style={{ background: 'rgba(212,97,122,0.10)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.22)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.10)'}
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <div className="flex items-center justify-center gap-5 w-full overflow-hidden px-14">
+                  {mentorVisible.map((mIdx, pos) => {
+                    const mentor = MENTORS[mIdx];
+                    const isActive = pos === 1;
+                    return (
+                      <motion.div
+                        key={`${mIdx}-${pos}`}
+                        layout
+                        animate={{ scale: isActive ? 1 : 0.85, opacity: isActive ? 1 : 0.45 }}
+                        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                        onClick={() => isActive ? navigate(`/mentor/${mentor.id}`) : (pos === 0 ? goMentor(-1) : goMentor(1))}
+                        className="relative rounded-[2rem] p-6 cursor-pointer shrink-0 group transition-all"
+                        style={{
+                          width: isActive ? '270px' : '210px',
+                          background: 'rgba(255,255,255,0.65)',
+                          border: isActive ? '2px solid #F4A0B0' : '1.5px solid #FFE8ED',
+                          backdropFilter: 'blur(16px)',
+                          boxShadow: isActive ? '0 20px 60px rgba(212,97,122,0.15), 0 4px 16px rgba(0,0,0,0.06)' : 'none',
+                        }}
+                      >
+                        <div className="rounded-[1.5rem] overflow-hidden mb-5 aspect-square">
+                          <img src={mentor.image} alt={mentor.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        </div>
+                        {isActive && (
+                          <div className="absolute top-5 right-5 flex items-center gap-1 px-2.5 py-1 rounded-full"
+                            style={{ background: 'rgba(254,240,138,0.5)', border: '1px solid rgba(234,179,8,0.35)' }}>
+                            <Star size={11} className="text-yellow-500 fill-yellow-500" />
+                            <span className="text-yellow-700 text-xs font-black">{mentor.rating}</span>
+                          </div>
+                        )}
+                        <h3 className="font-black text-base leading-tight mb-1 transition-colors" style={{ color: '#3D1520' }}>{mentor.name}</h3>
+                        <p className="text-xs font-bold mb-2" style={{ color: '#D4617A' }}>{mentor.role}</p>
+                        <p className="text-xs" style={{ color: '#7A3545', opacity: 0.7 }}>{mentor.specialty}</p>
+                        {isActive && (
+                          <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                            className="mt-4 pt-4 flex items-center justify-between"
+                            style={{ borderTop: '1.5px solid #FFE8ED' }}>
+                            <span className="text-xs" style={{ color: '#7A3545', opacity: 0.55 }}>{mentor.experience}</span>
+                            <span className="text-xs font-black px-3 py-1.5 rounded-xl"
+                              style={{ background: 'rgba(212,97,122,0.10)', color: '#D4617A' }}>
+                              View Profile →
+                            </span>
+                          </motion.div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                <button onClick={() => goMentor(1)}
+                  className="absolute right-0 z-20 w-11 h-11 rounded-2xl flex items-center justify-center transition-all"
+                  style={{ background: 'rgba(212,97,122,0.10)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.22)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.10)'}
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+
+              {/* Dots */}
+              <div className="flex justify-center gap-2 mt-8">
+                {MENTORS.map((_, i) => (
+                  <button key={i} onClick={() => setMentorIdx(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: i === mentorIdx ? 24 : 7, height: 7,
+                      background: i === mentorIdx ? 'linear-gradient(90deg, #D4617A, #C44A6A)' : '#F9C5CC',
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div className="text-center mt-10">
+                <button onClick={() => navigate('/mentor')}
+                  className="px-10 py-4 font-black text-white rounded-2xl transition-all text-base"
+                  style={{ background: 'linear-gradient(135deg, #D4617A, #C44A6A)', boxShadow: '0 8px 30px rgba(212,97,122,0.30)' }}
+                  onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 12px 45px rgba(212,97,122,0.50)')}
+                  onMouseLeave={e => (e.currentTarget.style.boxShadow = '0 8px 30px rgba(212,97,122,0.30)')}
+                >
+                  Meet All Mentors →
+                </button>
+              </div>
+            </div>
+          </FadeIn>
+        </section>
+
+        {/* ══ LIVE STUDENT VOICES ════════════════════════════ */}
+        <LiveStudentVoices />
 
 
-      {/* ══ FAQ ══════════════════════════════════════════ */}
-      <section className="py-20 px-6">
-        <FadeIn>
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-14">
-              <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight" style={{ color: '#3D1520' }}>Frequently Asked</h2>
-              <div className="flex flex-wrap justify-center gap-3">
-                {FAQ_DATA.map((cat, i) => (
-                  <button key={i} onClick={() => { setActiveCategory(i); setOpenFaq(null); }}
-                    className="px-6 py-2.5 rounded-full font-bold text-sm transition-all"
-                    style={activeCategory === i
-                      ? { background: 'linear-gradient(135deg, #D4617A, #C44A6A)', color: 'white', boxShadow: '0 4px 20px rgba(212,97,122,0.30)' }
-                      : { background: 'rgba(255,255,255,0.60)', border: '1.5px solid #F9C5CC', color: '#7A3545' }
-                    }
-                  >
-                    {cat.title}
-                  </button>
+        {/* ══ FAQ ══════════════════════════════════════════ */}
+        <section className="py-20 px-6">
+          <FadeIn>
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-14">
+                <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight" style={{ color: '#3D1520' }}>Frequently Asked</h2>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {FAQ_DATA.map((cat, i) => (
+                    <button key={i} onClick={() => { setActiveCategory(i); setOpenFaq(null); }}
+                      className="px-6 py-2.5 rounded-full font-bold text-sm transition-all"
+                      style={activeCategory === i
+                        ? { background: 'linear-gradient(135deg, #D4617A, #C44A6A)', color: 'white', boxShadow: '0 4px 20px rgba(212,97,122,0.30)' }
+                        : { background: 'rgba(255,255,255,0.60)', border: '1.5px solid #F9C5CC', color: '#7A3545' }
+                      }
+                    >
+                      {cat.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-4">
+                {FAQ_DATA[activeCategory].faqs.map((f, i) => (
+                  <GlassAccordion key={i} question={f.question} answer={f.answer}
+                    isOpen={openFaq === i} onClick={() => setOpenFaq(openFaq === i ? null : i)} />
                 ))}
               </div>
             </div>
-            <div className="space-y-4">
-              {FAQ_DATA[activeCategory].faqs.map((f, i) => (
-                <GlassAccordion key={i} question={f.question} answer={f.answer}
-                  isOpen={openFaq === i} onClick={() => setOpenFaq(openFaq === i ? null : i)} />
+          </FadeIn>
+        </section>
+
+        {/* ══ PREMIUM CTA ════════════════════════════════════════════ */}
+        <section className="py-16 px-6 pb-28">
+          <FadeIn>
+            <div className="max-w-5xl mx-auto relative rounded-[3rem] overflow-hidden text-center"
+              style={{
+                background: 'linear-gradient(135deg, #C44A6A 0%, #D4617A 40%, #b83060 100%)',
+                boxShadow: '0 40px 100px rgba(196,74,106,0.45), 0 12px 40px rgba(0,0,0,0.15)',
+              }}>
+
+              {/* Animated rings */}
+              {[0, 1].map(j => (
+                <motion.div key={j}
+                  animate={{ rotate: j === 0 ? 360 : -360 }}
+                  transition={{ duration: j === 0 ? 26 : 34, repeat: Infinity, ease: 'linear' }}
+                  className="absolute pointer-events-none rounded-full"
+                  style={{
+                    width: j === 0 ? 380 : 260, height: j === 0 ? 380 : 260,
+                    top: j === 0 ? '-110px' : 'auto', right: j === 0 ? '-110px' : 'auto',
+                    bottom: j === 1 ? '-80px' : 'auto', left: j === 1 ? '-80px' : 'auto',
+                    border: `${j === 0 ? 48 : 32}px solid rgba(255,255,255,0.055)`,
+                  }}
+                />
               ))}
-            </div>
-          </div>
-        </FadeIn>
-      </section>
 
-      {/* ══ PREMIUM CTA ════════════════════════════════════════════ */}
-      <section className="py-16 px-6 pb-28">
-        <FadeIn>
-          <div className="max-w-5xl mx-auto relative rounded-[3rem] overflow-hidden text-center"
-            style={{
-              background: 'linear-gradient(135deg, #C44A6A 0%, #D4617A 40%, #b83060 100%)',
-              boxShadow: '0 40px 100px rgba(196,74,106,0.45), 0 12px 40px rgba(0,0,0,0.15)',
-            }}>
+              {/* Floating emojis */}
+              {['❤️', '💜', '🌸', '✨'].map((em, i) => (
+                <motion.span key={i} className="absolute text-3xl select-none pointer-events-none"
+                  style={{ left: `${10 + i * 24}%`, top: i % 2 === 0 ? '10%' : '72%' }}
+                  animate={{ y: [0, -16, 0], opacity: [0.55, 1, 0.55] }}
+                  transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
+                >{em}</motion.span>
+              ))}
 
-            {/* Animated rings */}
-            {[0, 1].map(j => (
-              <motion.div key={j}
-                animate={{ rotate: j === 0 ? 360 : -360 }}
-                transition={{ duration: j === 0 ? 26 : 34, repeat: Infinity, ease: 'linear' }}
-                className="absolute pointer-events-none rounded-full"
-                style={{
-                  width: j === 0 ? 380 : 260, height: j === 0 ? 380 : 260,
-                  top: j === 0 ? '-110px' : 'auto', right: j === 0 ? '-110px' : 'auto',
-                  bottom: j === 1 ? '-80px' : 'auto', left: j === 1 ? '-80px' : 'auto',
-                  border: `${j === 0 ? 48 : 32}px solid rgba(255,255,255,0.055)`,
-                }}
-              />
-            ))}
-
-            {/* Floating emojis */}
-            {['❤️', '💜', '🌸', '✨'].map((em, i) => (
-              <motion.span key={i} className="absolute text-3xl select-none pointer-events-none"
-                style={{ left: `${10 + i * 24}%`, top: i % 2 === 0 ? '10%' : '72%' }}
-                animate={{ y: [0, -16, 0], opacity: [0.55, 1, 0.55] }}
-                transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
-              >{em}</motion.span>
-            ))}
-
-            <div className="relative z-10 px-8 py-20">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold mb-8"
-                style={{ background: 'rgba(255,255,255,0.18)', border: '1.5px solid rgba(255,255,255,0.30)', color: 'white' }}
-              >
-                <Heart size={14} className="fill-current animate-pulse" /> Trusted by 5,000+ Students at NIT Kurukshetra
-              </motion.div>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.65, delay: 0.1 }}
-                className="text-4xl md:text-6xl font-black text-white mb-5 leading-tight tracking-tight"
-              >
-                You Deserve to{' '}
-                <span style={{ background: 'linear-gradient(135deg, #F9C5CC, #FFE8ED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  Feel Better.
-                </span>
-              </motion.h2>
-
-              <motion.p
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-lg mb-10 max-w-xl mx-auto font-light leading-relaxed"
-                style={{ color: 'rgba(255,255,255,0.85)' }}
-              >
-                Join thousands of students, alumni, and professors who have started their mental wellness journey. Your first step is just one click away.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex flex-wrap justify-center gap-5"
-              >
-                <button onClick={() => navigate('/appointment')}
-                  className="px-12 py-5 font-black text-[#C44A6A] text-lg rounded-2xl transition-all active:scale-95"
-                  style={{ background: 'white', boxShadow: '0 8px 32px rgba(255,255,255,0.35)' }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 16px 50px rgba(255,255,255,0.55)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(255,255,255,0.35)'; }}
+              <div className="relative z-10 px-8 py-20">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.5 }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold mb-8"
+                  style={{ background: 'rgba(255,255,255,0.18)', border: '1.5px solid rgba(255,255,255,0.30)', color: 'white' }}
                 >
-                  Book a Free Session →
-                </button>
-                <button onClick={() => navigate('/chatbot')}
-                  className="px-10 py-5 font-bold text-white text-lg rounded-2xl transition-all active:scale-95"
-                  style={{ background: 'rgba(255,255,255,0.15)', border: '2px solid rgba(255,255,255,0.35)' }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.26)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+                  <Heart size={14} className="fill-current animate-pulse" /> Trusted by 5,000+ Students at NIT Kurukshetra
+                </motion.div>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.65, delay: 0.1 }}
+                  className="text-4xl md:text-6xl font-black text-white mb-5 leading-tight tracking-tight"
                 >
-                  Talk to AI Now
-                </button>
-              </motion.div>
+                  You Deserve to{' '}
+                  <span style={{ background: 'linear-gradient(135deg, #F9C5CC, #FFE8ED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                    Feel Better.
+                  </span>
+                </motion.h2>
 
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-lg mb-10 max-w-xl mx-auto font-light leading-relaxed"
+                  style={{ color: 'rgba(255,255,255,0.85)' }}
+                >
+                  Join thousands of students, alumni, and professors who have started their mental wellness journey. Your first step is just one click away.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
+                  className="flex flex-wrap justify-center gap-5"
+                >
+                  <button onClick={() => navigate('/appointment')}
+                    className="px-12 py-5 font-black text-[#C44A6A] text-lg rounded-2xl transition-all active:scale-95"
+                    style={{ background: 'white', boxShadow: '0 8px 32px rgba(255,255,255,0.35)' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 16px 50px rgba(255,255,255,0.55)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(255,255,255,0.35)'; }}
+                  >
+                    Book a Free Session →
+                  </button>
+                  <button onClick={() => navigate('/chatbot')}
+                    className="px-10 py-5 font-bold text-white text-lg rounded-2xl transition-all active:scale-95"
+                    style={{ background: 'rgba(255,255,255,0.15)', border: '2px solid rgba(255,255,255,0.35)' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.26)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+                  >
+                    Talk to AI Now
+                  </button>
+                </motion.div>
+
+              </div>
             </div>
-          </div>
-        </FadeIn>
-      </section>
+          </FadeIn>
+        </section>
 
-    </div>
+      </div>
     </div >
   );
 };
