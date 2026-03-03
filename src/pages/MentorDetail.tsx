@@ -6,7 +6,8 @@ import {
     Mail, CheckCircle, X, Heart, Send, AlertCircle
 } from 'lucide-react';
 import { MENTORS } from '../data/mentorData';
-import { sendAppointmentRequest } from '../services/emailService';
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojnbgzy';
 
 // ─── Appointment Modal ────────────────────────────────────────────────
 interface ModalProps {
@@ -27,11 +28,36 @@ const AppointmentModal: React.FC<ModalProps> = ({ mentorName, mentorEmail, onClo
         if (!name.trim() || !email.trim() || !concern.trim()) return;
         setStatus('loading');
         try {
-            await sendAppointmentRequest({ mentorName, mentorEmail, studentName: name.trim(), studentEmail: email.trim(), concern: concern.trim() });
+            const res = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({
+                    _replyto: email.trim(),
+                    _subject: `📅 Mentor Appointment Request — ${name.trim()} → ${mentorName}`,
+                    Student_Name: name.trim(),
+                    Student_Email: email.trim(),
+                    Mentor_Name: mentorName,
+                    Mentor_Email: mentorEmail,
+                    Message: `
+New mentor appointment request via MindEase:
+
+Student: ${name.trim()}
+Email:   ${email.trim()}
+Mentor:  ${mentorName} (${mentorEmail})
+
+Concern:
+${concern.trim()}
+
+Please reply to ${email.trim()} with available time slots.
+— MindEase
+                    `.trim(),
+                }),
+            });
+            if (!res.ok) throw new Error('Failed to send. Please try again.');
             setStatus('success');
-        } catch (err) {
-            console.error('EmailJS error:', err);
-            setErrorMsg('Something went wrong. Please try again or contact support.');
+        } catch (err: any) {
+            console.error('Appointment request error:', err);
+            setErrorMsg(err?.message || 'Something went wrong. Please try again or contact support.');
             setStatus('error');
         }
     };
