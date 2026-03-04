@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  MessageCircle, BarChart3, Users, Heart, ArrowRight,
-  Brain, Calendar, Video, BookOpen, Star,
-  ChevronDown, Sparkles, ChevronLeft, ChevronRight, Award
+  MessageCircle, BarChart3, Users, Heart, ArrowRight, Calendar, Video, BookOpen, Star,
+  ChevronDown, ChevronLeft, ChevronRight,
 } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { MENTORS } from '../data/mentorData';
@@ -156,7 +155,7 @@ const FadeIn: React.FC<{ children: React.ReactNode; delay?: number; className?: 
 
 // ─── Live Student Voices ─────────────────────────────────────────────
 const ROLE_LABEL: Record<string, string> = { student: 'Student', alumni: 'Alumni', professor: 'Professor' };
-const ROLE_COLOR: Record<string, string> = { student: '#6366F1', alumni: '#D4617A', professor: '#059669' };
+const ROLE_COLOR: Record<string, string> = { student: '#d671a5', alumni: '#D4617A', professor: '#960550' };
 
 const LiveStudentVoices: React.FC = () => {
   const [voices, setVoices] = useState<any[]>([]);
@@ -326,12 +325,12 @@ const Home: React.FC = () => {
 
           {/* Floating gradient blobs */}
           {[
-            { color: 'rgba(232,133,154,0.65)', w: 380, h: 380, top: '2%', left: '5%', xA: [0, 50, 0], yA: [0, 35, 0], dur: 18, delay: 0 },
-            { color: 'rgba(244,114,182,0.50)', w: 300, h: 300, top: '58%', left: '1%', xA: [0, -30, 0], yA: [0, -25, 0], dur: 22, delay: 2 },
-            { color: 'rgba(232,133,154,0.55)', w: 340, h: 340, top: '10%', left: '68%', xA: [0, -40, 0], yA: [0, 30, 0], dur: 20, delay: 1 },
-            { color: 'rgba(52,211,153,0.38)', w: 240, h: 240, top: '68%', left: '78%', xA: [0, 25, 0], yA: [0, -35, 0], dur: 25, delay: 3 },
-            { color: 'rgba(251,191,36,0.35)', w: 220, h: 220, top: '42%', left: '45%', xA: [0, 22, 0], yA: [0, 22, 0], dur: 16, delay: 1.5 },
-            { color: 'rgba(212,97,122,0.42)', w: 280, h: 280, top: '75%', left: '32%', xA: [0, -28, 0], yA: [0, 18, 0], dur: 21, delay: 0.8 },
+            { color: 'rgba(255, 147, 170, 0.67)', w: 380, h: 380, top: '2%', left: '5%', xA: [0, 50, 0], yA: [0, 35, 0], dur: 18, delay: 0 },
+            { color: 'rgba(255, 205, 231, 0.57)', w: 300, h: 300, top: '58%', left: '1%', xA: [0, -30, 0], yA: [0, -25, 0], dur: 22, delay: 2 },
+            { color: 'hsla(325, 100%, 81%, 0.52)', w: 340, h: 340, top: '10%', left: '68%', xA: [0, -40, 0], yA: [0, 30, 0], dur: 20, delay: 1 },
+            { color: 'rgba(254, 122, 206, 0.59)', w: 240, h: 240, top: '68%', left: '78%', xA: [0, 25, 0], yA: [0, -35, 0], dur: 25, delay: 3 },
+            { color: 'rgba(255, 110, 187, 0.43)', w: 220, h: 220, top: '42%', left: '45%', xA: [0, 22, 0], yA: [0, 22, 0], dur: 16, delay: 1.5 },
+            { color: 'rgba(212, 97, 122, 0.46)', w: 280, h: 280, top: '75%', left: '32%', xA: [0, -28, 0], yA: [0, 18, 0], dur: 21, delay: 0.8 },
           ].map((b, i) => (
             <motion.div key={i} className="absolute rounded-full pointer-events-none"
               style={{
@@ -562,10 +561,7 @@ const Home: React.FC = () => {
         <section className="py-20 overflow-hidden">
           <FadeIn>
             <div className="text-center mb-14 px-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-5"
-                style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}>
-                <Heart size={13} className="fill-current" /> Healing Spaces
-              </div>
+              
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#3D1520' }}>
                 Words That{' '}
                 <span style={{ background: 'linear-gradient(135deg, #D4617A, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -630,10 +626,8 @@ const Home: React.FC = () => {
           <FadeIn>
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-14">
-                <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
-                  style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F9C5CC', color: '#D4617A' }}>
-                  <Award size={14} /> Expert Mentors
-                </span>
+              
+        
                 <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Meet Your Guides</h2>
                 <p className="mt-4 max-w-xl mx-auto text-base" style={{ color: '#7A3545' }}>
                   Certified professionals who specialize in student mental health — ready to walk with you.

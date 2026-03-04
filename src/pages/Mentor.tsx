@@ -16,7 +16,7 @@ export default function Mentor() {
   );
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4 relative overflow-hidden" style={{ background: '#F4F1FF' }}>
+    <div className="min-h-screen pt-24 pb-16 px-4 relative overflow-hidden" style={{ background: '#FFF5F7' }}>
 
       {/* Ambient background orbs */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
@@ -28,18 +28,13 @@ export default function Mentor() {
 
       {/* Header */}
       <div className="max-w-7xl mx-auto text-center mb-14">
-        <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
-          style={{ background: 'rgba(124,58,237,0.08)', border: '1.5px solid #CDC1FF', color: '#7C3AED' }}>
-          <Sparkles size={13} className="animate-pulse" />
-          Expert Guidance
-        </motion.div>
+        
 
         <motion.h1 initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className="text-4xl md:text-6xl font-black mt-2 mb-4 tracking-tight" style={{ color: '#2D264B' }}>
+          className="text-4xl md:text-6xl font-black mt-2 mb-4 tracking-tight" style={{ color: '#3D1520' }}>
           Find Your{' '}
           <span style={{
-            background: 'linear-gradient(135deg, #7C3AED 0%, #9F67FF 50%, #6366F1 100%)',
+            background: 'linear-gradient(135deg, #D4617A 0%, #e692a4 50%, #D4617A 100%)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
           }}>
             Perfect Mentor
@@ -47,26 +42,26 @@ export default function Mentor() {
         </motion.h1>
 
         <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
-          className="max-w-xl mx-auto text-base mb-10" style={{ color: '#4A4365' }}>
+          className="max-w-xl mx-auto text-base mb-10" style={{ color: '#7A3545' }}>
           Connect with certified professionals who specialize in student mental health and wellbeing.
         </motion.p>
 
         {/* Search bar */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }}
           className="max-w-xl mx-auto flex items-center gap-3 p-3 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.70)', border: '1.5px solid #DDD6FE', backdropFilter: 'blur(12px)' }}>
-          <Search size={18} className="ml-2 shrink-0" style={{ color: '#9F67FF' }} />
+          style={{ background: 'rgba(255,255,255,0.70)', boxShadow: '0 6px 25px rgba(0,0,0,0.05)', backdropFilter: 'blur(12px)' }}>
+          <Search size={18} className="ml-2 shrink-0" style={{ color: '#e692a4' }} />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name, role, or specialty..."
             className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: '#2D264B', caretColor: '#7C3AED' }}
+            style={{ color: '#3D1520', caretColor: '#D4617A' }}
           />
           <button className="px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #6366F1)' }}
-            onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.35)'}
+            style={{ background: 'linear-gradient(135deg, #D4617A, #D4617A)' }}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 20px rgb(255, 183, 213)'}
             onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
           >
             Search
@@ -86,21 +81,20 @@ export default function Mentor() {
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate(`/mentor/${mentor.id}`)}
             className="relative rounded-[2rem] p-6 cursor-pointer group overflow-hidden transition-all"
-            style={{ background: 'rgba(255,255,255,0.65)', border: '1.5px solid #DDD6FE', backdropFilter: 'blur(14px)' }}
+            style={{ background: 'rgba(255,255,255,0.65)', boxShadow: '0 6px 25px rgba(0,0,0,0.05)', backdropFilter: 'blur(14px)' }}
             onMouseEnter={e => {
               e.currentTarget.style.background = 'rgba(255,255,255,0.90)';
-              e.currentTarget.style.borderColor = '#CDC1FF';
+              e.currentTarget.style.boxShadow = '0 6px 25px rgba(0,0,0,0.05)'
+      
               e.currentTarget.style.boxShadow = '0 20px 60px rgba(124,58,237,0.14), 0 4px 16px rgba(0,0,0,0.05)';
             }}
             onMouseLeave={e => {
               e.currentTarget.style.background = 'rgba(255,255,255,0.65)';
-              e.currentTarget.style.borderColor = '#DDD6FE';
-              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.boxShadow = '0 6px 25px rgba(0,0,0,0.05)';
             }}
           >
             {/* Glow on hover */}
-            <div className="absolute top-0 right-0 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{ background: 'radial-gradient(circle at top right, rgba(205,193,255,0.50), transparent)' }} />
+            <div className="absolute top-0 right-0 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             {/* Image */}
             <div className="relative mb-5 rounded-[1.5rem] overflow-hidden aspect-square">
@@ -110,26 +104,21 @@ export default function Mentor() {
                 style={{ background: 'linear-gradient(to top, rgba(45,38,75,0.45) 0%, transparent 55%)' }} />
               {/* Experience badge */}
               <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-black"
-                style={{ background: 'rgba(244,241,255,0.90)', backdropFilter: 'blur(6px)', color: '#7C3AED', border: '1px solid #CDC1FF' }}>
+                style={{ background: 'rgba(255, 214, 229, 0.9)', boxShadow: '0 6px 25px rgba(0,0,0,0.05)', backdropFilter: 'blur(6px)', color: '#D4617A' }}>
                 {mentor.experience} Exp
               </div>
-              {/* Rating badge */}
-              <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full"
-                style={{ background: 'rgba(254,240,138,0.55)', border: '1px solid rgba(234,179,8,0.30)', backdropFilter: 'blur(6px)' }}>
-                <Star size={11} className="text-yellow-500 fill-yellow-500" />
-                <span className="text-yellow-700 text-xs font-black">{mentor.rating}</span>
-              </div>
+              
             </div>
 
             {/* Info */}
-            <h3 className="font-black text-lg leading-tight mb-1 transition-colors group-hover:text-[#7C3AED]"
-              style={{ color: '#2D264B' }}>{mentor.name}</h3>
-            <p className="text-sm font-bold mb-3" style={{ color: '#7C3AED' }}>{mentor.role}</p>
+            <h3 className="font-black text-lg leading-tight mb-1 transition-colors group-hover:text-[#D4617A]"
+              style={{ color: '#70273b' }}>{mentor.name}</h3>
+            <p className="text-sm font-bold mb-3" style={{ color: '#D4617A' }}>{mentor.role}</p>
 
             <div className="flex flex-wrap gap-1.5 mb-5">
               {mentor.tags.slice(0, 2).map((tag, ti) => (
                 <span key={ti} className="px-2.5 py-1 rounded-lg text-xs font-bold"
-                  style={{ background: 'rgba(124,58,237,0.08)', color: '#7C3AED', border: '1px solid #DDD6FE' }}>
+                  style={{ background: 'rgba(229, 98, 161, 0.08)', color: '#D4617A', boxShadow: '0 6px 25px rgba(0,0,0,0.05)'}}>
                   {tag}
                 </span>
               ))}
@@ -137,9 +126,9 @@ export default function Mentor() {
 
             <div className="flex items-center justify-between pt-4"
               style={{ borderTop: '1.5px solid #EDE9FF' }}>
-              <span className="text-xs" style={{ color: '#4A4365', opacity: 0.65 }}>{mentor.sessions}+ sessions</span>
+              <span className="text-xs" style={{ color: '#7A3545', opacity: 0.65 }}>{mentor.sessions}+ sessions</span>
               <div className="flex items-center gap-1.5 text-sm font-black transition-all group-hover:gap-2.5"
-                style={{ color: '#7C3AED' }}>
+                style={{ color: '#D4617A' }}>
                 View Profile <ChevronRight size={15} />
               </div>
             </div>
@@ -147,7 +136,7 @@ export default function Mentor() {
         ))}
 
         {filtered.length === 0 && (
-          <div className="col-span-full text-center py-20" style={{ color: '#4A4365' }}>
+          <div className="col-span-full text-center py-20" style={{ color: '#7A3545' }}>
             <p className="text-xl font-bold">No mentors found for "{query}"</p>
             <p className="text-sm mt-2 opacity-60">Try searching by specialty, name, or role.</p>
           </div>
