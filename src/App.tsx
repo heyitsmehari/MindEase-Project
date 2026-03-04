@@ -36,6 +36,10 @@ import UserProfile from './pages/UserProfile';
 import AdminDashboard from './pages/admin/Dashboard';
 import ApproveStories from './pages/admin/Approve';
 import ManageEvents from './pages/admin/ManageEvents';
+import ViewEvents from './pages/admin/ViewEvents';
+import ViewVideos from './pages/admin/ViewVideos';
+import ViewSessions from './pages/admin/ViewSessions';
+import ViewBooks from './pages/admin/ViewBooks';
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -92,6 +96,10 @@ const AppContent: React.FC = () => {
             <Route index element={<AdminDashboard />} />
             <Route path="approve" element={<ApproveStories />} />
             <Route path="events" element={<ManageEvents />} />
+            <Route path="view-events" element={<ViewEvents />} />
+            <Route path="view-videos" element={<ViewVideos />} />
+            <Route path="view-sessions" element={<ViewSessions />} />
+            <Route path="view-books" element={<ViewBooks />} />
           </Route>
         </Routes>
       </main>

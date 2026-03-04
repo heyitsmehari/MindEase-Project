@@ -7,7 +7,7 @@ import {
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { MENTORS } from '../data/mentorData';
 import { db } from '../firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, getCountFromServer } from 'firebase/firestore';
 
 // ─── THEME ───────────────────────────────────────────────────────────
 // bg:       #FFF5F7  (lightest lavender)
@@ -174,10 +174,7 @@ const LiveStudentVoices: React.FC = () => {
     <section className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-5"
-            style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F9C5CC', color: '#D4617A' }}>
-            <Heart size={13} className="fill-current" /> Real Voices
-          </div>
+
           <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#3D1520' }}>
             Student{' '}
             <span style={{ background: 'linear-gradient(135deg, #D4617A, #C44A6A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -233,14 +230,15 @@ const LiveStudentVoices: React.FC = () => {
 };
 
 const HERO_IMAGES = [
-
-  'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&q=80&w=800',
-];
-
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&q=85&w=900',
+  'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=85&w=900'
+]
 
 
 
@@ -260,12 +258,11 @@ const Home: React.FC = () => {
     return () => clearInterval(t);
   }, []);
 
-  // Fetch live user count from Firestore — real-time listener
+  // Fetch live user count from Firestore
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'users'), (snap) => {
-      setLiveUsers(snap.size);
-    });
-    return () => unsub();
+    getCountFromServer(collection(db, 'users'))
+      .then(s => setLiveUsers(s.data().count))
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -352,40 +349,32 @@ const Home: React.FC = () => {
             >
               {/* Headline */}
               <motion.h1
-                initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-3 tracking-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-4 tracking-tighter"
                 style={{ color: '#3D1520' }}
               >
-                Your Mind Deserves{' '}
+                Your Mind Deserves <br />
                 <span style={{
-                  background: 'linear-gradient(135deg, #D4617A 0%, #E892A5 50%, #C44A6A 100%)',
-                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                  background: 'linear-gradient(135deg, #D4617A 0%, #F472B6 50%, #BE185D 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
                 }}>
-                  A Safe Place.
+                  To Be Seen, Heard & Healed
                 </span>
               </motion.h1>
 
-              {/* Shimmer underline */}
-              <motion.div
-                initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="h-1.5 rounded-full mb-7 origin-left"
-                style={{
-                  width: '60%',
-                  background: 'linear-gradient(90deg, #D4617A, #EC4899, #C44A6A, #D4617A)',
-                  backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite',
-                }}
-              />
-
               <motion.p
-                initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.22 }}
-                className="text-lg md:text-xl font-medium leading-relaxed mb-9 max-w-lg"
+                className="text-lg md:text-2xl font-light leading-relaxed mb-9 max-w-2xl italic"
                 style={{ color: '#7A3545' }}
               >
-                An anonymous sanctuary for students, alumni &amp; professors to heal, share, and grow — without fear or judgment.{' '}
-                <strong style={{ color: '#D4617A' }}>You are not alone.</strong>
+                Heavy days don't have to be handled alone. Whether it’s academic burnout or personal storms,
+                this is your <span className="font-semibold text-[#D4617A]">judgment-free sanctuary</span> to breathe and rebuild.
               </motion.p>
 
               {/* Two CTAs */}
@@ -434,10 +423,10 @@ const Home: React.FC = () => {
                 {[
                   {
                     value: liveUsers !== null ? `${liveUsers.toLocaleString()}+` : '...',
-                    label: 'Students Helped', color: '#D4617A', live: true,
+                    label: 'Registered Members', color: '#D4617A',
                   },
-                  { value: '4.9★', label: 'Average Rating', color: '#EC4899', live: false },
-                  { value: '24/7', label: 'Support Available', color: '#10B981', live: false },
+                  { value: '4.9★', label: 'Community Rating', color: '#EC4899', live: false },
+                  { value: '24/7', label: 'Safe Suppport Access', color: '#10B981', live: false },
                 ].map((s, i) => (
                   <motion.div key={i}
                     initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
@@ -460,14 +449,26 @@ const Home: React.FC = () => {
             >
               {/* Floating emoji bubbles — no background */}
               {[
-                { emoji: '😊', top: '2%', left: '-5%', size: 72, dur: 4.2, delay: 0.0 },
-                { emoji: '🤗', top: '14%', left: '96%', size: 66, dur: 5.0, delay: 0.7 },
-                { emoji: '💜', top: '66%', left: '-7%', size: 70, dur: 4.6, delay: 1.2 },
-                { emoji: '✨', top: '80%', left: '94%', size: 60, dur: 3.8, delay: 0.3 },
-                { emoji: '🌸', top: '45%', left: '-8%', size: 68, dur: 5.5, delay: 1.8 },
-                { emoji: '😮‍💨', top: '3%', left: '86%', size: 64, dur: 4.8, delay: 0.5 },
-                { emoji: '🌟', top: '90%', left: '34%', size: 58, dur: 4.0, delay: 2.1 },
-                { emoji: '🫂', top: '36%', left: '97%', size: 66, dur: 5.2, delay: 0.9 },
+                // --- CHERRY BLOSSOMS (🌸) - Consistent Floral Theme ---
+                { emoji: '🌸', top: '5%', left: '10%', size: 55, dur: 4.5, delay: 0.2 },
+                { emoji: '🌸', top: '45%', left: '-4%', size: 62, dur: 5.2, delay: 1.5 },
+                { emoji: '🌸', top: '88%', left: '65%', size: 55, dur: 5.2, delay: 1.1 },
+                { emoji: '🌸', top: '15%', left: '85%', size: 45, dur: 4.0, delay: 0.9 },
+
+                // --- EXCESSIVE SMILING & LOVE FACES ---
+                { emoji: '😊', top: '2%', left: '35%', size: 64, dur: 5.0, delay: 0.0 },
+                { emoji: '🥰', top: '12%', left: '92%', size: 70, dur: 4.8, delay: 0.4 },
+                { emoji: '😇', top: '82%', left: '5%', size: 58, dur: 4.5, delay: 1.2 },
+                { emoji: '💖', top: '25%', left: '2%', size: 60, dur: 5.2, delay: 0.7 },
+                { emoji: '🤗', top: '70%', left: '95%', size: 66, dur: 5.0, delay: 1.8 },
+                { emoji: '😍', top: '3%', left: '75%', size: 52, dur: 4.2, delay: 0.6 },
+                { emoji: '✨', top: '80%', left: '90%', size: 45, dur: 3.5, delay: 0.3 },
+                { emoji: '💗', top: '92%', left: '30%', size: 50, dur: 5.5, delay: 2.1 },
+                { emoji: '🙂', top: '60%', left: '-3%', size: 55, dur: 4.8, delay: 0.9 },
+                { emoji: '🤩', top: '18%', left: '20%', size: 48, dur: 4.2, delay: 1.4 },
+                { emoji: '☺️', top: '85%', left: '45%', size: 60, dur: 5.8, delay: 0.7 },
+                { emoji: '🫂', top: '38%', left: '88%', size: 68, dur: 5.5, delay: 1.0 },
+                { emoji: '💕', top: '75%', left: '20%', size: 42, dur: 4.0, delay: 2.5 }
               ].map((e, i) => (
                 <motion.div key={i}
                   className="absolute z-20 select-none pointer-events-none"
@@ -541,19 +542,89 @@ const Home: React.FC = () => {
           </div>
         </section>
         {/* ══ FEATURE CARDS ════════════════════════════════ */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-24 bg-gradient-to-b from-[#FFF6F8] via-white to-white relative overflow-hidden">
+
+          {/* Soft background glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_#FFE8ED_0%,_transparent_70%)] opacity-40 pointer-events-none" />
+
           <FadeIn>
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-7">
-              <FeatureCard icon={<MessageCircle size={28} />} title="AI Support"
-                desc="Instant anonymous help tailored for the NITK community — available every second of every day."
-                link="/chatbot" accent="#D4617Aff" light="#FFE8ED" />
-              <FeatureCard icon={<BarChart3 size={28} />} title="Mood Tracker"
-                desc="Visualize your emotional patterns and understand your mental health trends over time."
-                link="/mood" accent="#C44A6A" light="#FFE0E6" />
-              <FeatureCard icon={<Users size={28} />} title="Student Stories"
-                desc="Read anonymous journeys from peers — and share yours to help someone feel less alone."
-                link="/stories" accent="#E892A5" light="#F3EBFF" />
+
+            {/* Section Heading */}
+            <div className="text-center mb-16 relative z-10">
+
+
+              <h2 className="text-4xl md:text-5xl font-black text-[#2E1A22] mb-5 tracking-tight">
+                A Space Where <span className="text-[#D4617A]">You Truly Matter</span>
+              </h2>
+
+              <p className="text-[#7A3545] max-w-xl mx-auto text-lg md:text-xl font-medium leading-relaxed opacity-80">
+                Whether you're feeling overwhelmed, confused, unmotivated, or simply need clarity —
+                these tools are here to support you gently, privately, and without judgment.
+              </p>
             </div>
+
+            {/* Feature Cards Grid */}
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+
+              {/* AI Support Card */}
+              <div className="group p-8 rounded-[2.5rem] bg-white border border-[#FFE8ED] shadow-[0_8px_30px_rgb(212,97,122,0.04)] hover:shadow-[0_20px_40px_rgb(212,97,122,0.1)] hover:-translate-y-2 transition-all duration-500">
+
+                <div className="w-14 h-14 rounded-2xl bg-[#FFE8ED] flex items-center justify-center text-[#D4617A] mb-7 group-hover:scale-110 transition-transform">
+                  <MessageCircle size={30} strokeWidth={2.5} />
+                </div>
+
+                <h3 className="text-2xl font-bold text-[#2E1A22] mb-3">AI Support</h3>
+
+                <p className="text-[#7A3545] leading-relaxed mb-6 font-medium opacity-90">
+                  Some days feel heavy. Some thoughts are hard to say out loud.
+                  Talk freely with our empathetic AI — available anytime you need comfort, clarity, or simply someone who listens.
+                </p>
+
+                <a href="/chatbot" className="inline-flex items-center font-bold text-[#C44A6A] gap-2 text-sm uppercase tracking-wider group-hover:gap-4 transition-all">
+                  Start Talking <ArrowRight size={18} />
+                </a>
+              </div>
+
+              {/* Mood Tracker Card */}
+              <div className="group p-8 rounded-[2.5rem] bg-white border border-[#FFE8ED] shadow-[0_8px_30px_rgb(196,74,106,0.04)] hover:shadow-[0_20px_40px_rgb(196,74,106,0.1)] hover:-translate-y-2 transition-all duration-500">
+
+                <div className="w-14 h-14 rounded-2xl bg-[#FFE0E6] flex items-center justify-center text-[#C44A6A] mb-7 group-hover:scale-110 transition-transform">
+                  <BarChart3 size={30} strokeWidth={2.5} />
+                </div>
+
+                <h3 className="text-2xl font-bold text-[#2E1A22] mb-3">Mood Tracker</h3>
+
+                <p className="text-[#7A3545] leading-relaxed mb-6 font-medium opacity-90">
+                  Your emotions tell a story. Track how you feel each day, discover patterns over time,
+                  and gain gentle insights into what truly lifts you up-and what weighs you down.
+                </p>
+
+                <a href="/mood" className="inline-flex items-center font-bold text-[#C44A6A] gap-2 text-sm uppercase tracking-wider group-hover:gap-4 transition-all">
+                  See Your Journey <ArrowRight size={18} />
+                </a>
+              </div>
+
+              {/* Student Stories Card */}
+              <div className="group p-8 rounded-[2.5rem] bg-white border border-[#FFE8ED] shadow-[0_8px_30px_rgb(232,146,165,0.04)] hover:shadow-[0_20px_40px_rgb(232,146,165,0.1)] hover:-translate-y-2 transition-all duration-500">
+
+                <div className="w-14 h-14 rounded-2xl bg-[#F8ECFF] flex items-center justify-center text-[#E892A5] mb-7 group-hover:scale-110 transition-transform">
+                  <Users size={30} strokeWidth={2.5} />
+                </div>
+
+                <h3 className="text-2xl font-bold text-[#2E1A22] mb-3">Student Stories</h3>
+
+                <p className="text-[#7A3545] leading-relaxed mb-6 font-medium opacity-90">
+                  You’re not alone — even when it feels like you are.
+                  Read honest, anonymous journeys from fellow students, and share yours when you're ready to inspire someone else.
+                </p>
+
+                <a href="/stories" className="inline-flex items-center font-bold text-[#C44A6A] gap-2 text-sm uppercase tracking-wider group-hover:gap-4 transition-all">
+                  Discover Stories <ArrowRight size={18} />
+                </a>
+              </div>
+
+            </div>
+
           </FadeIn>
         </section>
 
@@ -561,15 +632,15 @@ const Home: React.FC = () => {
         <section className="py-20 overflow-hidden">
           <FadeIn>
             <div className="text-center mb-14 px-6">
-              
+
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#3D1520' }}>
                 Words That{' '}
                 <span style={{ background: 'linear-gradient(135deg, #D4617A, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  Heal
+                  Restore You
                 </span>
               </h2>
               <p className="text-base font-medium max-w-lg mx-auto" style={{ color: '#7A3545', opacity: 0.75 }}>
-                Gentle reminders that you are enough, and help is always near.
+                Gentle reminders from people who've been there — because you deserve to know you're not broken, just human.
               </p>
             </div>
           </FadeIn>
@@ -594,29 +665,77 @@ const Home: React.FC = () => {
         </section>
 
         {/* ══ SERVICES ════════════════════════════════════ */}
-        <section className="py-20 px-6">
+        <section className="py-24 px-6 bg-gradient-to-b from-white via-[#FFF6F8] to-white relative overflow-hidden">
           <FadeIn>
             <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+
+              {/* Top Header Row */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-8">
+
+                {/* Heading */}
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Wellness Hub</h2>
-                  <p className="mt-3 text-lg" style={{ color: '#7A3545' }}>Everything you need for emotional resilience.</p>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#3D1520] leading-tight">
+                    Your Wellness,{" "}
+                    <span className="bg-gradient-to-r from-[#D4617A] to-[#C44A6A] bg-clip-text text-transparent">
+                      Our Commitment
+                    </span>
+                  </h2>
+
+                  <p className="mt-4 text-lg md:text-xl text-[#7A3545] opacity-90 max-w-xl">
+                    Professional support, meaningful conversations, and safe spaces —
+                    thoughtfully designed to strengthen your emotional resilience.
+                  </p>
                 </div>
-                <button onClick={() => navigate('/sessions')}
-                  className="px-7 py-3 font-bold rounded-xl transition-all shrink-0"
-                  style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F4A0B0', color: '#D4617A' }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(212,97,122,0.16)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(212,97,122,0.08)'}
+
+                {/* Button */}
+                <button
+                  onClick={() => navigate('/sessions')}
+                  className="px-8 py-3 font-semibold rounded-2xl border border-[#F4A0B0] 
+          bg-white/70 backdrop-blur-md text-[#D4617A] 
+          hover:bg-[#D4617A] hover:text-white 
+          hover:shadow-lg hover:-translate-y-1
+          transition-all duration-300"
                 >
                   View All Services
                 </button>
+
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-                <ServiceTile icon={<Video size={26} />} title="Video Therapy" link="/sessions" accent="#D4617A" />
-                <ServiceTile icon={<Calendar size={26} />} title="Counseling" link="/appointment" accent="#EC4899" />
-                <ServiceTile icon={<BookOpen size={26} />} title="Wellness Events" link="/events" accent="#C44A6A" />
-                <ServiceTile icon={<Users size={26} />} title="Peer Mentors" link="/mentor" accent="#059669" />
+
+              {/* Services Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+                {[
+                  { icon: <Video size={26} />, title: "Video Therapy", link: "/sessions", accent: "#D4617A" },
+                  { icon: <Calendar size={26} />, title: "Counseling", link: "/appointment", accent: "#EC4899" },
+                  { icon: <BookOpen size={26} />, title: "Wellness Events", link: "/events", accent: "#C44A6A" },
+                  { icon: <Users size={26} />, title: "Peer Mentors", link: "/mentor", accent: "#059669" },
+                ].map((service, i) => (
+
+                  <div
+                    key={i}
+                    onClick={() => navigate(service.link)}
+                    className="group cursor-pointer p-6 rounded-2xl bg-white border border-[#FFE8ED]
+            shadow-[0_8px_25px_rgba(212,97,122,0.05)]
+            hover:shadow-[0_20px_50px_rgba(212,97,122,0.12)]
+            hover:-translate-y-2 transition-all duration-400"
+                  >
+                    <div
+                      className="w-12 h-12 flex items-center justify-center rounded-xl mb-4
+              group-hover:scale-110 transition-transform duration-300"
+                      style={{ backgroundColor: service.accent + "20", color: service.accent }}
+                    >
+                      {service.icon}
+                    </div>
+
+                    <h3 className="font-bold text-lg text-[#3D1520] group-hover:text-[#D4617A] transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                  </div>
+
+                ))}
+
               </div>
+
             </div>
           </FadeIn>
         </section>
@@ -626,11 +745,13 @@ const Home: React.FC = () => {
           <FadeIn>
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-14">
-              
-        
+                <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
+                  style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F9C5CC', color: '#D4617A' }}>
+                  <Award size={14} /> Expert Mentors
+                </span>
                 <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Meet Your Guides</h2>
                 <p className="mt-4 max-w-xl mx-auto text-base" style={{ color: '#7A3545' }}>
-                  Certified professionals who specialize in student mental health — ready to walk with you.
+                  Compassionate mentors who understand student life — here to listen, guide, and walk alongside you.
                 </p>
               </div>
 
@@ -740,7 +861,8 @@ const Home: React.FC = () => {
           <FadeIn>
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-14">
-                <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight" style={{ color: '#3D1520' }}>Frequently Asked</h2>
+                <h2 className="text-4xl md:text-5xl font-black mb-3 tracking-tight" style={{ color: '#3D1520' }}>Got Questions? <span style={{ background: 'linear-gradient(135deg, #D4617A, #C44A6A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>We've Got Answers.</span></h2>
+                <p className="text-base mb-8 max-w-lg mx-auto" style={{ color: '#7A3545', opacity: 0.7 }}>Everything you've been wondering about MindEase — answered honestly and openly.</p>
                 <div className="flex flex-wrap justify-center gap-3">
                   {FAQ_DATA.map((cat, i) => (
                     <button key={i} onClick={() => { setActiveCategory(i); setOpenFaq(null); }}
@@ -805,7 +927,7 @@ const Home: React.FC = () => {
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold mb-8"
                   style={{ background: 'rgba(255,255,255,0.18)', border: '1.5px solid rgba(255,255,255,0.30)', color: 'white' }}
                 >
-                  <Heart size={14} className="fill-current animate-pulse" /> Trusted by 5,000+ Students at NIT Kurukshetra
+                  <Heart size={14} className="fill-current animate-pulse" /> Trusted by 5,000+ Students Across NIT Kurukshetra
                 </motion.div>
 
                 <motion.h2
@@ -813,9 +935,9 @@ const Home: React.FC = () => {
                   viewport={{ once: true }} transition={{ duration: 0.65, delay: 0.1 }}
                   className="text-4xl md:text-6xl font-black text-white mb-5 leading-tight tracking-tight"
                 >
-                  You Deserve to{' '}
+                  Your Healing{' '}
                   <span style={{ background: 'linear-gradient(135deg, #F9C5CC, #FFE8ED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                    Feel Better.
+                    Starts Here.
                   </span>
                 </motion.h2>
 
@@ -825,7 +947,7 @@ const Home: React.FC = () => {
                   className="text-lg mb-10 max-w-xl mx-auto font-light leading-relaxed"
                   style={{ color: 'rgba(255,255,255,0.85)' }}
                 >
-                  Join thousands of students, alumni, and professors who have started their mental wellness journey. Your first step is just one click away.
+                  Don't carry it alone. Thousands of students have already taken their first step with MindEase — and every single one says it was worth it. Today could be your day too.
                 </motion.p>
 
                 <motion.div
@@ -839,7 +961,7 @@ const Home: React.FC = () => {
                     onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 16px 50px rgba(255,255,255,0.55)'; }}
                     onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(255,255,255,0.35)'; }}
                   >
-                    Book a Free Session →
+                    Book Your Free Session →
                   </button>
                   <button onClick={() => navigate('/chatbot')}
                     className="px-10 py-5 font-bold text-white text-lg rounded-2xl transition-all active:scale-95"
@@ -847,7 +969,7 @@ const Home: React.FC = () => {
                     onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.26)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
                   >
-                    Talk to AI Now
+                    Chat with AI Support
                   </button>
                 </motion.div>
 

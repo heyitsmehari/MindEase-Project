@@ -67,14 +67,16 @@ const ViewVideos: React.FC = () => {
         }
     };
 
-    const getCategoryColor = (category: string) => {
-        switch (category) {
-            case 'meditation': return 'bg-blue-100 text-blue-700';
-            case 'therapy': return 'bg-purple-100 text-purple-700';
-            case 'coping': return 'bg-green-100 text-green-700';
-            default: return 'bg-gray-100 text-gray-700';
-        }
-    };
+    const CATEGORIES = [
+        { value: 'meditation', emoji: '🧘', label: 'Meditation', color: 'bg-blue-100   text-blue-700' },
+        { value: 'therapy', emoji: '💬', label: 'Therapy', color: 'bg-purple-100 text-purple-700' },
+        { value: 'coping', emoji: '🛡️', label: 'Coping Strategies', color: 'bg-green-100  text-green-700' },
+        { value: 'general', emoji: '📚', label: 'General', color: 'bg-gray-100   text-gray-700' },
+        { value: 'yoga', emoji: '🌿', label: 'Yoga', color: 'bg-teal-100   text-teal-700' },
+    ];
+
+    const getCategoryMeta = (category: string) =>
+        CATEGORIES.find(c => c.value === category) || CATEGORIES[3];
 
     return (
         <div className="max-w-6xl">
@@ -112,9 +114,14 @@ const ViewVideos: React.FC = () => {
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2">
                                             <h3 className="text-lg font-bold text-gray-800">{video.title}</h3>
-                                            <span className={`text-xs font-bold px-3 py-1 rounded-full ${getCategoryColor(video.category)}`}>
-                                                {video.category}
-                                            </span>
+                                            {(() => {
+                                                const meta = getCategoryMeta(video.category);
+                                                return (
+                                                    <span className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 ${meta.color}`}>
+                                                        {meta.emoji} {meta.label}
+                                                    </span>
+                                                );
+                                            })()}
                                         </div>
                                         <p className="text-gray-600 text-sm mb-3">{video.description}</p>
                                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -181,9 +188,9 @@ const ViewVideos: React.FC = () => {
                                     onChange={e => setEditingVideo({ ...editingVideo, category: e.target.value })}
                                     required
                                 >
-                                    <option value="meditation">Meditation</option>
-                                    <option value="therapy">Therapy</option>
-                                    <option value="coping">Coping Strategies</option>
+                                    {CATEGORIES.map(c => (
+                                        <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>
+                                    ))}
                                 </select>
                                 <input
                                     type="text"

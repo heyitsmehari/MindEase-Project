@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { db } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { CalendarPlus, Send, Video, Clock, Users } from 'lucide-react';
+import { CalendarPlus, Send, Video, Clock, Users, BookOpen } from 'lucide-react';
 
 const ManageEvents: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'events' | 'videos' | 'bookings'>('events');
+  const [activeTab, setActiveTab] = useState<'events' | 'videos' | 'bookings' | 'books'>('events');
 
   // Event form state
   const [event, setEvent] = useState({
@@ -24,6 +24,15 @@ const ManageEvents: React.FC = () => {
     videoUrl: '',
     duration: '',
     category: 'meditation'
+  });
+
+  // Book form state
+  const [book, setBook] = useState({
+    title: '',
+    author: '',
+    genre: 'self-help',
+    description: '',
+    link: ''
   });
 
   // Bookable Session form state
@@ -81,6 +90,21 @@ const ManageEvents: React.FC = () => {
     }
   };
 
+  const handleAddBook = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, 'books'), {
+        ...book,
+        createdAt: serverTimestamp()
+      });
+      setBook({ title: '', author: '', genre: 'self-help', description: '', link: '' });
+      alert('Book Added Successfully!');
+    } catch (error) {
+      console.error('Error adding book:', error);
+      alert('Error adding book!');
+    }
+  };
+
   const handleAddBookableSession = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -111,8 +135,8 @@ const ManageEvents: React.FC = () => {
         <button
           onClick={() => setActiveTab('events')}
           className={`flex-1 py-3 px-4 rounded-xl font-bold transition-all text-sm ${activeTab === 'events'
-              ? 'bg-white text-blue-600 shadow-md'
-              : 'text-gray-600 hover:text-blue-600'
+            ? 'bg-white text-blue-600 shadow-md'
+            : 'text-gray-600 hover:text-blue-600'
             }`}
         >
           <CalendarPlus className="inline mr-2" size={18} />
@@ -121,8 +145,8 @@ const ManageEvents: React.FC = () => {
         <button
           onClick={() => setActiveTab('videos')}
           className={`flex-1 py-3 px-4 rounded-xl font-bold transition-all text-sm ${activeTab === 'videos'
-              ? 'bg-white text-purple-600 shadow-md'
-              : 'text-gray-600 hover:text-purple-600'
+            ? 'bg-white text-purple-600 shadow-md'
+            : 'text-gray-600 hover:text-purple-600'
             }`}
         >
           <Video className="inline mr-2" size={18} />
@@ -131,12 +155,22 @@ const ManageEvents: React.FC = () => {
         <button
           onClick={() => setActiveTab('bookings')}
           className={`flex-1 py-3 px-4 rounded-xl font-bold transition-all text-sm ${activeTab === 'bookings'
-              ? 'bg-white text-green-600 shadow-md'
-              : 'text-gray-600 hover:text-green-600'
+            ? 'bg-white text-green-600 shadow-md'
+            : 'text-gray-600 hover:text-green-600'
             }`}
         >
           <Users className="inline mr-2" size={18} />
           Bookable Sessions
+        </button>
+        <button
+          onClick={() => setActiveTab('books')}
+          className={`flex-1 py-3 px-4 rounded-xl font-bold transition-all text-sm ${activeTab === 'books'
+            ? 'bg-white text-amber-600 shadow-md'
+            : 'text-gray-600 hover:text-amber-600'
+            }`}
+        >
+          <BookOpen className="inline mr-2" size={18} />
+          Books
         </button>
       </div>
 
@@ -251,9 +285,11 @@ const ManageEvents: React.FC = () => {
                   onChange={e => setVideoSession({ ...videoSession, category: e.target.value })}
                   required
                 >
-                  <option value="meditation">Meditation</option>
-                  <option value="therapy">Therapy</option>
-                  <option value="coping">Coping Strategies</option>
+                  <option value="meditation">🧘 Meditation</option>
+                  <option value="therapy">💬 Therapy</option>
+                  <option value="coping">🛡️ Coping Strategies</option>
+                  <option value="general">📚 General</option>
+                  <option value="yoga">🌿 Yoga</option>
                 </select>
               </div>
               <div>
@@ -291,6 +327,82 @@ const ManageEvents: React.FC = () => {
 
             <button className="w-full bg-purple-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-purple-700 transition-all">
               <Send size={18} /> Add Video Session
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Books Form */}
+      {activeTab === 'books' && (
+        <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <BookOpen className="text-amber-600" /> Add Recommended Book
+          </h2>
+          <form onSubmit={handleAddBook} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">Book Title</label>
+                <input
+                  placeholder="e.g., The Anxiety and Worry Workbook"
+                  className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
+                  value={book.title}
+                  onChange={e => setBook({ ...book, title: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">Author</label>
+                <input
+                  placeholder="e.g., Clark & Beck"
+                  className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
+                  value={book.author}
+                  onChange={e => setBook({ ...book, author: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">Genre</label>
+                <select
+                  className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
+                  value={book.genre}
+                  onChange={e => setBook({ ...book, genre: e.target.value })}
+                  required
+                >
+                  <option value="self-help">📗 Self Help</option>
+                  <option value="anxiety">😰 Anxiety & Stress</option>
+                  <option value="mindfulness">🧘 Mindfulness</option>
+                  <option value="depression">💙 Depression</option>
+                  <option value="relationships">❤️ Relationships</option>
+                  <option value="productivity">⚡ Productivity</option>
+                  <option value="general">📚 General</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">Book / Buy Link (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://amazon.in/... or Google Books link"
+                  className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
+                  value={book.link}
+                  onChange={e => setBook({ ...book, link: e.target.value })}
+                />
+              </div>
+            </div>
+
+
+            <textarea
+              placeholder="Short description of what this book is about and why it helps..."
+              className="w-full h-28 p-4 bg-gray-50 rounded-2xl outline-none resize-none focus:ring-2 focus:ring-amber-400"
+              value={book.description}
+              onChange={e => setBook({ ...book, description: e.target.value })}
+              required
+            />
+
+            <button className="w-full bg-amber-500 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-amber-600 transition-all">
+              <Send size={18} /> Add Book
             </button>
           </form>
         </div>
@@ -407,6 +519,12 @@ const ManageEvents: React.FC = () => {
               <li>• Use YouTube URLs for educational videos</li>
               <li>• Choose appropriate category</li>
               <li>• Videos appear on /sessions page</li>
+            </>
+          ) : activeTab === 'books' ? (
+            <>
+              <li>• Add book cover URL from Google Books or Amazon</li>
+              <li>• Include a link to where students can read or buy it</li>
+              <li>• Books appear on /resources page under Books tab</li>
             </>
           ) : (
             <>
