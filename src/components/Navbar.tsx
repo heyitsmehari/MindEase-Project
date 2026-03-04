@@ -241,13 +241,10 @@ const Navbar = () => {
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                  className="flex items-center gap-3 pl-3 border-l border-gray-200 hover:opacity-80 transition-opacity"
+                  className="flex items-center pl-3 border-l border-gray-200 hover:opacity-80 transition-opacity"
+                  title={user.displayName || user.email}
                 >
-                  <div className="text-right">
-                    <p className="text-xs font-semibold text-gray-500 uppercase">{getRoleLabel(user.userType)}</p>
-                    <p className="text-sm font-bold text-gray-800">{user.displayName || user.email.split('@')[0]}</p>
-                  </div>
-                  <div className={`h-10 w-10 rounded-full overflow-hidden flex items-center justify-center text-white shadow-md bg-gradient-to-br ${avatarGradient()}`}>
+                  <div className={`h-10 w-10 rounded-full overflow-hidden flex items-center justify-center text-white shadow-md bg-gradient-to-br ${avatarGradient()} ring-2 ring-rose-100 hover:ring-rose-300 transition-all`}>
                     {navphoto ? (
                       <img src={navphoto} alt="avatar" className="w-full h-full object-cover" />
                     ) : (
@@ -336,12 +333,16 @@ const Navbar = () => {
           ) : (
             <div className="pt-4 border-t border-gray-200 space-y-2">
               <div className="flex items-center gap-3 px-4 py-3 bg-rose-50 rounded-lg">
-                <div className={`h-12 w-12 rounded-full flex items-center justify-center text-white shadow-md bg-gradient-to-br ${avatarGradient()}`}>
-                  <UserCircle size={28} />
+                <div className={`h-12 w-12 rounded-full overflow-hidden flex items-center justify-center text-white shadow-md bg-gradient-to-br ${avatarGradient()}`}>
+                  {navphoto ? (
+                    <img src={navphoto} alt="avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <UserCircle size={28} />
+                  )}
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-gray-500 uppercase">{getRoleLabel(user.userType)}</p>
-                  <p className="text-sm font-bold text-gray-800">{user.displayName || user.email}</p>
+                  <p className="text-sm font-bold text-gray-800 truncate max-w-[160px]">{user.displayName || user.email.split('@')[0]}</p>
                 </div>
               </div>
               <button

@@ -4,6 +4,7 @@ import { UserPlus, Mail, Lock, BookOpen, GraduationCap, Building2, Camera } from
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
+import WelcomeScreen from '../../components/WelcomeScreen';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +12,9 @@ const Signup: React.FC = () => {
   const [userType, setUserType] = useState('student');
   const [photoBase64, setPhotoBase64] = useState('');
   const [photoPreview, setPhotoPreview] = useState('');
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomeName, setWelcomeName] = useState('');
+  const [redirectPath, setRedirectPath] = useState('/dashboard');
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
@@ -55,10 +59,14 @@ const Signup: React.FC = () => {
         createdAt: new Date(),
       });
 
-      alert(`Welcome to MindEase, ${formData.name}!`);
-      if (userType === 'professor') navigate('/professor-dashboard');
-      else if (userType === 'alumni') navigate('/alumni-dashboard');
-      else navigate('/dashboard');
+      const path = userType === 'professor' ? '/professor-dashboard'
+        : userType === 'alumni' ? '/alumni-dashboard'
+          : '/dashboard';
+
+      setWelcomeName(formData.name);
+      setRedirectPath(path);
+      setShowWelcome(true);
+      setTimeout(() => navigate(path), 3200);
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
         alert('⚠️ This email is already registered. Please login instead.');
@@ -73,6 +81,10 @@ const Signup: React.FC = () => {
       setLoading(false);
     }
   };
+
+  if (showWelcome) {
+    return <WelcomeScreen name={welcomeName} isSignup={true} />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#1e3a8a] px-4 py-12">

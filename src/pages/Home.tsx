@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   MessageCircle, BarChart3, Users, Heart, ArrowRight, Calendar, Video, BookOpen, Star,
-  ChevronDown, ChevronLeft, ChevronRight,
+  ChevronDown, ChevronLeft, ChevronRight, Award,
 } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { MENTORS } from '../data/mentorData';
 import { db } from '../firebase';
-import { collection, query, where, onSnapshot, getCountFromServer } from 'firebase/firestore';
+import { collection, getCountFromServer, query, where, onSnapshot } from 'firebase/firestore';
 
 // ─── THEME ───────────────────────────────────────────────────────────
 // bg:       #FFF5F7  (lightest lavender)
@@ -153,83 +153,103 @@ const FadeIn: React.FC<{ children: React.ReactNode; delay?: number; className?: 
   );
 };
 
-// ─── Live Student Voices ─────────────────────────────────────────────
-const ROLE_LABEL: Record<string, string> = { student: 'Student', alumni: 'Alumni', professor: 'Professor' };
-const ROLE_COLOR: Record<string, string> = { student: '#d671a5', alumni: '#D4617A', professor: '#960550' };
 
-const LiveStudentVoices: React.FC = () => {
-  const [voices, setVoices] = useState<any[]>([]);
+// ─── Feedback Marquee ─────────────────────────────────────────────────
+const FeedbackMarquee: React.FC = () => {
+  const [items, setItems] = React.useState<any[]>([]);
+
   useEffect(() => {
     const q = query(collection(db, 'articles'), where('status', '==', 'approved'));
     const unsub = onSnapshot(q, snap => {
-      const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        .filter((d: any) => d.type === 'feedback')
-        .slice(0, 6);
-      setVoices(docs);
+      const docs = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter((d: any) => d.type === 'feedback' && d.content);
+      setItems(docs);
     });
     return () => unsub();
   }, []);
 
+  if (items.length === 0) return null;
+
+  const row1 = [...items, ...items, ...items];
+  const row2 = [...items].reverse();
+  const row2x = [...row2, ...row2, ...row2];
+
+  const FeedCard = ({ v }: { v: any }) => (
+    <div
+      className="flex-shrink-0 rounded-[1.8rem] p-5 group relative overflow-hidden"
+      style={{
+        width: 280,
+        background: 'rgba(255,255,255,0.80)',
+        border: '1.5px solid #F9C5CC',
+        backdropFilter: 'blur(14px)',
+        boxShadow: '0 4px 20px rgba(212,97,122,0.06)',
+      }}>
+      <div className="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+        style={{ background: 'linear-gradient(90deg,#D4617A,#F4A0B0)' }} />
+      <Heart size={14} className="fill-current mb-3 opacity-50" style={{ color: '#F4A0B0' }} />
+      <p className="text-sm italic leading-relaxed mb-3 line-clamp-3" style={{ color: '#3D1520' }}>
+        "{v.content}"
+      </p>
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-xs font-black truncate" style={{ color: '#D4617A' }}>
+          {v.nickname || v.anonymousName || 'Anonymous'}
+        </p>
+        <span className="text-[9px] font-black px-2 py-0.5 rounded-full shrink-0"
+          style={{ background: '#FFE8ED', color: '#C44A6A' }}>
+          {v.userRole === 'alumni' ? 'Alumni' : v.userRole === 'professor' ? 'Prof' : 'Student'}
+        </span>
+      </div>
+    </div>
+  );
+
   return (
+<<<<<<< HEAD
     <section className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
 
           <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#3D1520' }}>
             Student{' '}
+=======
+    <section className="py-20 overflow-hidden">
+      <FadeIn>
+        <div className="text-center mb-12 px-6">
+
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-3" style={{ color: '#3D1520' }}>
+            What Our{' '}
+>>>>>>> 7c7d806 (homepage)
             <span style={{ background: 'linear-gradient(135deg, #D4617A, #C44A6A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Voices
+              Community Says
             </span>
           </h2>
-          <p className="text-base max-w-md mx-auto" style={{ color: '#7A3545', opacity: 0.75 }}>
-            Real stories and feedback from our community — reviewed and shared with care.
+          <p className="text-sm max-w-md mx-auto font-medium" style={{ color: '#7A3545', opacity: 0.75 }}>
+            Anonymous voices from students, alumni & professors — shared with care.
           </p>
         </div>
+      </FadeIn>
 
-        {voices.length === 0 ? (
-          <div className="text-center py-16 rounded-[2.5rem]" style={{ background: 'rgba(255,255,255,0.60)', border: '2px dashed #F9C5CC' }}>
-            <Heart size={36} style={{ color: '#F9C5CC', margin: 'auto' }} />
-            <p className="mt-4 font-medium" style={{ color: '#D4617A', opacity: 0.65 }}>
-              Be the first to share your story! Login and submit from your dashboard.
-            </p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {voices.map((v, i) => (
-              <motion.div key={v.id}
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.55, delay: i * 0.08 }}
-                className="relative p-7 rounded-[2rem] group"
-                style={{ background: 'rgba(255,255,255,0.75)', border: '1.5px solid #F9C5CC', backdropFilter: 'blur(14px)', boxShadow: '0 4px 20px rgba(212,97,122,0.06)' }}
-              >
-                <div className="absolute bottom-0 left-0 right-0 h-1 rounded-b-[2rem] opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ background: 'linear-gradient(90deg, #D4617A, #F4A0B0)' }} />
-                <Heart size={18} className="fill-current mb-4" style={{ color: '#F4A0B0' }} />
-                <p className="text-sm leading-relaxed mb-5 italic" style={{ color: '#3D1520' }}>"{v.content}"</p>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-black" style={{ color: '#3D1520' }}>{v.author || 'Anonymous'}</p>
-                    <p className="text-xs" style={{ color: '#7A3545', opacity: 0.65 }}>{v.college || 'NIT Kurukshetra'}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-black px-2.5 py-1 rounded-full text-white"
-                      style={{ background: ROLE_COLOR[v.userRole] || '#D4617A' }}>
-                      {ROLE_LABEL[v.userRole] || 'Student'}
-                    </span>
-                    <span className="text-[10px] font-black px-2.5 py-1 rounded-full capitalize"
-                      style={{ background: '#FFE8ED', color: '#D4617A' }}>{v.type || 'story'}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+      {/* Row 1 — scrolls left */}
+      <div className="relative mb-4" style={{ maskImage: 'linear-gradient(90deg,transparent,black 8%,black 92%,transparent)' }}>
+        <div className="flex gap-4 marquee-left" style={{ width: 'max-content' }}>
+          {row1.map((v, i) => <FeedCard key={`r1-${i}`} v={v} />)}
+        </div>
       </div>
+
+      {/* Row 2 — scrolls right (only if enough items) */}
+      {items.length >= 2 && (
+        <div className="relative" style={{ maskImage: 'linear-gradient(90deg,transparent,black 8%,black 92%,transparent)' }}>
+          <div className="flex gap-4 marquee-right" style={{ width: 'max-content' }}>
+            {row2x.map((v, i) => <FeedCard key={`r2-${i}`} v={v} />)}
+          </div>
+        </div>
+      )}
     </section>
   );
 };
 
 const HERO_IMAGES = [
+
   'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=85&w=900',
   'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=85&w=900',
   'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&q=85&w=900',
@@ -249,6 +269,7 @@ const Home: React.FC = () => {
   const [carouselDir, setCarouselDir] = useState(1);
   const [heroImgIdx, setHeroImgIdx] = useState(0);
   const [liveUsers, setLiveUsers] = useState<number | null>(null);
+  const [liveRating, setLiveRating] = useState<string | null>(null);
   const [mentorIdx, setMentorIdx] = useState(0);
   const [activeCategory, setActiveCategory] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -263,6 +284,18 @@ const Home: React.FC = () => {
     getCountFromServer(collection(db, 'users'))
       .then(s => setLiveUsers(s.data().count))
       .catch(() => { });
+  }, []);
+
+  // Fetch live average rating from Firestore
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, 'ratings'), snap => {
+      const vals = snap.docs.map(d => (d.data() as any).rating as number).filter(Boolean);
+      if (vals.length) {
+        const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+        setLiveRating(avg.toFixed(1) + '★');
+      }
+    }, () => { });
+    return () => unsub();
   }, []);
 
   useEffect(() => {
@@ -425,8 +458,8 @@ const Home: React.FC = () => {
                     value: liveUsers !== null ? `${liveUsers.toLocaleString()}+` : '...',
                     label: 'Registered Members', color: '#D4617A',
                   },
-                  { value: '4.9★', label: 'Community Rating', color: '#EC4899', live: false },
-                  { value: '24/7', label: 'Safe Suppport Access', color: '#10B981', live: false },
+                  { value: liveRating || '4.9★', label: 'Community Rating', color: '#EC4899', live: false },
+                  { value: '24/7', label: 'Safe Support Access', color: '#10B981', live: false },
                 ].map((s, i) => (
                   <motion.div key={i}
                     initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
@@ -852,11 +885,11 @@ const Home: React.FC = () => {
           </FadeIn>
         </section>
 
-        {/* ══ LIVE STUDENT VOICES ════════════════════════════ */}
-        <LiveStudentVoices />
-
+        {/* ══ COMMUNITY FEEDBACK VOICES ═════════════════════ */}
+        <FeedbackMarquee />
 
         {/* ══ FAQ ══════════════════════════════════════════ */}
+
         <section className="py-20 px-6">
           <FadeIn>
             <div className="max-w-4xl mx-auto">

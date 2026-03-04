@@ -8,6 +8,7 @@ import {
 import { auth, db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Mail, Lock, Chrome, AlertCircle, X } from 'lucide-react';
+import WelcomeScreen from '../../components/WelcomeScreen';
 
 // Fetch user role from Firestore and redirect appropriately
 const getRedirectPath = async (uid: string): Promise<string> => {
@@ -28,6 +29,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [welcomeInfo, setWelcomeInfo] = useState<{ name: string; path: string } | null>(null);
 
   const clearError = () => setError('');
 
@@ -59,7 +61,9 @@ const Login: React.FC = () => {
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       const path = await getRedirectPath(cred.user.uid);
-      navigate(path);
+      const name = cred.user.displayName || email.split('@')[0] || 'Friend';
+      setWelcomeInfo({ name, path });
+      setTimeout(() => navigate(path), 3200);
     } catch (err: any) {
       setError(getFriendlyError(err.code));
     } finally {
@@ -89,7 +93,9 @@ const Login: React.FC = () => {
       }
 
       const path = await getRedirectPath(uid);
-      navigate(path);
+      const name = cred.user.displayName || cred.user.email?.split('@')[0] || 'Friend';
+      setWelcomeInfo({ name, path });
+      setTimeout(() => navigate(path), 3200);
     } catch (err: any) {
       if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
         setLoading(false);
@@ -100,6 +106,11 @@ const Login: React.FC = () => {
       setLoading(false);
     }
   };
+
+  // Show welcome overlay after successful login
+  if (welcomeInfo) {
+    return <WelcomeScreen name={welcomeInfo.name} isSignup={false} />;
+  }
 
   return (
     <div
