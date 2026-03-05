@@ -12,11 +12,11 @@ interface Book {
     link?: string;
 }
 
-const GENRES: Record<string, string> = {
-    'self-help': '📗 Self Help', 'anxiety': '😰 Anxiety & Stress',
-    'mindfulness': '🧘 Mindfulness', 'depression': '💙 Depression',
-    'relationships': '❤️ Relationships', 'productivity': '⚡ Productivity', 'general': '📚 General',
-};
+const GENRES: Record<string, string> = { 
+    'self-help': '📗 Self Help', 'fiction': '😰 Fiction',
+    'professional': '🧘 Professional', 'memoir': '💙 Memoir',
+    'creative': '❤️ Creative', 
+}; 
 
 const ViewBooks: React.FC = () => {
     const [books, setBooks] = useState<Book[]>([]);

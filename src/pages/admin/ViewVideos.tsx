@@ -68,11 +68,10 @@ const ViewVideos: React.FC = () => {
     };
 
     const CATEGORIES = [
-        { value: 'meditation', emoji: '🧘', label: 'Meditation', color: 'bg-blue-100   text-blue-700' },
-        { value: 'therapy', emoji: '💬', label: 'Therapy', color: 'bg-purple-100 text-purple-700' },
-        { value: 'coping', emoji: '🛡️', label: 'Coping Strategies', color: 'bg-green-100  text-green-700' },
-        { value: 'general', emoji: '📚', label: 'General', color: 'bg-gray-100   text-gray-700' },
-        { value: 'yoga', emoji: '🌿', label: 'Yoga', color: 'bg-teal-100   text-teal-700' },
+        { value: 'comforting', emoji: '💬', label: 'Comforting', color: 'bg-purple-100 text-purple-700' },
+        { value: 'tedx', emoji: '🛡️', label: 'TedX', color: 'bg-green-100  text-green-700' },
+        { value: 'prof', emoji: '📚', label: 'Professional', color: 'bg-gray-100   text-gray-700' },
+        { value: 'advice', emoji: '🌿', label: 'Advice', color: 'bg-teal-100   text-teal-700' },
     ];
 
     const getCategoryMeta = (category: string) =>

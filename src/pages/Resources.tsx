@@ -5,33 +5,37 @@ import { Play, Search, Filter, Clock, ExternalLink, BookOpen, Video } from 'luci
 
 // ── Types ─────────────────────────────────────────────────────────────
 interface VideoSession {
-    id: string; title: string; description: string;
-    videoUrl: string; duration: string; category: string;
+    id: string;
+    title: string;
+    description: string;
+    videoUrl: string;
+    duration: string;
+    category: string;
 }
 interface Book {
-    id: string; title: string; author: string;
-    genre: string; description: string; link?: string; coverUrl?: string;
+    id: string;
+    title: string;
+    author: string;
+    genre: string;
+    description: string;
+    link?: string;
+    coverUrl?: string;
 }
-
-// ── Video Categories ──────────────────────────────────────────────────
 const VIDEO_CATS = [
     { value: 'all', emoji: '🌟', label: 'All', color: 'bg-gray-100 text-gray-700', active: 'bg-gray-800 text-white' },
-    { value: 'meditation', emoji: '🧘', label: 'Meditation', color: 'bg-blue-100 text-blue-700', active: 'bg-blue-600 text-white' },
-    { value: 'therapy', emoji: '💬', label: 'Therapy', color: 'bg-purple-100 text-purple-700', active: 'bg-purple-600 text-white' },
-    { value: 'coping', emoji: '🛡️', label: 'Coping', color: 'bg-green-100 text-green-700', active: 'bg-green-600 text-white' },
-    { value: 'general', emoji: '📚', label: 'General', color: 'bg-orange-100 text-orange-700', active: 'bg-orange-500 text-white' },
-    { value: 'yoga', emoji: '🌿', label: 'Yoga', color: 'bg-teal-100 text-teal-700', active: 'bg-teal-600 text-white' },
+    { value: 'comforting', emoji: '🧘', label: 'Comforting', color: 'bg-blue-100 text-blue-700', active: 'bg-blue-600 text-white' },
+    { value: 'tedx', emoji: '💬', label: 'TedX', color: 'bg-purple-100 text-purple-700', active: 'bg-purple-600 text-white' },
+    { value: 'prof', emoji: '🛡️', label: 'Professional', color: 'bg-green-100 text-green-700', active: 'bg-green-600 text-white' },
+    { value: 'advice', emoji: '📚', label: 'Advice', color: 'bg-orange-100 text-orange-700', active: 'bg-orange-500 text-white' },
 ];
 
 const BOOK_GENRES = [
     { value: 'all', emoji: '📖', label: 'All Books', color: 'bg-gray-100 text-gray-700', active: 'bg-gray-800 text-white' },
     { value: 'self-help', emoji: '📗', label: 'Self Help', color: 'bg-green-100 text-green-700', active: 'bg-green-600 text-white' },
-    { value: 'anxiety', emoji: '😰', label: 'Anxiety & Stress', color: 'bg-red-100 text-red-700', active: 'bg-red-500 text-white' },
-    { value: 'mindfulness', emoji: '🧘', label: 'Mindfulness', color: 'bg-blue-100 text-blue-700', active: 'bg-blue-600 text-white' },
-    { value: 'depression', emoji: '💙', label: 'Depression', color: 'bg-indigo-100 text-indigo-700', active: 'bg-indigo-600 text-white' },
-    { value: 'relationships', emoji: '❤️', label: 'Relationships', color: 'bg-pink-100 text-pink-700', active: 'bg-pink-500 text-white' },
-    { value: 'productivity', emoji: '⚡', label: 'Productivity', color: 'bg-yellow-100 text-yellow-700', active: 'bg-yellow-500 text-white' },
-    { value: 'general', emoji: '📚', label: 'General', color: 'bg-orange-100 text-orange-700', active: 'bg-orange-500 text-white' },
+    { value: 'fiction', emoji: '😰', label: 'Fiction', color: 'bg-red-100 text-red-700', active: 'bg-red-500 text-white' },
+    { value: 'professional', emoji: '🧘', label: 'Professional', color: 'bg-blue-100 text-blue-700', active: 'bg-blue-600 text-white' },
+    { value: 'memoir', emoji: '💙', label: 'Memoir', color: 'bg-indigo-100 text-indigo-700', active: 'bg-indigo-600 text-white' },
+    { value: 'creative', emoji: '❤️', label: 'Creative', color: 'bg-pink-100 text-pink-700', active: 'bg-pink-500 text-white' },
 ];
 
 // ── YouTube thumbnail helper ──────────────────────────────────────────
@@ -39,7 +43,9 @@ const getYtThumb = (url: string) => {
     try {
         const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
         return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : '';
-    } catch { return ''; }
+    } catch {
+        return '';
+    }
 };
 
 // ── Component ─────────────────────────────────────────────────────────
@@ -53,23 +59,53 @@ const Resources: React.FC = () => {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        let loaded = 0;
-        const done = () => { if (++loaded === 2) setLoading(false); };
+        setLoading(true);
+
         const q1 = query(collection(db, 'videoSessions'), orderBy('createdAt', 'desc'));
         const q2 = query(collection(db, 'books'), orderBy('createdAt', 'desc'));
-        const u1 = onSnapshot(q1, s => { setVideos(s.docs.map(d => ({ id: d.id, ...d.data() } as VideoSession))); done(); }, done);
-        const u2 = onSnapshot(q2, s => { setBooks(s.docs.map(d => ({ id: d.id, ...d.data() } as Book))); done(); }, done);
-        return () => { u1(); u2(); };
+
+        const unsub1 = onSnapshot(
+            q1,
+            snapshot => {
+                const vids: VideoSession[] = snapshot.docs.map(d => {
+                    const data = d.data() as Omit<VideoSession, 'id'>;
+                    return { id: d.id, ...data };
+                });
+                setVideos(vids);
+            },
+            err => console.error('Videos snapshot error:', err)
+        );
+
+        const unsub2 = onSnapshot(
+            q2,
+            snapshot => {
+                const bks: Book[] = snapshot.docs.map(d => {
+                    const data = d.data() as Omit<Book, 'id'>;
+                    return { id: d.id, ...data };
+                });
+                setBooks(bks);
+            },
+            err => console.error('Books snapshot error:', err)
+        );
+
+        // Stop loading once both snapshots are received at least once
+        const timeout = setTimeout(() => setLoading(false), 500); // fallback
+        const cleanup = () => {
+            unsub1();
+            unsub2();
+            clearTimeout(timeout);
+        };
+        return cleanup;
     }, []);
 
     const q = search.toLowerCase();
     const filteredVideos = videos.filter(v =>
         (activeVideoCat === 'all' || v.category === activeVideoCat) &&
-        (!q || v.title.toLowerCase().includes(q) || v.description?.toLowerCase().includes(q))
+        (!q || v.title.toLowerCase().includes(q) || v.description.toLowerCase().includes(q))
     );
     const filteredBooks = books.filter(b =>
         (activeBookGenre === 'all' || b.genre === activeBookGenre) &&
-        (!q || b.title.toLowerCase().includes(q) || b.author?.toLowerCase().includes(q))
+        (!q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q))
     );
 
     const getVidMeta = (cat: string) => VIDEO_CATS.find(c => c.value === cat) || VIDEO_CATS[0];
@@ -77,13 +113,12 @@ const Resources: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 pt-20 pb-16">
-
             {/* Hero */}
             <div className="relative py-12 px-4 text-center mb-6">
                 <div className="absolute inset-0 -z-10 overflow-hidden">
                     <div className="absolute top-0 left-1/4 w-72 h-72 rounded-full opacity-20"
                         style={{ background: 'radial-gradient(circle,#818cf8,transparent)' }} />
-                    <div className="absolute bottom-0 right-1/4 w-56 h-56 rounded-full opacity-15"
+                    <div className="absolute bottom-0 right-1/4 w-56 h-56 rounded-full opacity-[0.15]"
                         style={{ background: 'radial-gradient(circle,#34d399,transparent)' }} />
                 </div>
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold mb-3">
@@ -98,8 +133,7 @@ const Resources: React.FC = () => {
             </div>
 
             <div className="max-w-6xl mx-auto px-4">
-
-                {/* ── Main Tab: Videos / Books ── */}
+                {/* ── Main Tab ── */}
                 <div className="flex gap-3 justify-center mb-6">
                     <button onClick={() => setMainTab('videos')}
                         className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-sm transition-all ${mainTab === 'videos' ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-gray-600 border border-gray-200 hover:border-indigo-300'}`}>
@@ -120,14 +154,14 @@ const Resources: React.FC = () => {
                     {search && <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">✕</button>}
                 </div>
 
-                {/* ════════════ VIDEOS ════════════ */}
+                {/* VIDEOS */}
                 {mainTab === 'videos' && (
                     <>
                         {/* Category pills */}
                         <div className="flex flex-wrap gap-2 justify-center mb-5">
                             {VIDEO_CATS.map(cat => (
                                 <button key={cat.value} onClick={() => setActiveVideoCat(cat.value)}
-                                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all ${activeVideoCat === cat.value ? cat.active + ' shadow-md scale-105' : cat.color + ' hover:scale-105'}`}>
+                                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all ${activeVideoCat === cat.value ? `${cat.active} shadow-md scale-105` : `${cat.color} hover:scale-105`}`}>
                                     {cat.emoji} {cat.label}
                                 </button>
                             ))}
@@ -174,14 +208,13 @@ const Resources: React.FC = () => {
                     </>
                 )}
 
-                {/* ════════════ BOOKS ════════════ */}
+                {/* BOOKS */}
                 {mainTab === 'books' && (
                     <>
-                        {/* Genre pills */}
                         <div className="flex flex-wrap gap-2 justify-center mb-5">
                             {BOOK_GENRES.map(g => (
                                 <button key={g.value} onClick={() => setActiveBookGenre(g.value)}
-                                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all ${activeBookGenre === g.value ? g.active + ' shadow-md scale-105' : g.color + ' hover:scale-105'}`}>
+                                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all ${activeBookGenre === g.value ? `${g.active} shadow-md scale-105` : `${g.color} hover:scale-105`}`}>
                                     {g.emoji} {g.label}
                                 </button>
                             ))}
@@ -197,7 +230,6 @@ const Resources: React.FC = () => {
                                     return (
                                         <div key={book.id}
                                             className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-                                            {/* Cover */}
                                             <div className="h-52 bg-gradient-to-br from-amber-50 to-orange-100 overflow-hidden flex items-center justify-center relative">
                                                 {book.coverUrl ? (
                                                     <img src={book.coverUrl} alt={book.title} className="h-full w-full object-cover" />
@@ -236,14 +268,14 @@ const Resources: React.FC = () => {
     );
 };
 
-const Spinner = () => (
+const Spinner: React.FC = () => (
     <div className="text-center py-24">
         <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-3" />
         <p className="text-gray-400 text-sm font-medium">Loading resources…</p>
     </div>
 );
 
-const Empty = ({ label }: { label: string }) => (
+const Empty: React.FC<{ label: string }> = ({ label }) => (
     <div className="text-center py-24 bg-white rounded-[2rem] border border-gray-100">
         <div className="text-5xl mb-3">🔍</div>
         <p className="font-bold text-gray-600">{label}</p>
