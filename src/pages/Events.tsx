@@ -21,7 +21,6 @@ const EventsAndSessions: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   useEffect(() => {
-    // Fetch events from Firestore
     const q = query(
       collection(db, "events"),
       orderBy("createdAt", "desc")
@@ -35,10 +34,6 @@ const EventsAndSessions: React.FC = () => {
 
       setEvents(fetchedEvents);
       setLoading(false);
-      console.log("Fetched events:", fetchedEvents.length);
-    }, (error) => {
-      console.error("Firestore Error:", error);
-      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -46,245 +41,238 @@ const EventsAndSessions: React.FC = () => {
 
   const handleRegister = (event: Event) => {
     if (event.registrationLink) {
-      // Open registration link in new tab
       window.open(event.registrationLink, '_blank');
     } else {
-      // Show event details modal if no link
       setSelectedEvent(event);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen py-20 px-4" style={{ background: '#FFF5F7' }}>
+      <div className="max-w-5xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider mb-4"
+            style={{
+              background: 'rgba(212,97,122,0.08)',
+              color: '#D4617A'
+            }}
+          >
             <Sparkles size={16} />
             Community Events & Sessions
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            Upcoming Events & Sessions
+
+          <h1
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{
+              background: 'linear-gradient(135deg,#D4617A,#C44A6A)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
+          >
+            Upcoming Events
           </h1>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Join our mental wellness events, workshops, and therapy sessions
+
+          <p style={{ color: '#7A3545' }} className="text-lg max-w-xl mx-auto">
+            Join mental wellness events, workshops, and community therapy sessions
           </p>
         </div>
 
-        {/* Events Section */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-700 p-3 rounded-xl shadow-md">
-              <Calendar className="text-white" size={24} />
-            </div>
-            <h2 className="text-3xl font-bold text-gray-800">Upcoming Events</h2>
-          </div>
+        {/* Events */}
+        <div className="grid md:grid-cols-2 gap-5">
 
           {loading ? (
-            <div className="bg-white p-12 rounded-2xl text-center shadow-md">
-              <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-500 font-semibold">Loading events...</p>
+            <div
+              className="p-10 rounded-2xl text-center col-span-full"
+              style={{
+                background: 'rgba(255,255,255,0.85)',
+                boxShadow: '0 10px 35px rgba(212,97,122,0.08)'
+              }}
+            >
+              <div className="w-10 h-10 border-4 border-[#D4617A] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p style={{ color: '#7A3545' }} className="font-semibold">Loading events...</p>
             </div>
+
           ) : events.length === 0 ? (
-            <div className="bg-white p-12 rounded-2xl text-center shadow-md border-2 border-dashed border-gray-200">
-              <Calendar className="mx-auto text-gray-300 mb-4" size={48} />
-              <h3 className="text-xl font-bold text-gray-800 mb-2">No Events Scheduled</h3>
-              <p className="text-gray-500">Check back soon for upcoming events and workshops!</p>
+            <div
+              className="p-10 rounded-2xl text-center col-span-full"
+              style={{
+                background: 'rgba(255,255,255,0.9)',
+                boxShadow: '0 8px 30px rgba(0,0,0,0.05)'
+              }}
+            >
+              <Calendar className="mx-auto mb-4" size={40} style={{ color: '#F4A0B0' }} />
+              <h3 style={{ color: '#3D1520' }} className="text-xl font-bold mb-1">No Events Scheduled</h3>
+              <p style={{ color: '#7A3545' }}>Check back soon for upcoming events!</p>
             </div>
+
           ) : (
-            <div className="grid md:grid-cols-2 gap-6">
-              {events.map((event) => (
-                <div
-                  key={event.id}
-                  className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-300 group"
-                >
-                  {/* Event Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="bg-gradient-to-br from-blue-500 to-blue-700 p-3 rounded-xl shadow-md group-hover:scale-110 transition-transform">
-                      <Calendar className="text-white" size={24} />
-                    </div>
-                    <span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full border border-green-200">
-                      OPEN
-                    </span>
+            events.map((event) => (
+              <div
+                key={event.id}
+                className="p-5 rounded-2xl group transition-all duration-300"
+                style={{
+                  background: 'rgba(255,255,255,0.9)',
+                  boxShadow: '0 10px 35px rgba(212,97,122,0.08)'
+                }}
+              >
+
+                {/* Header */}
+                <div className="flex justify-between items-start mb-3">
+                  <div
+                    className="p-2 rounded-lg"
+                    style={{
+                      background: 'rgba(212,97,122,0.12)',
+                      color: '#D4617A'
+                    }}
+                  >
+                    <Calendar size={20} />
                   </div>
 
-                  {/* Event Title */}
-                  <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors">
-                    {event.title}
-                  </h3>
-
-                  {/* Event Details */}
-                  <div className="space-y-2 mb-4">
-                    {event.startDate && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Calendar size={16} className="text-blue-500" />
-                        <span className="text-sm font-medium">Starts: {event.startDate}</span>
-                      </div>
-                    )}
-
-                    {event.date && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <Clock size={16} className="text-purple-500" />
-                        <span className="text-sm font-medium">{event.date}</span>
-                      </div>
-                    )}
-
-                    {event.location && (
-                      <div className="flex items-center gap-2 text-gray-600">
-                        <MapPin size={16} className="text-red-500" />
-                        <span className="text-sm font-medium">{event.location}</span>
-                      </div>
-                    )}
-
-                    {event.lastDate && (
-                      <div className="flex items-center gap-2 text-orange-600 bg-orange-50 px-3 py-1.5 rounded-lg">
-                        <AlertCircle size={16} />
-                        <span className="text-xs font-bold">Last Date: {event.lastDate}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-600 mb-4 leading-relaxed line-clamp-2">{event.desc}</p>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleRegister(event)}
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                    >
-                      {event.registrationLink ? (
-                        <>
-                          <ExternalLink size={18} />
-                          Register Now
-                        </>
-                      ) : (
-                        'View Details'
-                      )}
-                    </button>
-
-                    {!event.registrationLink && (
-                      <button
-                        onClick={() => setSelectedEvent(event)}
-                        className="px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-all"
-                      >
-                        Info
-                      </button>
-                    )}
-                  </div>
+                  <span
+                    className="text-xs font-bold px-3 py-1 rounded-lg"
+                    style={{
+                      background: 'rgba(34,197,94,0.12)',
+                      color: '#16A34A'
+                    }}
+                  >
+                    OPEN
+                  </span>
                 </div>
-              ))}
-            </div>
+
+                {/* Title */}
+                <h3
+                  className="text-lg font-bold mb-2"
+                  style={{ color: '#3D1520' }}
+                >
+                  {event.title}
+                </h3>
+
+                {/* Details */}
+                <div className="space-y-1 text-sm mb-3">
+
+                  {event.startDate && (
+                    <div className="flex items-center gap-2" style={{ color: '#7A3545' }}>
+                      <Calendar size={14} />
+                      Starts: {event.startDate}
+                    </div>
+                  )}
+
+                  {event.date && (
+                    <div className="flex items-center gap-2" style={{ color: '#7A3545' }}>
+                      <Clock size={14} />
+                      {event.date}
+                    </div>
+                  )}
+
+                  {event.location && (
+                    <div className="flex items-center gap-2" style={{ color: '#7A3545' }}>
+                      <MapPin size={14} />
+                      {event.location}
+                    </div>
+                  )}
+
+                  {event.lastDate && (
+                    <div
+                      className="flex items-center gap-2 px-2 py-1 rounded-lg text-xs font-semibold"
+                      style={{
+                        background: 'rgba(251,146,60,0.12)',
+                        color: '#EA580C'
+                      }}
+                    >
+                      <AlertCircle size={14} />
+                      Last Date: {event.lastDate}
+                    </div>
+                  )}
+
+                </div>
+
+                <p style={{ color: '#7A3545' }} className="text-sm mb-4 line-clamp-2">
+                  {event.desc}
+                </p>
+
+                {/* Button */}
+                <button
+                  onClick={() => handleRegister(event)}
+                  className="w-full py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all"
+                  style={{
+                    background: 'linear-gradient(135deg,#D4617A,#C44A6A)',
+                    color: 'white'
+                  }}
+                >
+                  {event.registrationLink ? (
+                    <>
+                      <ExternalLink size={16} />
+                      Register
+                    </>
+                  ) : (
+                    'View Details'
+                  )}
+                </button>
+
+              </div>
+            ))
           )}
+
         </div>
 
-        {/* Sessions Section - Link to Sessions Page */}
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-gradient-to-br from-purple-500 to-purple-700 p-3 rounded-xl shadow-md">
-              <Users className="text-white" size={24} />
-            </div>
-            <h2 className="text-3xl font-bold text-gray-800">Therapy Sessions</h2>
+        {/* Therapy Sessions Section */}
+        <div
+          className="mt-12 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6"
+          style={{
+            background: 'linear-gradient(135deg,#D4617A,#C44A6A)',
+            color: 'white'
+          }}
+        >
+          <div>
+            <h3 className="text-xl font-bold mb-1">Explore Therapy Sessions</h3>
+            <p className="text-sm opacity-90">
+              Access guided sessions and mental wellness videos designed for students.
+            </p>
           </div>
 
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-white shadow-xl">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-2">Explore Therapy Sessions</h3>
-                <p className="text-purple-100 leading-relaxed">
-                  Watch helpful videos, learn coping strategies, and access professional therapy sessions tailored to your needs.
-                </p>
-              </div>
-              <a
-                href="/sessions"
-                className="bg-white text-purple-600 px-8 py-4 rounded-xl font-bold hover:bg-purple-50 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap"
-              >
-                View Sessions
-                <ExternalLink size={18} />
-              </a>
-            </div>
-          </div>
+          <a
+            href="/sessions"
+            className="px-6 py-3 rounded-xl font-semibold bg-white"
+            style={{ color: '#D4617A' }}
+          >
+            View Sessions
+          </a>
         </div>
 
       </div>
 
-      {/* Event Details Modal */}
+      {/* Modal */}
       {selectedEvent && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50"
           onClick={() => setSelectedEvent(null)}
         >
           <div
-            className="bg-white rounded-2xl p-8 max-w-2xl w-full shadow-2xl"
+            className="bg-white rounded-2xl p-7 max-w-xl w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between mb-6">
-              <h2 className="text-3xl font-bold text-gray-800">{selectedEvent.title}</h2>
-              <button
-                onClick={() => setSelectedEvent(null)}
-                className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
-              >
-                ×
-              </button>
-            </div>
+            <h2 style={{ color: '#3D1520' }} className="text-2xl font-bold mb-3">
+              {selectedEvent.title}
+            </h2>
 
-            <div className="space-y-4 mb-6">
-              {selectedEvent.startDate && (
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
-                  <Calendar className="text-blue-600" size={20} />
-                  <div>
-                    <p className="text-xs text-gray-500 font-semibold">Start Date</p>
-                    <p className="font-bold text-gray-800">{selectedEvent.startDate}</p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEvent.date && (
-                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-xl">
-                  <Clock className="text-purple-600" size={20} />
-                  <div>
-                    <p className="text-xs text-gray-500 font-semibold">Event Time</p>
-                    <p className="font-bold text-gray-800">{selectedEvent.date}</p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEvent.location && (
-                <div className="flex items-center gap-3 p-3 bg-red-50 rounded-xl">
-                  <MapPin className="text-red-600" size={20} />
-                  <div>
-                    <p className="text-xs text-gray-500 font-semibold">Location</p>
-                    <p className="font-bold text-gray-800">{selectedEvent.location}</p>
-                  </div>
-                </div>
-              )}
-
-              {selectedEvent.lastDate && (
-                <div className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl border-2 border-orange-200">
-                  <AlertCircle className="text-orange-600" size={20} />
-                  <div>
-                    <p className="text-xs text-orange-600 font-semibold">Registration Deadline</p>
-                    <p className="font-bold text-orange-800">{selectedEvent.lastDate}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Description</h3>
-              <p className="text-gray-600 leading-relaxed">{selectedEvent.desc}</p>
-            </div>
+            <p style={{ color: '#7A3545' }} className="mb-4">
+              {selectedEvent.desc}
+            </p>
 
             <button
               onClick={() => setSelectedEvent(null)}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl font-bold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+              className="w-full py-2.5 rounded-xl text-white font-semibold"
+              style={{ background: '#D4617A' }}
             >
               Close
             </button>
           </div>
         </div>
       )}
+
     </div>
   );
 };
