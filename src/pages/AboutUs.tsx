@@ -6,7 +6,7 @@ import {
     ArrowRight, CheckCircle, Zap, Globe,
 } from 'lucide-react';
 
-// ── Animated Counter ──────────────────────────────────────────────────
+// ── Animated Counter ──
 const Counter = ({ end, suffix = '' }: { end: number; suffix?: string }) => {
     const [count, setCount] = useState(0);
     useEffect(() => {
@@ -23,7 +23,7 @@ const Counter = ({ end, suffix = '' }: { end: number; suffix?: string }) => {
     return <>{count.toLocaleString()}{suffix}</>;
 };
 
-// ── Section Header ────────────────────────────────────────────────────
+// ── Section Header ──
 const SectionTag = ({ children }: { children: React.ReactNode }) => (
     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
         style={{ background: 'rgba(212,97,122,0.10)', color: '#D4617A', border: '1px solid rgba(212,97,122,0.2)' }}>
@@ -31,7 +31,7 @@ const SectionTag = ({ children }: { children: React.ReactNode }) => (
     </div>
 );
 
-// ── Value Card ────────────────────────────────────────────────────────
+// ── Value Card ──
 const ValueCard = ({ icon, title, desc, color }: { icon: React.ReactNode; title: string; desc: string; color: string }) => (
     <div className="p-6 rounded-[1.8rem] group transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-default"
         style={{
@@ -47,9 +47,9 @@ const ValueCard = ({ icon, title, desc, color }: { icon: React.ReactNode; title:
         <h3 className="font-black text-lg mb-2" style={{ color: '#3D1520' }}>{title}</h3>
         <p className="text-sm leading-relaxed" style={{ color: '#7A3545', opacity: 0.8 }}>{desc}</p>
     </div>
-);
-
-// ── Team Member Card ──────────────────────────────────────────────────
+); 
+ 
+// ── Team Member Card ──
 const TeamCard = ({ name, role, desc, emoji, gradient }: {
     name: string; role: string; desc: string; emoji: string; gradient: string;
 }) => (
@@ -70,36 +70,36 @@ const TeamCard = ({ name, role, desc, emoji, gradient }: {
     </div>
 );
 
-// ── Main Component ────────────────────────────────────────────────────
+// ── Main Component ──
 const AboutUs: React.FC = () => {
     const stats = [
-        { n: 500, s: '+', label: 'Students Helped', icon: '🧑‍🎓' },
-        { n: 50, s: '+', label: 'Mentors & Experts', icon: '👨‍⚕️' },
-        { n: 1200, s: '+', label: 'Sessions Completed', icon: '💬' },
-        { n: 98, s: '%', label: 'Satisfaction Rate', icon: '⭐' },
+        { n: 300, s: '+', label: 'Students Helped', icon: '🧑‍🎓' },
+        { n: 20, s: '+', label: 'Mentors & Experts', icon: '👨‍⚕️' },
+        { n: 500, s: '+', label: 'Sessions Completed', icon: '💬' },
+        { n: 95, s: '%', label: 'Satisfaction Rate', icon: '⭐' },
     ];
-
+ 
     const values = [
-        { icon: <Shield size={24} />, title: 'Safe & Anonymous', desc: 'Your privacy is our top priority. Every interaction on MindEase is confidential and secure.', color: '#7C3AED' },
-        { icon: <Heart size={24} />, title: 'Student-First', desc: 'Built specifically for NIT Kurukshetra students, understanding the unique pressures of college life.', color: '#D4617A' },
-        { icon: <Brain size={24} />, title: 'Science-Backed', desc: 'All resources, tools, and techniques are grounded in evidence-based mental health research.', color: '#059669' },
-        { icon: <Users size={24} />, title: 'Community Driven', desc: 'Peer support and shared stories create a strong community where no one feels alone.', color: '#D97706' },
-        { icon: <Zap size={24} />, title: 'Always Available', desc: '24/7 access to AI chatbot, mood tracking, and curated resources whenever you need them.', color: '#2563EB' },
-        { icon: <Globe size={24} />, title: 'Inclusive', desc: 'MindEase welcomes students, alumni, and faculty — mental wellness matters at every stage.', color: '#EC4899' },
+        { icon: <Shield size={24} />, title: 'Safe & Anonymous', desc: 'Interactions on MindEase are confidential and secure. Privacy is our top priority.', color: '#7C3AED' },
+        { icon: <Heart size={24} />, title: 'Student Oriented', desc: 'Built specifically for NIT Kurukshetra students, understanding the pressures of college life.', color: '#D4617A' },
+        { icon: <Brain size={24} />, title: 'Science supported', desc: 'Practical tools and resources, guided by mental health research to help you feel good.', color: '#059669' },
+        { icon: <Users size={24} />, title: 'Community Driven', desc: 'Strong community is formed with peer support and shared stories.', color: '#D97706' },
+        { icon: <Zap size={24} />, title: 'Available 24/7', desc: '24/7 access to AI chatbot, mood tracking, and best resources.', color: '#2563EB' },
+        { icon: <Globe size={24} />, title: 'Inclusive', desc: 'MindEase welcomes all students, alumni, and faculty because mental wellness matters at every stage.', color: '#EC4899' },
     ];
 
     const team = [
-        { name: 'Dr. Priya Sharma', role: 'Faculty Advisor', desc: 'Assistant Professor in Psychology, NIT Kurukshetra. 12+ years in student counseling.', emoji: '👩‍🏫', gradient: 'linear-gradient(135deg,#FFF5F7,#FFE8ED)' },
+        { name: 'Dr. Priya', role: 'Faculty Advisor', desc: 'Assistant Professor in Psychology, NIT Kurukshetra. 12+ years in student counseling.', emoji: '👩‍🏫', gradient: 'linear-gradient(135deg,#FFF5F7,#FFE8ED)' },
         { name: 'Arav Mehta', role: 'Lead Developer', desc: 'CSE final year student passionate about tech for social good. Built MindEase from scratch.', emoji: '👨‍💻', gradient: 'linear-gradient(135deg,#EEF2FF,#E0E7FF)' },
-        { name: 'Sneha Kapoor', role: 'UX Designer', desc: 'Makes MindEase feel warm and human. ECE student with a love for accessible design.', emoji: '🎨', gradient: 'linear-gradient(135deg,#FDF4FF,#FAE8FF)' },
-        { name: 'Rahul Verma', role: 'Content Curator', desc: 'Psychology minor student. Crafts every resource, article, and guide on the platform.', emoji: '📝', gradient: 'linear-gradient(135deg,#F0FDF4,#DCFCE7)' },
-        { name: 'Dr. Anjali Roy', role: 'Mental Health Expert', desc: 'Certified therapist and wellness coach. Reviews all clinical content on the platform.', emoji: '🧠', gradient: 'linear-gradient(135deg,#FFFBEB,#FEF3C7)' },
-        { name: 'Kiran Nair', role: 'Community Lead', desc: 'MSc student managing peer support groups and alumni mentorship programmes.', emoji: '🤝', gradient: 'linear-gradient(135deg,#FFF5F7,#FCE7F3)' },
+        { name: 'Amica Aggarwal', role: 'UX Designer', desc: 'Makes MindEase feel warm and human. ECE student with a love for accessible design.', emoji: '🎨', gradient: 'linear-gradient(135deg,#FDF4FF,#FAE8FF)' },
+        { name: 'Trishna', role: 'Content Curator', desc: 'Researches and crafts every resource, article, and guide on the platform.', emoji: '📝', gradient: 'linear-gradient(135deg,#F0FDF4,#DCFCE7)' },
+        { name: 'Hari ram Chhembra', role: 'Mental Health Expert', desc: 'Certified therapist and wellness coach. Reviews all clinical content on the platform.', emoji: '🧠', gradient: 'linear-gradient(135deg,#FFFBEB,#FEF3C7)' },
+        { name: 'Krishna Kumar', role: 'Community Lead', desc: 'MSc student managing peer support groups and alumni mentorship programmes.', emoji: '🤝', gradient: 'linear-gradient(135deg,#FFF5F7,#FCE7F3)' },
     ];
 
     const milestones = [
         { year: '2023', title: 'MindEase Founded', desc: 'Started as a small project during a hackathon at NIT Kurukshetra to help stressed students.', icon: '🌱' },
-        { year: 'Jan 2024', title: 'First 100 Users', desc: 'Crossed 100 active users within the first month of launch across NITK campus.', icon: '🚀' },
+        { year: 'Jan 2024', title: 'First 50 Users', desc: 'Crossed 50 active users within the first month, inside NITK campus.', icon: '🚀' },
         { year: 'Jun 2024', title: 'Mentor Network', desc: 'Launched the mentor matchmaking feature connecting students with alumni and faculty.', icon: '🤝' },
         { year: 'Sep 2024', title: 'AI Chatbot', desc: 'Introduced round-the-clock AI-powered emotional support chatbot.', icon: '🤖' },
         { year: 'Jan 2025', title: 'Events & Alumni Hub', desc: 'Opened events platform — professors and alumni can now post events and workshops.', icon: '📅' },
@@ -108,7 +108,6 @@ const AboutUs: React.FC = () => {
 
     return (
         <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#FFF5F7 0%,#FFE8ED 50%,#FFF0F3 100%)' }}>
-
             {/* ── Hero ── */}
             <div className="relative overflow-hidden pt-28 pb-32 px-6 text-center"
                 style={{ background: 'linear-gradient(135deg,#D4617A 0%,#C44A6A 40%,#9B2C5A 100%)' }}>
@@ -130,8 +129,7 @@ const AboutUs: React.FC = () => {
                         <span className="text-pink-100">Every NITK Student</span>
                     </h1>
                     <p className="text-white/75 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                        MindEase is a safe, anonymous platform built with love at NIT Kurukshetra —
-                        to help students, alumni, and faculty navigate the emotional challenges of college life.
+                        MindEase is a safe place built with love at NIT Kurukshetra. Its aim is to help students, alumni, and faculty with the emotional challenges of college life.
                     </p>
                     <div className="flex items-center justify-center gap-4 flex-wrap">
                         <Link to="/sessions"
@@ -146,8 +144,8 @@ const AboutUs: React.FC = () => {
                         </Link>
                     </div>
                 </div>
-            </div>
-
+            </div> 
+   
             {/* ── Stats ── */}
             <div className="max-w-5xl mx-auto px-6 -mt-12">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -180,19 +178,19 @@ const AboutUs: React.FC = () => {
                             <span style={{ color: '#D4617A' }}>one conversation at a time.</span>
                         </h2>
                         <p className="text-base leading-relaxed mb-6" style={{ color: '#7A3545', opacity: 0.85 }}>
-                            Engineering college can be tough. Deadlines, placements, relationships, family pressure —
-                            mental health gets pushed aside. MindEase was created to change that.
+                            Engineering college can be tough. Assignments, placements, relationships, family pressure, inside struggles, 
+                            within all this, mental health gets pushed aside in the corner. MindEase was created to help regulate mental health.
                         </p>
                         <p className="text-base leading-relaxed mb-8" style={{ color: '#7A3545', opacity: 0.85 }}>
-                            We provide students with anonymous, judgement-free access to mental health tools,
-                            peer communities, professional mentors, and AI-powered support — all in one place.
-                        </p>
-                        <div className="space-y-3">
-                            {[
-                                'Completely free for all NITK students',
-                                'Anonymous — no one knows who you are',
-                                '1-on-1 sessions with verified mentors',
-                                'AI chatbot available 24 hours a day',
+                            We provide students with anonymous and non judgemental access to mental health tools,
+                            peer communities, professional mentors and also, AI driven support.
+                        </p> 
+                        <div className="space-y-3"> 
+                            {[ 
+                                'Free for all NIT KKR students',
+                                'Anonymous, no one knows who you are',
+                                'Sessions with professional mentors',
+                                'AI chatbot, available 24/7',
                             ].map((point, i) => (
                                 <div key={i} className="flex items-center gap-3">
                                     <CheckCircle size={18} style={{ color: '#D4617A', flexShrink: 0 }} />
@@ -220,7 +218,7 @@ const AboutUs: React.FC = () => {
                             </div>
                             <h3 className="text-2xl font-black mb-3" style={{ color: '#3D1520' }}>Your Safe Space</h3>
                             <p className="text-sm leading-relaxed mb-6" style={{ color: '#7A3545', opacity: 0.8 }}>
-                                "You are not alone. MindEase is here whenever you need to talk, reflect, or just breathe."
+                                "Always know that you are not alone. MindEase is here whenever you need to confide in, or just vent freely."
                             </p>
                             <div className="grid grid-cols-3 gap-3">
                                 {[
@@ -323,14 +321,14 @@ const AboutUs: React.FC = () => {
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
                     {[
-                        { icon: '🤖', title: 'AI Chatbot', desc: '24/7 emotional support anytime, day or night', link: '/chatbot', color: '#7C3AED' },
-                        { icon: '📊', title: 'Mood Tracker', desc: 'Daily mood logging to understand your patterns', link: '/mood', color: '#2563EB' },
-                        { icon: '👥', title: 'Mentor Connect', desc: 'Book 1-on-1 sessions with alumni & faculty mentors', link: '/mentor', color: '#D4617A' },
-                        { icon: '📅', title: 'Events', desc: 'Workshops and wellness events by professors & alumni', link: '/events', color: '#D97706' },
-                        { icon: '🏘️', title: 'Community', desc: 'Anonymous peer discussions and support groups', link: '/community', color: '#059669' },
-                        { icon: '📚', title: 'Resources', desc: 'Curated mental health articles, tips, and exercises', link: '/resources', color: '#EC4899' },
+                        { icon: '🤖', title: 'AI Chatbot', desc: '24/7 support, anytime of the day', link: '/chatbot', color: '#7C3AED' },
+                        { icon: '📊', title: 'Mood Tracker', desc: 'Daily mood tracking to understand youself better', link: '/mood', color: '#2563EB' },
+                        { icon: '👥', title: 'Mentor Connect', desc: 'Book 1 on 1 sessions with alumni and mentors', link: '/mentor', color: '#D4617A' },
+                        { icon: '📅', title: 'Events', desc: 'Workshops and events by professors & alumni', link: '/events', color: '#D97706' },
+                        { icon: '🏘️', title: 'Community', desc: 'Anonymous peer discussions support', link: '/community', color: '#059669' },
+                        { icon: '📚', title: 'Resources', desc: 'Curated mental health books, and videos', link: '/resources', color: '#EC4899' },
                         { icon: '💆', title: 'Wellness Hub', desc: 'Video therapy sessions and bookable appointments', link: '/sessions', color: '#0891B2' },
-                        { icon: '🚨', title: 'Emergency', desc: 'Instant access to crisis helplines and support', link: '/emergency', color: '#DC2626' },
+                        { icon: '🚨', title: 'Emergency', desc: 'Access to helplines and support in case of emergency', link: '/emergency', color: '#DC2626' },
                     ].map((f, i) => (
                         <Link key={i} to={f.link}
                             className="p-5 rounded-[1.5rem] group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl block"
@@ -365,7 +363,7 @@ const AboutUs: React.FC = () => {
                         {[
                             { icon: '🏆', title: 'Hackathon Winner', desc: '1st place at NITK Internal Hackathon 2023 for Social Impact' },
                             { icon: '📰', title: 'Featured in Campus Newsletter', desc: 'Recognized by NIT Kurukshetra student welfare committee' },
-                            { icon: '🌟', title: '4.9★ Student Rating', desc: 'Consistently rated over 4.9/5 by active MindEase users' },
+                            { icon: '🌟', title: '4.3 Student Rating', desc: 'Consistently rated over 4.3/5 by active MindEase users' },
                         ].map((a, i) => (
                             <div key={i} className="p-6 rounded-[1.8rem] text-center"
                                 style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)' }}>
@@ -385,7 +383,7 @@ const AboutUs: React.FC = () => {
                     Your mental health matters. Start today.
                 </h2>
                 <p className="text-base mb-8 leading-relaxed" style={{ color: '#7A3545', opacity: 0.8 }}>
-                    Join 500+ NIT Kurukshetra students and faculty who use MindEase to thrive — not just survive.
+                    Join 300+ NIT Kurukshetra students and faculty who use MindEase.
                 </p>
                 <div className="flex items-center justify-center gap-4 flex-wrap">
                     <Link to="/signup"
