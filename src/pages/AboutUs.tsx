@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Heart, Brain, Shield, Users, Star,
-    Sparkles, GraduationCap, Award, Mail,
+    Sparkles, GraduationCap, Mail,
     ArrowRight, CheckCircle, Zap, Globe,
 } from 'lucide-react';
 
@@ -97,27 +97,23 @@ const AboutUs: React.FC = () => {
         { name: 'Krishna Kumar', role: 'Community Lead', desc: 'MSc student managing peer support groups and alumni mentorship programmes.', emoji: '🤝', gradient: 'linear-gradient(135deg,#FFF5F7,#FCE7F3)' },
     ];
 
-    const milestones = [
-        { year: '2023', title: 'MindEase Founded', desc: 'Started as a small project during a hackathon at NIT Kurukshetra to help stressed students.', icon: '🌱' },
-        { year: 'Jan 2024', title: 'First 50 Users', desc: 'Crossed 50 active users within the first month, inside NITK campus.', icon: '🚀' },
-        { year: 'Jun 2024', title: 'Mentor Network', desc: 'Launched the mentor matchmaking feature connecting students with alumni and faculty.', icon: '🤝' },
-        { year: 'Sep 2024', title: 'AI Chatbot', desc: 'Introduced round-the-clock AI-powered emotional support chatbot.', icon: '🤖' },
-        { year: 'Jan 2025', title: 'Events & Alumni Hub', desc: 'Opened events platform — professors and alumni can now post events and workshops.', icon: '📅' },
-        { year: '2026', title: '500+ Students', desc: 'MindEase now actively supports 500+ students across NIT Kurukshetra.', icon: '🎓' },
-    ];
-
     return (
         <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#FFF5F7 0%,#FFE8ED 50%,#FFF0F3 100%)' }}>
             {/* ── Hero ── */}
             <div className="relative overflow-hidden pt-28 pb-32 px-6 text-center"
-                style={{ background: 'linear-gradient(135deg,#D4617A 0%,#C44A6A 40%,#9B2C5A 100%)' }}>
-                {/* Blobs */}
-                <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10"
-                    style={{ background: 'white', transform: 'translate(30%,-30%)' }} />
-                <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10"
-                    style={{ background: 'white', transform: 'translate(-25%,30%)' }} />
-                <div className="absolute top-1/2 left-1/4 w-32 h-32 rounded-full opacity-5"
-                    style={{ background: 'white', transform: 'translate(-50%,-50%)' }} />
+                style={{ background: 'linear-gradient(135deg,#E88FA3 0%,#D4617A 50%,#C96B84 100%)' }}>
+                {/* Grid Pattern */}
+                    <div className="absolute inset-0 opacity-10"
+                        style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',backgroundSize: '40px 40px'}}/>
+                {/* Blobs */} 
+                <div className="absolute top-0 right-0 w-[420px] h-[420px] rounded-full opacity-30 blur-3xl"
+                style={{ background: '#FBCFE8', transform: 'translate(35%,-35%)' }} />
+
+                <div className="absolute bottom-0 left-0 w-[380px] h-[380px] rounded-full opacity-25 blur-3xl"
+                style={{ background: '#F9A8D4', transform: 'translate(-30%,30%)' }} />
+
+                <div className="absolute top-1/2 left-1/4 w-[200px] h-[200px] rounded-full opacity-20 blur-3xl"
+                style={{ background: '#FDE2E7', transform: 'translate(-50%,-50%)' }} />
 
                 <div className="relative max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-6 text-xs font-black uppercase tracking-widest"
@@ -234,15 +230,6 @@ const AboutUs: React.FC = () => {
                                 ))}
                             </div>
                         </div>
-                        {/* Floating badges */}
-                        <div className="absolute -top-4 -left-4 px-3 py-2 rounded-xl text-xs font-black"
-                            style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)', color: 'white', boxShadow: '0 4px 16px rgba(212,97,122,0.35)' }}>
-                            🔒 100% Anonymous
-                        </div>
-                        <div className="absolute -bottom-4 -right-4 px-3 py-2 rounded-xl text-xs font-black"
-                            style={{ background: 'white', color: '#059669', border: '2px solid #BBF7D0', boxShadow: '0 4px 16px rgba(5,150,105,0.15)' }}>
-                            ✅ Completely Free
-                        </div>
                     </div>
                 </div>
             </div>
@@ -256,43 +243,6 @@ const AboutUs: React.FC = () => {
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {values.map((v, i) => <ValueCard key={i} {...v} />)}
-                    </div>
-                </div>
-            </div>
-
-            {/* ── Story / Journey ── */}
-            <div className="max-w-6xl mx-auto px-6 py-20">
-                <div className="text-center mb-14">
-                    <SectionTag>Our Journey</SectionTag>
-                    <h2 className="text-3xl font-black" style={{ color: '#3D1520' }}>How MindEase Grew</h2>
-                </div>
-                <div className="relative">
-                    {/* Timeline line */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 hidden md:block"
-                        style={{ background: 'linear-gradient(to bottom, #F9C5CC, transparent)' }} />
-                    <div className="space-y-8">
-                        {milestones.map((m, i) => (
-                            <div key={i} className={`flex gap - 6 items - start ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} `}>
-                                <div className={`flex - 1 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'} `}>
-                                    <div className="p-5 rounded-[1.5rem] inline-block max-w-sm transition-all duration-300 hover:shadow-lg"
-                                        style={{
-                                            background: 'rgba(255,255,255,0.82)',
-                                            backdropFilter: 'blur(12px)',
-                                            border: '1.5px solid rgba(249,197,204,0.5)',
-                                        }}>
-                                        <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: '#D4617A' }}>{m.year}</p>
-                                        <h4 className="font-black text-sm mb-1" style={{ color: '#3D1520' }}>{m.title}</h4>
-                                        <p className="text-xs leading-relaxed" style={{ color: '#7A3545', opacity: 0.8 }}>{m.desc}</p>
-                                    </div>
-                                </div>
-                                {/* Center dot */}
-                                <div className="hidden md:flex w-12 h-12 rounded-2xl items-center justify-center text-xl flex-shrink-0 shadow-md"
-                                    style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)', zIndex: 1 }}>
-                                    {m.icon}
-                                </div>
-                                <div className="flex-1" />
-                            </div>
-                        ))}
                     </div>
                 </div>
             </div>
@@ -349,33 +299,7 @@ const AboutUs: React.FC = () => {
                     ))}
                 </div>
             </div>
-
-            {/* ── Achievements ── */}
-            <div className="py-16 px-6"
-                style={{ background: 'linear-gradient(135deg,#D4617A 0%,#C44A6A 40%,#9B2C5A 100%)' }}>
-                <div className="max-w-5xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-xs font-black uppercase tracking-widest"
-                        style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', color: 'white' }}>
-                        <Award size={12} /> Recognitions & Milestones
-                    </div>
-                    <h2 className="text-3xl font-black text-white mb-10">Making a Difference at NITK</h2>
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {[
-                            { icon: '🏆', title: 'Hackathon Winner', desc: '1st place at NITK Internal Hackathon 2023 for Social Impact' },
-                            { icon: '📰', title: 'Featured in Campus Newsletter', desc: 'Recognized by NIT Kurukshetra student welfare committee' },
-                            { icon: '🌟', title: '4.3 Student Rating', desc: 'Consistently rated over 4.3/5 by active MindEase users' },
-                        ].map((a, i) => (
-                            <div key={i} className="p-6 rounded-[1.8rem] text-center"
-                                style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)' }}>
-                                <div className="text-4xl mb-3">{a.icon}</div>
-                                <h4 className="font-black text-white mb-2">{a.title}</h4>
-                                <p className="text-white/70 text-sm leading-relaxed">{a.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
+            
             {/* ── CTA ── */}
             <div className="max-w-3xl mx-auto px-6 py-20 text-center">
                 <SectionTag>Join MindEase</SectionTag>
