@@ -147,7 +147,7 @@ export default function Emergency() {
                             Immediate medical assistance and initial psychiatric evaluation right here on the campus.
                         </p>
                         <div className="text-lg font-bold" style={{ color: '#D4617A' }}>
-                            01744-233-XXX <span className="text-sm font-normal">(Update Ext)</span>
+                            01744-233-421
                         </div>
                     </a>
 
