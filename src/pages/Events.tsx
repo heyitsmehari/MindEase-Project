@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
-import { Calendar, Clock, MapPin, Users, ExternalLink, Sparkles, AlertCircle } from 'lucide-react';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { Calendar, Clock, MapPin, ExternalLink, Sparkles, AlertCircle } from 'lucide-react';
 
 interface Event {
   id: string;
@@ -18,23 +18,37 @@ interface Event {
 const EventsAndSessions: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   useEffect(() => {
-    const q = query(
+    // No orderBy on the query — avoids needing a Firestore composite index.
+    // We sort client-side instead.
+    const unsubscribe = onSnapshot(
       collection(db, "events"),
-      orderBy("createdAt", "desc")
+      (snapshot) => {
+        const fetchedEvents = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Event[];
+
+        // Sort newest first using the createdAt timestamp if available
+        fetchedEvents.sort((a, b) => {
+          const tA = a.createdAt?.seconds ?? 0;
+          const tB = b.createdAt?.seconds ?? 0;
+          return tB - tA;
+        });
+
+        setEvents(fetchedEvents);
+        setLoading(false);
+        setFetchError(null);
+      },
+      (error) => {
+        console.error("Error fetching events:", error);
+        setFetchError("Could not load events. Please try again later.");
+        setLoading(false);
+      }
     );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedEvents = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Event[];
-
-      setEvents(fetchedEvents);
-      setLoading(false);
-    });
 
     return () => unsubscribe();
   }, []);
@@ -93,6 +107,16 @@ const EventsAndSessions: React.FC = () => {
             >
               <div className="w-10 h-10 border-4 border-[#D4617A] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
               <p style={{ color: '#7A3545' }} className="font-semibold">Loading events...</p>
+            </div>
+
+          ) : fetchError ? (
+            <div
+              className="p-10 rounded-2xl text-center col-span-full"
+              style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 8px 30px rgba(0,0,0,0.05)' }}
+            >
+              <AlertCircle className="mx-auto mb-4" size={40} style={{ color: '#F4A0B0' }} />
+              <h3 style={{ color: '#3D1520' }} className="text-xl font-bold mb-1">Unable to Load Events</h3>
+              <p style={{ color: '#7A3545' }}>{fetchError}</p>
             </div>
 
           ) : events.length === 0 ? (

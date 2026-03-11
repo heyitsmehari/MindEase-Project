@@ -147,7 +147,7 @@ const FadeIn: React.FC<{ children: React.ReactNode; delay?: number; className?: 
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
-    > 
+    >
       {children}
     </motion.div>
   );
@@ -467,47 +467,12 @@ const Home: React.FC = () => {
               </motion.div>
             </motion.div>
 
-            {/* ── RIGHT: 3D cycling image card + floating emojis ── */}
+            {/* ── RIGHT: 3D cycling image card ── */}
             <motion.div
               initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="hidden lg:flex items-center justify-center relative h-[520px]"
             >
-              {/* Floating emoji bubbles — no background */}
-              {[
-                // --- CHERRY BLOSSOMS (🌸) - Consistent Floral Theme ---
-                { emoji: '🌸', top: '5%', left: '10%', size: 55, dur: 4.5, delay: 0.2 },
-                { emoji: '🌸', top: '45%', left: '-4%', size: 62, dur: 5.2, delay: 1.5 },
-               
-                // --- EXCESSIVE SMILING & LOVE FACES ---
-                { emoji: '😊', top: '2%', left: '35%', size: 64, dur: 5.0, delay: 0.0 },
-                { emoji: '🥰', top: '12%', left: '92%', size: 70, dur: 4.8, delay: 0.4 },
-                { emoji: '😇', top: '82%', left: '5%', size: 58, dur: 4.5, delay: 1.2 },
-                { emoji: '💖', top: '25%', left: '2%', size: 60, dur: 5.2, delay: 0.7 },
-                { emoji: '🤗', top: '70%', left: '95%', size: 66, dur: 5.0, delay: 1.8 },
-                { emoji: '😍', top: '3%', left: '75%', size: 52, dur: 4.2, delay: 0.6 },
-                { emoji: '✨', top: '80%', left: '90%', size: 45, dur: 3.5, delay: 0.3 },
-                { emoji: '💗', top: '92%', left: '30%', size: 50, dur: 5.5, delay: 2.1 },
-               
-                { emoji: '🤩', top: '18%', left: '20%', size: 48, dur: 4.2, delay: 1.4 },
-                { emoji: '☺️', top: '85%', left: '45%', size: 60, dur: 5.8, delay: 0.7 },
-                { emoji: '🫂', top: '38%', left: '88%', size: 68, dur: 5.5, delay: 1.0 },
-                { emoji: '💕', top: '75%', left: '20%', size: 42, dur: 4.0, delay: 2.5 }
-              ].map((e, i) => (
-                <motion.div key={i}
-                  className="absolute z-20 select-none pointer-events-none"
-                  style={{
-                    top: e.top, left: e.left, width: e.size, height: e.size,
-                    fontSize: e.size * 0.86,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.18))',
-                  }}
-                  animate={{ y: [-12, 12, -12] }}
-                  transition={{ duration: e.dur, repeat: Infinity, ease: 'easeInOut', delay: e.delay }}
-                >
-                  {e.emoji}
-                </motion.div>
-              ))}
 
               {/* 3D Perspective Card */}
               <motion.div
@@ -935,14 +900,7 @@ const Home: React.FC = () => {
                 />
               ))}
 
-              {/* Floating emojis */}
-              {['❤️', '💜', '🌸', '✨'].map((em, i) => (
-                <motion.span key={i} className="absolute text-3xl select-none pointer-events-none"
-                  style={{ left: `${10 + i * 24}%`, top: i % 2 === 0 ? '10%' : '72%' }}
-                  animate={{ y: [0, -16, 0], opacity: [0.55, 1, 0.55] }}
-                  transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
-                >{em}</motion.span>
-              ))}
+
 
               <div className="relative z-10 px-8 py-20">
                 <motion.div
