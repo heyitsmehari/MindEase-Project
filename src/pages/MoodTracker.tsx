@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain, Heart, Lightbulb, LayoutDashboard,
   ArrowRight, ArrowLeft, Save, CheckCircle2,
-  AlertTriangle, TrendingUp, Shield,
+  Sparkles, AlertTriangle, TrendingUp, Shield, Clock, X
 } from 'lucide-react';
 
 import MoodForm, { type MoodFormData } from '../components/mood/MoodForm';
@@ -34,20 +34,21 @@ const slideVariants = {
   }),
 };
 
+// Updated to match Appointment page's rose palette
 const moodGradients: Record<string, string> = {
-  Distressed: 'from-red-500 to-rose-600',
-  'Low Mood': 'from-orange-400 to-amber-500',
-  Neutral: 'from-[#F4A0B0] to-[#D4617A]',
-  Positive: 'from-[#D4617A] to-[#C44A6A]',
-  'Very Positive': 'from-[#C44A6A] to-[#9B2C5A]',
+  'Distressed': 'from-[#D4617A] to-[#7B1D4A]',
+  'Low Mood': 'from-[#F9C5CC] to-[#D4617A]',
+  'Neutral': 'from-[#FFE8ED] to-[#F9C5CC]',
+  'Positive': 'from-[#D4617A] to-[#C44A6A]',
+  'Very Positive': 'from-[#C44A6A] to-[#7B1D4A]',
 };
 
 const moodBg: Record<string, string> = {
-  Distressed: 'bg-red-50 border-red-200',
+  'Distressed': 'bg-red-50 border-red-200',
   'Low Mood': 'bg-amber-50 border-amber-200',
-  Neutral: 'bg-[#FFE8ED] border-[#F9C5CC]',
-  Positive: 'bg-[#FFE8ED] border-[#F9C5CC]',
-  'Very Positive': 'bg-[#FFE8ED] border-[#F9C5CC]',
+  'Neutral': 'bg-rose-50 border-rose-200',
+  'Positive': 'bg-rose-50 border-rose-200',
+  'Very Positive': 'bg-rose-100 border-rose-300',
 };
 
 const MoodTracker: React.FC = () => {
@@ -57,21 +58,11 @@ const MoodTracker: React.FC = () => {
   const [saved, setSaved] = useState(false);
 
   const [moodData, setMoodData] = useState<MoodFormData>({
-    energy: 5,
-    sleep: 5,
-    difficultyStart: 5,
-    tiredness: 5,
-    focus: 5,
-    workloadStress: 5,
-    productivity: 5,
+    energy: 5, sleep: 5, difficultyStart: 5, tiredness: 5, focus: 5, workloadStress: 5, productivity: 5,
   });
 
   const [behavioralData, setBehavioralData] = useState<BehavioralFormData>({
-    calm: 5,
-    irritation: 5,
-    hopeful: 5,
-    connected: 5,
-    lonely: 5,
+    calm: 5, irritation: 5, hopeful: 5, connected: 5, lonely: 5,
   });
 
   const [insight, setInsight] = useState<InsightResult | null>(null);
@@ -95,7 +86,6 @@ const MoodTracker: React.FC = () => {
   const handleSave = async () => {
     if (!insight) return;
     const allInputs = { ...moodData, ...behavioralData };
-
     await saveMoodEntry({
       id: crypto.randomUUID(),
       date: new Date().toISOString(),
@@ -103,152 +93,120 @@ const MoodTracker: React.FC = () => {
       moodScore: insight.moodScore,
       mood: insight.mood,
     });
-
     setSaved(true);
-
     setTimeout(() => {
       setSaved(false);
       setStep(0);
-      setMoodData({
-        energy: 5,
-        sleep: 5,
-        difficultyStart: 5,
-        tiredness: 5,
-        focus: 5,
-        workloadStress: 5,
-        productivity: 5,
-      });
-
-      setBehavioralData({
-        calm: 5,
-        irritation: 5,
-        hopeful: 5,
-        connected: 5,
-        lonely: 5,
-      });
-
+      setMoodData({ energy: 5, sleep: 5, difficultyStart: 5, tiredness: 5, focus: 5, workloadStress: 5, productivity: 5 });
+      setBehavioralData({ calm: 5, irritation: 5, hopeful: 5, connected: 5, lonely: 5 });
       setInsight(null);
       setActiveTab('dashboard');
     }, 2000);
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF5F7]">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#FFF5F7 0%,#FFE8ED 50%,#FFF0F3 100%)' }}>
 
-      {/* HEADER */}
-      <section className="bg-gradient-to-br from-[#E88FA3] via-[#D4617A] to-[#C96B84] pt-20 pb-16 px-6 relative overflow-hidden">
+      {/* CSS for Blobs & Hover Effects from Appointment.tsx */}
+      <style>{`
+          @keyframes blob1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,15px) scale(1.06)} }
+          @keyframes blob2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-15px,20px) scale(0.95)} }
+          @keyframes blob3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(10px,-15px) scale(1.08)} }
+          .glass-card { transition: box-shadow 0.3s, transform 0.3s; }
+          .glass-card:hover { transform: translateY(-2px); box-shadow: 0 16px 48px rgba(212,97,122,0.14) !important; }
+      `}</style>
 
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[400px] h-[400px] bg-[#F4A0B0] rounded-full opacity-20 blur-[120px]" />
+      {/* Header Updated to match Appointment.tsx Hero */}
+      <section className="relative overflow-hidden pt-24 pb-32 px-6 text-center"
+        style={{ background: 'linear-gradient(135deg,#D4617A 0%,#C44A6A 45%,#7B1D4A 100%)' }}>
+        {[
+          { size: 340, top: '-15%', left: '-8%', anim: 'blob1' },
+          { size: 260, top: '30%', right: '-8%', anim: 'blob2' },
+          { size: 160, top: '60%', left: '35%', anim: 'blob3' },
+        ].map((b, i) => (
+          <div key={i} className="absolute rounded-full pointer-events-none"
+            style={{
+              width: b.size, height: b.size,
+              top: b.top, left: (b as any).left, right: (b as any).right,
+              background: 'rgba(255,255,255,0.07)',
+              animation: `${b.anim} 7s ease-in-out infinite`,
+            }} />
+        ))}
 
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[300px] h-[300px] bg-[#F9C5CC] rounded-full opacity-20 blur-[100px]" />
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
-            Mood Tracker
+        <div className="relative max-w-4xl mx-auto z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-5 text-xs font-black uppercase tracking-widest"
+            style={{ background: 'rgba(255,255,255,0.14)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.22)', color: 'white' }}>
+            <Sparkles size={13} className="text-yellow-200" />
+            Student Wellness Check
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight text-white">
+            Mood Tracker<br />
+            <span style={{ color: 'rgba(255,220,230,0.95)' }}>How are you feeling?</span>
           </h1>
-
-          <p className="text-white/80 text-lg max-w-xl mx-auto">
+          <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.72)' }}>
             Answer a few quick questions about your day and get personalized insights about your well-being.
           </p>
-
         </div>
       </section>
 
-
-      {/* TAB SWITCHER */}
-
-      <div className="max-w-4xl mx-auto px-6 -mt-6 relative z-20">
-
-        <div className="bg-white rounded-2xl shadow-lg border border-[#F9C5CC] p-1.5 flex gap-1">
-
+      {/* Tab Switcher */}
+      <div className="max-w-4xl mx-auto px-6 -mt-8 relative z-20">
+        <div className="rounded-[2rem] p-1.5 flex gap-1 shadow-lg"
+          style={{ background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(16px)', border: '1.5px solid rgba(249,197,204,0.55)' }}>
           <TabButton
             active={activeTab === 'log'}
             onClick={() => setActiveTab('log')}
             icon={<Brain size={18} />}
             label="Log Mood"
           />
-
           <TabButton
             active={activeTab === 'dashboard'}
             onClick={() => setActiveTab('dashboard')}
             icon={<LayoutDashboard size={18} />}
             label="Dashboard"
           />
-
         </div>
-
       </div>
 
-
-      {/* CONTENT */}
-
-      <div className="max-w-4xl mx-auto px-6 py-8">
-
+      {/* Content */}
+      <div className="max-w-4xl mx-auto px-6 py-12">
         {activeTab === 'dashboard' ? (
           <MoodDashboard />
         ) : (
           <div>
-
-            {/* STEP INDICATOR */}
-
-            <div className="flex items-center justify-center gap-2 mb-8">
-
+            {/* Step Indicator */}
+            <div className="flex items-center justify-center gap-2 mb-10">
               {STEPS.map(({ id, label, icon: Icon }) => (
-
                 <React.Fragment key={id}>
-
                   <div className="flex items-center gap-2">
-
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all
-                      ${step === id
-                        ? 'bg-[#D4617A] text-white shadow-lg scale-110'
+                      className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-300 ${step === id
+                        ? 'text-white shadow-lg scale-110'
                         : step > id
-                        ? 'bg-[#C44A6A] text-white'
-                        : 'bg-[#FFE8ED] text-[#7A3545]'
-                      }`}
+                          ? 'bg-rose-500 text-white'
+                          : 'bg-white text-[#D4617A] border border-[#F9C5CC]'
+                        }`}
+                      style={step === id ? { background: 'linear-gradient(135deg,#D4617A,#C44A6A)' } : {}}
                     >
                       {step > id ? <CheckCircle2 size={18} /> : <Icon size={18} />}
                     </div>
-
                     <span
-                      className={`text-sm font-semibold hidden sm:block
-                      ${step === id
-                        ? 'text-[#D4617A]'
-                        : step > id
-                        ? 'text-[#C44A6A]'
-                        : 'text-[#7A3545]'
-                      }`}
+                      className={`text-[10px] font-black uppercase tracking-widest hidden sm:block ${step >= id ? 'text-[#D4617A]' : 'text-[#7A3545] opacity-40'}`}
                     >
                       {label}
                     </span>
-
                   </div>
-
                   {id < 2 && (
-                    <div
-                      className={`w-12 h-0.5 rounded-full
-                      ${step > id
-                        ? 'bg-[#C44A6A]'
-                        : 'bg-[#F9C5CC]'
-                      }`}
-                    />
+                    <div className={`w-8 h-0.5 rounded-full ${step > id ? 'bg-[#D4617A]' : 'bg-[#F9C5CC]'}`} />
                   )}
-
                 </React.Fragment>
-
               ))}
-
             </div>
 
-
-            {/* STEP CONTENT */}
-
-            <div className="bg-white rounded-2xl border border-[#F9C5CC] shadow-lg p-6 md:p-8 min-h-[400px] overflow-hidden">
-
+            {/* Step Content */}
+            <div className="glass-card rounded-[2.5rem] p-6 md:p-10 min-h-[400px] overflow-hidden"
+              style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)', border: '1.5px solid rgba(249,197,204,0.6)', boxShadow: '0 20px 60px rgba(212,97,122,0.15)' }}>
               <AnimatePresence mode="wait" custom={direction}>
-
                 <motion.div
                   key={step}
                   custom={direction}
@@ -256,168 +214,205 @@ const MoodTracker: React.FC = () => {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
                 >
-
                   {step === 0 && (
-                    <>
-                      <h2 className="text-2xl font-bold text-[#3D1520] mb-1">
-                        How's your day going?
-                      </h2>
-                      <p className="text-[#7A3545] mb-6">
-                        Rate each question from 1–10.
-                      </p>
-
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#D4617A' }}>Daily Check-in</p>
+                      <h2 className="text-3xl font-black text-[#3D1520] mb-2">How's your day going?</h2>
+                      <p className="text-sm text-[#7A3545] opacity-70 mb-8">Rate each question on a scale of 1–10. Be honest — there are no wrong answers.</p>
                       <MoodForm data={moodData} onChange={setMoodData} />
-                    </>
+                    </div>
                   )}
 
                   {step === 1 && (
-                    <>
-                      <h2 className="text-2xl font-bold text-[#3D1520] mb-1">
-                        How do you feel emotionally?
-                      </h2>
-                      <p className="text-[#7A3545] mb-6">
-                        A few questions about your emotional state.
-                      </p>
-
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#D4617A' }}>Emotional Pulse</p>
+                      <h2 className="text-3xl font-black text-[#3D1520] mb-2">How do you feel emotionally?</h2>
+                      <p className="text-sm text-[#7A3545] opacity-70 mb-8">A few more questions about your emotions and social connections.</p>
                       <BehavioralForm data={behavioralData} onChange={setBehavioralData} />
-                    </>
+                    </div>
                   )}
 
                   {step === 2 && insight && (
                     <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#D4617A' }}>Analysis Complete</p>
+                      <h2 className="text-3xl font-black text-[#3D1520] mb-6">Your Results</h2>
 
-                      <h2 className="text-2xl font-bold text-[#3D1520] mb-1">
-                        Your Results
-                      </h2>
-
-                      <p className="text-[#7A3545] mb-6">
-                        Here's how you're doing today.
-                      </p>
-
-
-                      {/* SCORE CARD */}
-
-                      <div className={`bg-gradient-to-br ${moodGradients[insight.mood]} rounded-2xl p-6 text-white shadow-xl mb-6`}>
-
-                        <div className="flex justify-between">
-
+                      {/* Mood Score Card */}
+                      <div className={`bg-gradient-to-br ${moodGradients[insight.mood]} rounded-3xl p-8 text-white shadow-xl mb-8 relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 p-4 opacity-10"><Sparkles size={80} /></div>
+                        <div className="flex items-center justify-between relative z-10">
                           <div>
-
-                            <p className="text-white/80 text-sm mb-1">
-                              Your Mood Today
-                            </p>
-
-                            <div className="flex gap-3 items-center">
-
-                              <span className="text-4xl">
-                                {insight.emoji}
-                              </span>
-
+                            <p className="text-white/80 text-xs font-black uppercase tracking-widest mb-2">Your Mood Today</p>
+                            <div className="flex items-center gap-4">
+                              <span className="text-5xl">{insight.emoji}</span>
                               <div>
-
-                                <h3 className="text-3xl font-extrabold">
-                                  {insight.mood}
-                                </h3>
-
-                                <p className="text-white/70 text-sm">
-                                  Keep tracking to see trends
-                                </p>
-
+                                <h3 className="text-4xl font-black">{insight.mood}</h3>
+                                <p className="text-white/70 text-xs font-semibold">Keep tracking to see your trends</p>
                               </div>
-
                             </div>
-
                           </div>
-
                           <div className="text-right">
-
-                            <p className="text-xs text-white/60 uppercase">
-                              Score
-                            </p>
-
-                            <p className="text-5xl font-extrabold">
-                              {insight.moodScore}
-                            </p>
-
+                            <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">Score</p>
+                            <p className="text-6xl font-black">{insight.moodScore}</p>
+                            <p className="text-white/60 text-[10px] font-bold">out of 100</p>
                           </div>
-
                         </div>
-
+                        {/* Score bar */}
+                        <div className="mt-8 bg-black/10 rounded-full h-3 overflow-hidden border border-white/20">
+                          <motion.div
+                            className="h-full bg-white rounded-full"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${insight.moodScore}%` }}
+                            transition={{ duration: 1, ease: 'easeOut' }}
+                          />
+                        </div>
                       </div>
 
+                      {/* Highlights & Concerns */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        {insight.highlights.length > 0 && (
+                          <div className="bg-rose-50/50 border border-rose-100 rounded-[1.5rem] p-5">
+                            <div className="flex items-center gap-2 mb-3">
+                              <TrendingUp size={16} className="text-emerald-600" />
+                              <h4 className="font-black text-[#3D1520] text-xs uppercase tracking-wider">Positive Signs</h4>
+                            </div>
+                            <ul className="space-y-2">
+                              {insight.highlights.map((h, i) => (
+                                <li key={i} className="text-xs text-[#7A3545] flex items-start gap-2 font-semibold">
+                                  <span className="text-emerald-500">•</span> {h}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {insight.concerns.length > 0 && (
+                          <div className="bg-orange-50/50 border border-orange-100 rounded-[1.5rem] p-5">
+                            <div className="flex items-center gap-2 mb-3">
+                              <Shield size={16} className="text-orange-600" />
+                              <h4 className="font-black text-[#3D1520] text-xs uppercase tracking-wider">Things to Watch</h4>
+                            </div>
+                            <ul className="space-y-2">
+                              {insight.concerns.map((c, i) => (
+                                <li key={i} className="text-xs text-[#7A3545] flex items-start gap-2 font-semibold">
+                                  <span className="text-orange-500">•</span> {c}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Warnings */}
+                      {insight.warnings.length > 0 && (
+                        <div className="bg-red-50 border-2 border-red-100 rounded-[1.5rem] p-5 mb-6">
+                          <div className="flex items-center gap-2 mb-2">
+                            <AlertTriangle size={18} className="text-red-600" />
+                            <h4 className="font-black text-red-800 text-xs uppercase tracking-wider">Important Notice</h4>
+                          </div>
+                          {insight.warnings.map((w, i) => (
+                            <p key={i} className="text-xs text-red-700 font-bold leading-relaxed">{w}</p>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Suggestions */}
+                      {insight.suggestions.length > 0 && (
+                        <div className={`p-6 rounded-[2rem] border-2 border-rose-100/50 bg-white/50`}>
+                          <div className="flex items-center gap-2 mb-4">
+                            <Lightbulb size={18} className="text-[#D4617A]" />
+                            <h4 className="font-black text-[#3D1520] text-xs uppercase tracking-wider">Suggestions for You</h4>
+                          </div>
+                          <ul className="space-y-3">
+                            {insight.suggestions.map((s, i) => (
+                              <li key={i} className="text-xs text-[#7A3545] flex items-start gap-3 font-semibold leading-relaxed">
+                                <span className="w-5 h-5 rounded-lg flex items-center justify-center bg-[#D4617A] text-white text-[10px] flex-shrink-0">{i + 1}</span>
+                                {s}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   )}
-
                 </motion.div>
-
               </AnimatePresence>
-
             </div>
 
-
-            {/* NAVIGATION */}
-
-            <div className="flex justify-between mt-6">
-
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-between mt-8">
               <button
                 onClick={goBack}
                 disabled={step === 0}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl text-[#7A3545] hover:bg-[#FFE8ED]"
+                className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${step === 0
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'text-[#D4617A] hover:bg-rose-100/50 active:scale-95'
+                  }`}
               >
-                <ArrowLeft size={18} />
+                <ArrowLeft size={16} />
                 Back
               </button>
 
               {step < 2 ? (
-
                 <button
                   onClick={goNext}
-                  className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-white bg-[#D4617A] hover:bg-[#C44A6A]"
+                  className="flex items-center gap-2 px-10 py-4 rounded-2xl font-black text-white text-xs uppercase tracking-widest shadow-xl transition-all active:scale-95"
+                  style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)', boxShadow: '0 8px 24px rgba(212,97,122,0.32)' }}
                 >
                   Next
-                  <ArrowRight size={18} />
+                  <ArrowRight size={16} />
                 </button>
-
               ) : (
-
                 <button
                   onClick={handleSave}
-                  className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#D4617A] to-[#C44A6A]"
+                  disabled={saved}
+                  className={`flex items-center gap-2 px-10 py-4 rounded-2xl font-black text-white text-xs uppercase tracking-widest shadow-xl transition-all active:scale-95 ${saved
+                    ? 'bg-emerald-500'
+                    : 'hover:shadow-2xl'
+                    }`}
+                  style={!saved ? { background: 'linear-gradient(135deg,#D4617A,#C44A6A)', boxShadow: '0 8px 24px rgba(212,97,122,0.32)' } : {}}
                 >
-                  <Save size={18} />
-                  Save Entry
+                  {saved ? (
+                    <>
+                      <CheckCircle2 size={16} />
+                      Saved!
+                    </>
+                  ) : (
+                    <>
+                      <Save size={16} />
+                      Save Entry
+                    </>
+                  )}
                 </button>
-
               )}
-
             </div>
-
           </div>
         )}
-
       </div>
-
     </div>
   );
 };
 
-
-const TabButton = ({ active, onClick, icon, label }: any) => (
-
+// Helper component matching Appointment page's button styles
+const TabButton: React.FC<{
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+}> = ({ active, onClick, icon, label }) => (
   <button
     onClick={onClick}
-    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm
-    ${active
-      ? 'bg-[#D4617A] text-white shadow-md'
-      : 'text-[#7A3545] hover:bg-[#FFE8ED]'
-    }`}
+    className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-[1.5rem] font-black text-[11px] uppercase tracking-widest transition-all ${active
+      ? 'text-white shadow-md'
+      : 'text-[#7A3545] opacity-60 hover:opacity-100 hover:bg-rose-50'
+      }`}
+    style={active ? { background: 'linear-gradient(135deg,#D4617A,#C44A6A)' } : {}}
   >
     {icon}
     {label}
   </button>
-
 );
 
 export default MoodTracker;
