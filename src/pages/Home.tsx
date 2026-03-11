@@ -596,7 +596,7 @@ const Home: React.FC = () => {
               {/* Student Stories Card */}
               <div className="group p-8 rounded-[2.5rem] bg-white border border-[#FFE8ED] shadow-[0_8px_30px_rgb(232,146,165,0.04)] hover:shadow-[0_20px_40px_rgb(232,146,165,0.1)] hover:-translate-y-2 transition-all duration-500">
 
-                <div className="w-14 h-14 rounded-2xl bg-[#F8ECFF] flex items-center justify-center text-[#E892A5] mb-7 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-[#FFE0E6] flex items-center justify-center text-[#C44A6A] mb-7 group-hover:scale-110 transition-transform">
                   <Users size={30} strokeWidth={2.5} />
                 </div>
 
@@ -653,91 +653,14 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* ══ SERVICES ════════════════════════════════════ */}
-        <section className="py-24 px-6 bg-gradient-to-b from-white via-[#FFF6F8] to-white relative overflow-hidden">
-          <FadeIn>
-            <div className="max-w-6xl mx-auto">
-
-              {/* Top Header Row */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-8">
-
-                {/* Heading */}
-                <div>
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#3D1520] leading-tight">
-                    Your Wellness,{" "}
-                    <span className="bg-gradient-to-r from-[#D4617A] to-[#C44A6A] bg-clip-text text-transparent">
-                      Our Commitment
-                    </span>
-                  </h2>
-
-                  <p className="mt-4 text-lg md:text-xl text-[#7A3545] opacity-90 max-w-xl">
-                    Professional support, meaningful conversations, and safe spaces —
-                    thoughtfully designed to strengthen your emotional resilience.
-                  </p>
-                </div>
-
-                {/* Button */}
-                <button
-                  onClick={() => navigate('/sessions')}
-                  className="px-8 py-3 font-semibold rounded-2xl border border-[#F4A0B0] 
-          bg-white/70 backdrop-blur-md text-[#D4617A] 
-          hover:bg-[#D4617A] hover:text-white 
-          hover:shadow-lg hover:-translate-y-1
-          transition-all duration-300"
-                >
-                  View All Services
-                </button>
-
-              </div>
-
-              {/* Services Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-                {[
-                  { icon: <Video size={26} />, title: "Video Therapy", link: "/sessions", accent: "#D4617A" },
-                  { icon: <Calendar size={26} />, title: "Counseling", link: "/appointment", accent: "#EC4899" },
-                  { icon: <BookOpen size={26} />, title: "Wellness Events", link: "/events", accent: "#C44A6A" },
-                  { icon: <Users size={26} />, title: "Peer Mentors", link: "/mentor", accent: "#059669" },
-                ].map((service, i) => (
-
-                  <div
-                    key={i}
-                    onClick={() => navigate(service.link)}
-                    className="group cursor-pointer p-6 rounded-2xl bg-white border border-[#FFE8ED]
-            shadow-[0_8px_25px_rgba(212,97,122,0.05)]
-            hover:shadow-[0_20px_50px_rgba(212,97,122,0.12)]
-            hover:-translate-y-2 transition-all duration-400"
-                  >
-                    <div
-                      className="w-12 h-12 flex items-center justify-center rounded-xl mb-4
-              group-hover:scale-110 transition-transform duration-300"
-                      style={{ backgroundColor: service.accent + "20", color: service.accent }}
-                    >
-                      {service.icon}
-                    </div>
-
-                    <h3 className="font-bold text-lg text-[#3D1520] group-hover:text-[#D4617A] transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                  </div>
-
-                ))}
-
-              </div>
-
-            </div>
-          </FadeIn>
-        </section>
+        
 
         {/* ══ MENTOR CAROUSEL ══════════════════════════════ */}
         <section className="py-20 px-6">
           <FadeIn>
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-14">
-                <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
-                  style={{ background: 'rgba(212,97,122,0.08)', border: '1.5px solid #F9C5CC', color: '#D4617A' }}>
-                  <Award size={14} /> Expert Mentors
-                </span>
+                
                 <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#3D1520' }}>Meet Your Guides</h2>
                 <p className="mt-4 max-w-xl mx-auto text-base" style={{ color: '#7A3545' }}>
                   Compassionate mentors who understand student life — here to listen, guide, and walk alongside you.
@@ -778,13 +701,7 @@ const Home: React.FC = () => {
                           <img src={mentor.image} alt={mentor.name}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                         </div>
-                        {isActive && (
-                          <div className="absolute top-5 right-5 flex items-center gap-1 px-2.5 py-1 rounded-full"
-                            style={{ background: 'rgba(254,240,138,0.5)', border: '1px solid rgba(234,179,8,0.35)' }}>
-                            <Star size={11} className="text-yellow-500 fill-yellow-500" />
-                            <span className="text-yellow-700 text-xs font-black">{mentor.rating}</span>
-                          </div>
-                        )}
+                        
                         <h3 className="font-black text-base leading-tight mb-1 transition-colors" style={{ color: '#3D1520' }}>{mentor.name}</h3>
                         <p className="text-xs font-bold mb-2" style={{ color: '#D4617A' }}>{mentor.role}</p>
                         <p className="text-xs" style={{ color: '#7A3545', opacity: 0.7 }}>{mentor.specialty}</p>
@@ -842,7 +759,9 @@ const Home: React.FC = () => {
         </section>
 
         {/* ══ COMMUNITY FEEDBACK VOICES ═════════════════════ */}
+        <section className="bg-[#FFF5F7]">
         <FeedbackMarquee />
+        </section>
 
         {/* ══ FAQ ══════════════════════════════════════════ */}
 
