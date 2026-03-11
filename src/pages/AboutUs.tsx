@@ -104,7 +104,8 @@ const AboutUs: React.FC = () => {
                 style={{ background: 'linear-gradient(135deg,#E88FA3 0%,#D4617A 50%,#C96B84 100%)' }}>
                 {/* Grid Pattern */}
                     <div className="absolute inset-0 opacity-10"
-                        style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',backgroundSize: '40px 40px'}}/>
+                        style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',
+backgroundSize: '40px 40px'}}/>
                 {/* Blobs */} 
                 <div className="absolute top-0 right-0 w-[420px] h-[420px] rounded-full opacity-30 blur-3xl"
                 style={{ background: '#FBCFE8', transform: 'translate(35%,-35%)' }} />
@@ -229,6 +230,15 @@ const AboutUs: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                        {/* Floating badges */}
+                        <div className="absolute -top-4 -left-4 px-3 py-2 rounded-xl text-xs font-black"
+                            style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)', color: 'white', boxShadow: '0 4px 16px rgba(212,97,122,0.35)' }}>
+                            🔒 100% Anonymous
+                        </div>
+                        <div className="absolute -bottom-4 -right-4 px-3 py-2 rounded-xl text-xs font-black"
+                            style={{ background: 'white', color: '#059669', border: '2px solid #BBF7D0', boxShadow: '0 4px 16px rgba(5,150,105,0.15)' }}>
+                            ✅ Completely Free
                         </div>
                     </div>
                 </div>
