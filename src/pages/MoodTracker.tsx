@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain, Heart, Lightbulb, LayoutDashboard,
   ArrowRight, ArrowLeft, Save, CheckCircle2,
-  Sparkles, AlertTriangle, TrendingUp, Shield,
+  AlertTriangle, TrendingUp, Shield,
 } from 'lucide-react';
 
 import MoodForm, { type MoodFormData } from '../components/mood/MoodForm';
@@ -35,19 +35,19 @@ const slideVariants = {
 };
 
 const moodGradients: Record<string, string> = {
-  'Distressed': 'from-red-500 to-rose-600',
+  Distressed: 'from-red-500 to-rose-600',
   'Low Mood': 'from-orange-400 to-amber-500',
-  'Neutral': 'from-blue-400 to-cyan-500',
-  'Positive': 'from-emerald-400 to-teal-500',
-  'Very Positive': 'from-green-400 to-emerald-500',
+  Neutral: 'from-[#F4A0B0] to-[#D4617A]',
+  Positive: 'from-[#D4617A] to-[#C44A6A]',
+  'Very Positive': 'from-[#C44A6A] to-[#9B2C5A]',
 };
 
 const moodBg: Record<string, string> = {
-  'Distressed': 'bg-red-50 border-red-200',
+  Distressed: 'bg-red-50 border-red-200',
   'Low Mood': 'bg-amber-50 border-amber-200',
-  'Neutral': 'bg-blue-50 border-blue-200',
-  'Positive': 'bg-emerald-50 border-emerald-200',
-  'Very Positive': 'bg-green-50 border-green-200',
+  Neutral: 'bg-[#FFE8ED] border-[#F9C5CC]',
+  Positive: 'bg-[#FFE8ED] border-[#F9C5CC]',
+  'Very Positive': 'bg-[#FFE8ED] border-[#F9C5CC]',
 };
 
 const MoodTracker: React.FC = () => {
@@ -56,7 +56,6 @@ const MoodTracker: React.FC = () => {
   const [direction, setDirection] = useState(1);
   const [saved, setSaved] = useState(false);
 
-  // Form states
   const [moodData, setMoodData] = useState<MoodFormData>({
     energy: 5,
     sleep: 5,
@@ -79,7 +78,6 @@ const MoodTracker: React.FC = () => {
 
   const goNext = () => {
     if (step === 1) {
-      // Calculate mood when moving to results
       const allInputs = { ...moodData, ...behavioralData };
       const { moodScore, mood, emoji } = calculateMoodScore(allInputs);
       const ins = generateInsight(allInputs, moodScore, mood, emoji);
@@ -97,6 +95,7 @@ const MoodTracker: React.FC = () => {
   const handleSave = async () => {
     if (!insight) return;
     const allInputs = { ...moodData, ...behavioralData };
+
     await saveMoodEntry({
       id: crypto.randomUUID(),
       date: new Date().toISOString(),
@@ -104,96 +103,152 @@ const MoodTracker: React.FC = () => {
       moodScore: insight.moodScore,
       mood: insight.mood,
     });
+
     setSaved(true);
+
     setTimeout(() => {
       setSaved(false);
       setStep(0);
-      setMoodData({ energy: 5, sleep: 5, difficultyStart: 5, tiredness: 5, focus: 5, workloadStress: 5, productivity: 5 });
-      setBehavioralData({ calm: 5, irritation: 5, hopeful: 5, connected: 5, lonely: 5 });
+      setMoodData({
+        energy: 5,
+        sleep: 5,
+        difficultyStart: 5,
+        tiredness: 5,
+        focus: 5,
+        workloadStress: 5,
+        productivity: 5,
+      });
+
+      setBehavioralData({
+        calm: 5,
+        irritation: 5,
+        hopeful: 5,
+        connected: 5,
+        lonely: 5,
+      });
+
       setInsight(null);
       setActiveTab('dashboard');
     }, 2000);
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFDFF]">
-      {/* Header */}
-      <section className="bg-gradient-to-br from-[#1e3a8a] via-[#2563eb] to-[#7c3aed] pt-20 pb-16 px-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[400px] h-[400px] bg-purple-400 rounded-full opacity-20 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[300px] h-[300px] bg-blue-300 rounded-full opacity-20 blur-[100px]" />
+    <div className="min-h-screen bg-[#FFF5F7]">
+
+      {/* HEADER */}
+      <section className="bg-gradient-to-br from-[#E88FA3] via-[#D4617A] to-[#C96B84] pt-20 pb-16 px-6 relative overflow-hidden">
+
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[400px] h-[400px] bg-[#F4A0B0] rounded-full opacity-20 blur-[120px]" />
+
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[300px] h-[300px] bg-[#F9C5CC] rounded-full opacity-20 blur-[100px]" />
+
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-blue-100 text-sm mb-4">
-            <Sparkles size={14} className="text-yellow-300" />
-            <span className="font-semibold">Student Wellness Check</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">
+
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
             Mood Tracker
           </h1>
-          <p className="text-blue-100/80 text-lg max-w-xl mx-auto">
+
+          <p className="text-white/80 text-lg max-w-xl mx-auto">
             Answer a few quick questions about your day and get personalized insights about your well-being.
           </p>
+
         </div>
       </section>
 
-      {/* Tab Switcher */}
+
+      {/* TAB SWITCHER */}
+
       <div className="max-w-4xl mx-auto px-6 -mt-6 relative z-20">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-1.5 flex gap-1">
+
+        <div className="bg-white rounded-2xl shadow-lg border border-[#F9C5CC] p-1.5 flex gap-1">
+
           <TabButton
             active={activeTab === 'log'}
             onClick={() => setActiveTab('log')}
             icon={<Brain size={18} />}
             label="Log Mood"
           />
+
           <TabButton
             active={activeTab === 'dashboard'}
             onClick={() => setActiveTab('dashboard')}
             icon={<LayoutDashboard size={18} />}
             label="Dashboard"
           />
+
         </div>
+
       </div>
 
-      {/* Content */}
+
+      {/* CONTENT */}
+
       <div className="max-w-4xl mx-auto px-6 py-8">
+
         {activeTab === 'dashboard' ? (
           <MoodDashboard />
         ) : (
           <div>
-            {/* Step Indicator */}
+
+            {/* STEP INDICATOR */}
+
             <div className="flex items-center justify-center gap-2 mb-8">
+
               {STEPS.map(({ id, label, icon: Icon }) => (
+
                 <React.Fragment key={id}>
+
                   <div className="flex items-center gap-2">
+
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${step === id
-                        ? 'bg-blue-600 text-white shadow-lg scale-110'
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all
+                      ${step === id
+                        ? 'bg-[#D4617A] text-white shadow-lg scale-110'
                         : step > id
-                          ? 'bg-emerald-500 text-white'
-                          : 'bg-gray-100 text-gray-400'
-                        }`}
+                        ? 'bg-[#C44A6A] text-white'
+                        : 'bg-[#FFE8ED] text-[#7A3545]'
+                      }`}
                     >
                       {step > id ? <CheckCircle2 size={18} /> : <Icon size={18} />}
                     </div>
+
                     <span
-                      className={`text-sm font-semibold hidden sm:block ${step === id ? 'text-blue-600' : step > id ? 'text-emerald-600' : 'text-gray-400'
-                        }`}
+                      className={`text-sm font-semibold hidden sm:block
+                      ${step === id
+                        ? 'text-[#D4617A]'
+                        : step > id
+                        ? 'text-[#C44A6A]'
+                        : 'text-[#7A3545]'
+                      }`}
                     >
                       {label}
                     </span>
+
                   </div>
+
                   {id < 2 && (
                     <div
-                      className={`w-12 h-0.5 rounded-full transition-colors ${step > id ? 'bg-emerald-400' : 'bg-gray-200'
-                        }`}
+                      className={`w-12 h-0.5 rounded-full
+                      ${step > id
+                        ? 'bg-[#C44A6A]'
+                        : 'bg-[#F9C5CC]'
+                      }`}
                     />
                   )}
+
                 </React.Fragment>
+
               ))}
+
             </div>
 
-            {/* Step Content */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-lg p-6 md:p-8 min-h-[400px] overflow-hidden">
+
+            {/* STEP CONTENT */}
+
+            <div className="bg-white rounded-2xl border border-[#F9C5CC] shadow-lg p-6 md:p-8 min-h-[400px] overflow-hidden">
+
               <AnimatePresence mode="wait" custom={direction}>
+
                 <motion.div
                   key={step}
                   custom={direction}
@@ -201,203 +256,168 @@ const MoodTracker: React.FC = () => {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  transition={{ duration: 0.25 }}
                 >
+
                   {step === 0 && (
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-1">How's your day going?</h2>
-                      <p className="text-gray-500 mb-6">Rate each question on a scale of 1–10. Be honest — there are no wrong answers.</p>
+                    <>
+                      <h2 className="text-2xl font-bold text-[#3D1520] mb-1">
+                        How's your day going?
+                      </h2>
+                      <p className="text-[#7A3545] mb-6">
+                        Rate each question from 1–10.
+                      </p>
+
                       <MoodForm data={moodData} onChange={setMoodData} />
-                    </div>
+                    </>
                   )}
 
                   {step === 1 && (
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-1">How do you feel emotionally?</h2>
-                      <p className="text-gray-500 mb-6">A few more questions about your emotions and social connections.</p>
+                    <>
+                      <h2 className="text-2xl font-bold text-[#3D1520] mb-1">
+                        How do you feel emotionally?
+                      </h2>
+                      <p className="text-[#7A3545] mb-6">
+                        A few questions about your emotional state.
+                      </p>
+
                       <BehavioralForm data={behavioralData} onChange={setBehavioralData} />
-                    </div>
+                    </>
                   )}
 
                   {step === 2 && insight && (
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-1">Your Results</h2>
-                      <p className="text-gray-500 mb-6">Here's a summary of how you're doing today.</p>
 
-                      {/* Mood Score Card */}
+                      <h2 className="text-2xl font-bold text-[#3D1520] mb-1">
+                        Your Results
+                      </h2>
+
+                      <p className="text-[#7A3545] mb-6">
+                        Here's how you're doing today.
+                      </p>
+
+
+                      {/* SCORE CARD */}
+
                       <div className={`bg-gradient-to-br ${moodGradients[insight.mood]} rounded-2xl p-6 text-white shadow-xl mb-6`}>
-                        <div className="flex items-center justify-between">
+
+                        <div className="flex justify-between">
+
                           <div>
-                            <p className="text-white/80 text-sm font-semibold mb-1">Your Mood Today</p>
-                            <div className="flex items-center gap-3">
-                              <span className="text-4xl">{insight.emoji}</span>
+
+                            <p className="text-white/80 text-sm mb-1">
+                              Your Mood Today
+                            </p>
+
+                            <div className="flex gap-3 items-center">
+
+                              <span className="text-4xl">
+                                {insight.emoji}
+                              </span>
+
                               <div>
-                                <h3 className="text-3xl font-extrabold">{insight.mood}</h3>
-                                <p className="text-white/70 text-sm">Keep tracking to see your trends</p>
+
+                                <h3 className="text-3xl font-extrabold">
+                                  {insight.mood}
+                                </h3>
+
+                                <p className="text-white/70 text-sm">
+                                  Keep tracking to see trends
+                                </p>
+
                               </div>
+
                             </div>
+
                           </div>
+
                           <div className="text-right">
-                            <p className="text-white/60 text-xs uppercase tracking-wider mb-1">Score</p>
-                            <p className="text-5xl font-extrabold">{insight.moodScore}</p>
-                            <p className="text-white/60 text-xs">out of 100</p>
+
+                            <p className="text-xs text-white/60 uppercase">
+                              Score
+                            </p>
+
+                            <p className="text-5xl font-extrabold">
+                              {insight.moodScore}
+                            </p>
+
                           </div>
+
                         </div>
-                        {/* Score bar */}
-                        <div className="mt-4 bg-white/20 rounded-full h-3 overflow-hidden">
-                          <motion.div
-                            className="h-full bg-white/80 rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${insight.moodScore}%` }}
-                            transition={{ duration: 1, ease: 'easeOut' }}
-                          />
-                        </div>
+
                       </div>
 
-                      {/* Highlights & Concerns */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                        {/* Highlights */}
-                        {insight.highlights.length > 0 && (
-                          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
-                            <div className="flex items-center gap-2 mb-3">
-                              <TrendingUp size={18} className="text-emerald-600" />
-                              <h4 className="font-bold text-emerald-800 text-sm">Positive Signs</h4>
-                            </div>
-                            <ul className="space-y-1.5">
-                              {insight.highlights.map((h, i) => (
-                                <li key={i} className="text-sm text-emerald-700 flex items-start gap-2">
-                                  <span className="text-emerald-500 mt-0.5">•</span>
-                                  {h}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Concerns */}
-                        {insight.concerns.length > 0 && (
-                          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                            <div className="flex items-center gap-2 mb-3">
-                              <Shield size={18} className="text-amber-600" />
-                              <h4 className="font-bold text-amber-800 text-sm">Things to Watch</h4>
-                            </div>
-                            <ul className="space-y-1.5">
-                              {insight.concerns.map((c, i) => (
-                                <li key={i} className="text-sm text-amber-700 flex items-start gap-2">
-                                  <span className="text-amber-500 mt-0.5">•</span>
-                                  {c}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Warnings */}
-                      {insight.warnings.length > 0 && (
-                        <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 mb-6">
-                          <div className="flex items-center gap-2 mb-3">
-                            <AlertTriangle size={18} className="text-red-600" />
-                            <h4 className="font-bold text-red-800 text-sm">Important Notice</h4>
-                          </div>
-                          {insight.warnings.map((w, i) => (
-                            <p key={i} className="text-sm text-red-700 mb-1">{w}</p>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Suggestions */}
-                      {insight.suggestions.length > 0 && (
-                        <div className={`p-5 rounded-xl border-2 ${moodBg[insight.mood]}`}>
-                          <div className="flex items-center gap-2 mb-3">
-                            <Lightbulb size={18} className="text-blue-600" />
-                            <h4 className="font-bold text-gray-800 text-sm">Suggestions for You</h4>
-                          </div>
-                          <ul className="space-y-2">
-                            {insight.suggestions.map((s, i) => (
-                              <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
-                                <span className="text-blue-500 mt-0.5 font-bold">{i + 1}.</span>
-                                {s}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
                     </div>
                   )}
+
                 </motion.div>
+
               </AnimatePresence>
+
             </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-6">
+
+            {/* NAVIGATION */}
+
+            <div className="flex justify-between mt-6">
+
               <button
                 onClick={goBack}
                 disabled={step === 0}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${step === 0
-                  ? 'text-gray-300 cursor-not-allowed'
-                  : 'text-gray-600 hover:bg-gray-100 active:scale-95'
-                  }`}
+                className="flex items-center gap-2 px-6 py-3 rounded-xl text-[#7A3545] hover:bg-[#FFE8ED]"
               >
                 <ArrowLeft size={18} />
                 Back
               </button>
 
               {step < 2 ? (
+
                 <button
                   onClick={goNext}
-                  className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold shadow-lg transition-all bg-blue-600 text-white hover:bg-blue-700 hover:shadow-xl active:scale-95"
+                  className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-white bg-[#D4617A] hover:bg-[#C44A6A]"
                 >
                   Next
                   <ArrowRight size={18} />
                 </button>
+
               ) : (
+
                 <button
                   onClick={handleSave}
-                  disabled={saved}
-                  className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold shadow-lg transition-all active:scale-95 ${saved
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-xl'
-                    }`}
+                  className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-[#D4617A] to-[#C44A6A]"
                 >
-                  {saved ? (
-                    <>
-                      <CheckCircle2 size={18} />
-                      Saved!
-                    </>
-                  ) : (
-                    <>
-                      <Save size={18} />
-                      Save Entry
-                    </>
-                  )}
+                  <Save size={18} />
+                  Save Entry
                 </button>
+
               )}
+
             </div>
+
           </div>
         )}
+
       </div>
+
     </div>
   );
 };
 
-// Helper component
-const TabButton: React.FC<{
-  active: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-}> = ({ active, onClick, icon, label }) => (
+
+const TabButton = ({ active, onClick, icon, label }: any) => (
+
   <button
     onClick={onClick}
-    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all ${active
-      ? 'bg-blue-600 text-white shadow-md'
-      : 'text-gray-500 hover:bg-gray-50'
-      }`}
+    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm
+    ${active
+      ? 'bg-[#D4617A] text-white shadow-md'
+      : 'text-[#7A3545] hover:bg-[#FFE8ED]'
+    }`}
   >
     {icon}
     {label}
   </button>
+
 );
 
 export default MoodTracker;
