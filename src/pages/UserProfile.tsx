@@ -32,15 +32,13 @@ const compressImage = (base64Str: string): Promise<string> => {
 };
 
 const ROLE_THEME: Record<string, { g: string; light: string; chip: string; text: string; badge: string }> = {
-    student: { g: 'linear-gradient(135deg,#D4617A,#C44A6A,#a83060)', light: '#FFF5F7', chip: '#FFE8ED', text: '#D4617A', badge: '🎓' },
-    alumni: { g: 'linear-gradient(135deg,#059669,#0D9488)', light: '#F0FDF4', chip: '#D1FAE5', text: '#059669', badge: '🌟' },
-    professor: { g: 'linear-gradient(135deg,#D97706,#B45309)', light: '#FFFBEB', chip: '#FEF3C7', text: '#D97706', badge: '📚' },
-    admin: { g: 'linear-gradient(135deg,#7C3AED,#6366F1)', light: '#F5F3FF', chip: '#EDE9FE', text: '#7C3AED', badge: '👑' },
+    student: { g: 'linear-gradient(135deg,#D4617A,#C44A6A,#a83060)', light: '#FFF5F7', chip: '#FFE8ED', text: '#D4617A', badge: ''},
+    alumni: { g: 'linear-gradient(135deg,#059669,#0D9488)', light: '#F0FDF4', chip: '#D1FAE5', text: '#059669', badge: '' },
+    professor: { g: 'linear-gradient(135deg,#D97706,#B45309)', light: '#FFFBEB', chip: '#FEF3C7', text: '#D97706', badge: '' },
+    admin: { g: 'linear-gradient(135deg,#7C3AED,#6366F1)', light: '#F5F3FF', chip: '#EDE9FE', text: '#7C3AED', badge: '' },
 };
 
-const ROLE_LABEL: Record<string, string> = {
-    student: 'Student', alumni: 'Alumni', professor: 'Professor', admin: 'Administrator',
-};
+
 
 // ── Component ─────────────────────────────────────────────────────────
 const UserProfile: React.FC = () => {
@@ -247,10 +245,7 @@ const UserProfile: React.FC = () => {
                             {/* Name + nickname + role chips (right of avatar) */}
                             <div className="flex-1 text-center sm:text-left pb-1">
                                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
-                                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black"
-                                        style={{ background: theme.chip, color: theme.text }}>
-                                        {theme.badge} {ROLE_LABEL[userType] || 'Student'}
-                                    </span>
+                                    
                                     {firestoreData.nickname && (
                                         <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500">
                                             <Hash size={10} /> {firestoreData.nickname}
@@ -454,7 +449,6 @@ const UserProfile: React.FC = () => {
                                         {[
                                             { icon: <Mail size={15} />, label: 'Email', value: email, badge: '✓ Verified' },
                                             { icon: <Building2 size={15} />, label: 'Department', value: firestoreData.department || 'Not Assigned' },
-                                            { icon: <ShieldCheck size={15} />, label: 'Role', value: isAdmin ? '👑 Administrator' : (ROLE_LABEL[userType] || userType) },
                                             ...(joinDate !== 'Member' ? [{ icon: <Calendar size={15} />, label: 'Joined', value: joinDate }] : []),
                                         ].map((row, i) => (
                                             <div key={i} className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white border border-gray-100 shadow-sm">

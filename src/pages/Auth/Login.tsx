@@ -129,12 +129,7 @@ const Login: React.FC = () => {
         >
           {/* Logo/Brand */}
           <div className="text-center mb-8">
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-2xl font-black mx-auto mb-4"
-              style={{ background: 'linear-gradient(135deg, #D4617A, #C44A6A)', boxShadow: '0 8px 24px rgba(212,97,122,0.35)' }}
-            >
-              🧠
-            </div>
+            
             <h1 className="text-3xl font-black" style={{ color: '#3D1520' }}>Welcome Back</h1>
             <p className="text-sm mt-1.5 font-medium" style={{ color: '#7A3545' }}>
               Sign in to your MindEase account
