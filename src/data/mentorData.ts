@@ -28,11 +28,12 @@ export const MENTORS: Mentor[] = [
         bio: "Led the project.",
         tags: ["Mindfulness", "CBT", "Anxiety Relief", "Academic Stress", "Breathing Techniques"],
     },
+    
     {
         id: 2,
         name: "Amica Aggarwal",
         role: "Team Member",
-        specialty: "Developer",
+        specialty: "Work-Life Balance",
         experience: "8 Years",
         rating: 4.8,
         sessions: 210,
@@ -55,7 +56,7 @@ export const MENTORS: Mentor[] = [
         tags: ["Cognitive Behavioral Therapy", "Stress Reduction", "Thought Patterns", "Exam Anxiety"],
     },
     {
-        id: 4,
+        id: 3,
         name: "Krishna Kumar",
         role: "Team Member",
         specialty: "Developer",
@@ -68,7 +69,7 @@ export const MENTORS: Mentor[] = [
         tags: ["Conflict Resolution", "Communication", "Relationships", "Social Skills", "Peer Dynamics"],
     },
     {
-        id: 5,
+        id: 4,
         name: "Hariram Chembra",
         role: "Team Member",
         specialty: "Emotional Healing",
@@ -80,4 +81,17 @@ export const MENTORS: Mentor[] = [
         bio: "Worked on the project.",
         tags: ["Trauma Healing", "Emotional Safety", "Self-Compassion", "Resilience Building"],
     },
-]
+    {
+        id: 6,
+        name: "Dr. David Park",
+        role: "Motivational Psychologist",
+        specialty: "Self-Growth & Confidence",
+        experience: "11 Years",
+        rating: 4.8,
+        sessions: 310,
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=400",
+        email: "mentor6@mindease.edu", // Replace with real mentor email
+        bio: "Dr. Park uses positive psychology and motivational interviewing to help students unlock their inner potential, build self-confidence, and pursue their goals with purpose and drive.",
+        tags: ["Self-Growth", "Confidence", "Positive Psychology", "Goal Setting", "Motivation"],
+    },
+];
