@@ -129,17 +129,7 @@ const Resources: React.FC = () => {
 
             <div className="text-center py-10 px-4 mb-6">
 
-                <div
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold mb-4"
-                    style={{
-                        background: 'rgba(212,97,122,0.12)',
-                        backdropFilter: 'blur(10px)',
-                        color: '#D4617A',
-                    }}
-                >
-                    ✨ Curated by MindEase Team
-                </div>
-
+                
                 <h1 className="text-4xl md:text-5xl font-black mb-2" style={{ color: '#3D1520' }}>
                     Mental Wellness <span style={{ color: '#D4617A' }}>Resources</span>
                 </h1>
