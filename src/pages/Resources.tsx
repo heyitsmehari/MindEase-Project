@@ -129,6 +129,7 @@ const Resources: React.FC = () => {
 
             <div className="text-center py-10 px-4 mb-6">
 
+                
                 <h1 className="text-4xl md:text-5xl font-black mb-2" style={{ color: '#3D1520' }}>
                     Mental Wellness <span style={{ color: '#D4617A' }}>Resources</span>
                 </h1>
@@ -137,12 +138,15 @@ const Resources: React.FC = () => {
                     className="max-w-xl mx-auto text-sm"
                     style={{ color: '#7A3545' }}
                 >
-                    <br/>Explore guided videos and recommended books to support your mental health journey.
+                    Explore guided videos and recommended books to support your mental health journey.
                 </p>
 
             </div>
 
             <div className="max-w-6xl mx-auto px-4">
+
+                {/* MAIN TABS */}
+
                 <div className="flex gap-3 justify-center mb-6">
 
                     <button
@@ -190,6 +194,9 @@ const Resources: React.FC = () => {
                     </button>
 
                 </div>
+
+                {/* SEARCH */}
+
                 <div className="relative max-w-lg mx-auto mb-6">
 
                     <Search
@@ -225,6 +232,7 @@ const Resources: React.FC = () => {
                     )}
 
                 </div>
+                {/* VIDEO SECTION */}
 
                 {mainTab === 'videos' && (
                     <>
@@ -298,6 +306,9 @@ const Resources: React.FC = () => {
                                                 e.currentTarget.style.boxShadow='0 8px 30px rgba(212,97,122,0.08)';
                                             }}
                                         >
+
+                                            {/* VIDEO THUMBNAIL */}
+
                                             <div className="relative aspect-video overflow-hidden">
 
                                                 {thumb ? (
@@ -311,6 +322,8 @@ const Resources: React.FC = () => {
                                                         🎥
                                                     </div>
                                                 )}
+
+                                                {/* PLAY OVERLAY */}
 
                                                 <a
                                                     href={video.videoUrl}
@@ -331,6 +344,8 @@ const Resources: React.FC = () => {
 
                                                 </a>
 
+                                                {/* DURATION */}
+
                                                 <div
                                                     className="absolute bottom-2 right-2 flex items-center gap-1 text-white text-xs font-bold px-2 py-1 rounded-lg"
                                                     style={{ background:'rgba(0,0,0,0.65)' }}
@@ -339,6 +354,8 @@ const Resources: React.FC = () => {
                                                 </div>
 
                                             </div>
+
+                                            {/* CARD CONTENT */}
 
                                             <div className="p-5 flex flex-col flex-1">
 
@@ -355,6 +372,8 @@ const Resources: React.FC = () => {
                                                 >
                                                     {video.description}
                                                 </p>
+
+                                                {/* WATCH BUTTON */}
 
                                                 <a
                                                     href={video.videoUrl}
@@ -462,6 +481,8 @@ const Resources: React.FC = () => {
                                         }}
                                     >
 
+                                        {/* BOOK COVER */}
+
                                         <div
                                             className="h-52 flex items-center justify-center overflow-hidden"
                                             style={{ background:'rgba(212,97,122,0.08)' }}
@@ -478,6 +499,8 @@ const Resources: React.FC = () => {
                                             )}
 
                                         </div>
+
+                                        {/* BOOK CONTENT */}
 
                                         <div className="p-5 flex flex-col flex-1">
 

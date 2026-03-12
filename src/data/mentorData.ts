@@ -17,13 +17,13 @@ export interface Mentor {
 export const MENTORS: Mentor[] = [
     {
         id: 1,
-        name: "Priya Katariya",
+        name: "Priya",
         role: "Team Leader",
-        specialty: "Anxiety & Mindfulness",
+        specialty: "Developer",
         experience: "12+ Years",
         rating: 4.9,
         sessions: 340,
-        image: "https://i.ibb.co/KzNQ4DCX/IMG-20251022-WA0013.jpg",
+        image: "https://i.ibb.co/tPTbPK6H/Whats-App-Image-2026-03-12-at-16-15-45.jpg",
         email: "mentor1@mindease.edu", // Replace with real mentor email
         bio: "Led the project.",
         tags: ["Mindfulness", "CBT", "Anxiety Relief", "Academic Stress", "Breathing Techniques"],
@@ -32,7 +32,7 @@ export const MENTORS: Mentor[] = [
         id: 2,
         name: "Amica Aggarwal",
         role: "Team Member",
-        specialty: "Work-Life Balance",
+        specialty: "Developer",
         experience: "8 Years",
         rating: 4.8,
         sessions: 210,
@@ -45,11 +45,11 @@ export const MENTORS: Mentor[] = [
         id: 3,
         name: "Trishna Saini",
         role: "Team Member",
-        specialty: "Stress Management",
+        specialty: "Developer",
         experience: "10 Years",
         rating: 5.0,
         sessions: 280,
-        image: "https://ibb.co/tr7QXTw",
+        image: "https://i.ibb.co/j9DWPqFH/Whats-App-Image-2026-03-04-at-14-13-33-1.jpg",
         email: "mentor3@mindease.edu", // Replace with real mentor email
         bio: "Worked on the project.",
         tags: ["Cognitive Behavioral Therapy", "Stress Reduction", "Thought Patterns", "Exam Anxiety"],
@@ -58,11 +58,11 @@ export const MENTORS: Mentor[] = [
         id: 4,
         name: "Krishna Kumar",
         role: "Team Member",
-        specialty: "Conflict Resolution",
+        specialty: "Developer",
         experience: "15 Years",
         rating: 4.7,
         sessions: 420,
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400&h=400",
+        image: "https://i.ibb.co/jPp4fWPk/IMG-20260311-WA0010.jpg",
         email: "mentor4@mindease.edu", // Replace with real mentor email
         bio: "Worked on the project.",
         tags: ["Conflict Resolution", "Communication", "Relationships", "Social Skills", "Peer Dynamics"],
@@ -75,22 +75,9 @@ export const MENTORS: Mentor[] = [
         experience: "9 Years",
         rating: 4.9,
         sessions: 195,
-        image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400&h=400",
+        image: "https://i.ibb.co/vxN64GzG/IMG-20260312-WA0053.jpg",
         email: "mentor5@mindease.edu", // Replace with real mentor email
         bio: "Worked on the project.",
         tags: ["Trauma Healing", "Emotional Safety", "Self-Compassion", "Resilience Building"],
     },
-    {
-        id: 6,
-        name: "Dr. David Park",
-        role: "Motivational Psychologist",
-        specialty: "Self-Growth & Confidence",
-        experience: "11 Years",
-        rating: 4.8,
-        sessions: 310,
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=400",
-        email: "mentor6@mindease.edu", // Replace with real mentor email
-        bio: "Dr. Park uses positive psychology and motivational interviewing to help students unlock their inner potential, build self-confidence, and pursue their goals with purpose and drive.",
-        tags: ["Self-Growth", "Confidence", "Positive Psychology", "Goal Setting", "Motivation"],
-    },
-];
+]
