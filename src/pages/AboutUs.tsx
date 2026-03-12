@@ -1,41 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { } from 'react';
 import { Link } from 'react-router-dom';
 import {
-    Heart, Brain, Shield, Users, Star,
-    Sparkles, GraduationCap, Mail,
+    Heart, Brain, Shield, Users,
     ArrowRight, CheckCircle, Zap, Globe,
 } from 'lucide-react';
 
-// ── Animated Counter ──
-const Counter = ({ end, suffix = '' }: { end: number; suffix?: string }) => {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-        let start = 0;
-        const duration = 1800;
-        const step = Math.ceil(end / (duration / 16));
-        const timer = setInterval(() => {
-            start += step;
-            if (start >= end) { setCount(end); clearInterval(timer); }
-            else setCount(start);
-        }, 16);
-        return () => clearInterval(timer);
-    }, [end]);
-    return <>{count.toLocaleString()}{suffix}</>;
-};
-
-// ── Section Header ──
 const SectionTag = ({ children }: { children: React.ReactNode }) => (
     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
         style={{ background: 'rgba(212,97,122,0.10)', color: '#D4617A', border: '1px solid rgba(212,97,122,0.2)' }}>
-        <Sparkles size={12} /> {children}
+        {children}
     </div>
 );
 
-// ── Value Card ──
 const ValueCard = ({ icon, title, desc, color }: { icon: React.ReactNode; title: string; desc: string; color: string }) => (
     <div className="p-6 rounded-[1.8rem] group transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl cursor-default"
         style={{
-            background: 'rgba(255,255,255,0.75)',
+            background: 'rgba(255,245,247,0.5)',
             backdropFilter: 'blur(12px)',
             border: '1.5px solid rgba(249,197,204,0.5)',
             boxShadow: '0 4px 20px rgba(212,97,122,0.07)',
@@ -49,13 +29,12 @@ const ValueCard = ({ icon, title, desc, color }: { icon: React.ReactNode; title:
     </div>
 ); 
  
-// ── Team Member Card ──
 const TeamCard = ({ name, role, desc, emoji, gradient }: {
     name: string; role: string; desc: string; emoji: string; gradient: string;
 }) => (
     <div className="p-6 rounded-[1.8rem] text-center group transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
         style={{
-            background: 'rgba(255,255,255,0.78)',
+            background: 'rgba(255,245,247,0.5)',
             backdropFilter: 'blur(12px)',
             border: '1.5px solid rgba(249,197,204,0.5)',
             boxShadow: '0 4px 20px rgba(212,97,122,0.07)',
@@ -70,17 +49,9 @@ const TeamCard = ({ name, role, desc, emoji, gradient }: {
     </div>
 );
 
-// ── Main Component ──
 const AboutUs: React.FC = () => {
-    const stats = [
-        { n: 300, s: '+', label: 'Students Helped', icon: '🧑‍🎓' },
-        { n: 20, s: '+', label: 'Mentors & Experts', icon: '👨‍⚕️' },
-        { n: 500, s: '+', label: 'Sessions Completed', icon: '💬' },
-        { n: 95, s: '%', label: 'Satisfaction Rate', icon: '⭐' },
-    ];
- 
     const values = [
-        { icon: <Shield size={24} />, title: 'Safe & Anonymous', desc: 'Interactions on MindEase are confidential and secure. Privacy is our top priority.', color: '#7C3AED' },
+        { icon: <Shield size={24} />, title: 'Anonymous', desc: 'Interactions on MindEase are confidential and secure. Privacy is our top priority.', color: '#7C3AED' },
         { icon: <Heart size={24} />, title: 'Student Oriented', desc: 'Built specifically for NIT Kurukshetra students, understanding the pressures of college life.', color: '#D4617A' },
         { icon: <Brain size={24} />, title: 'Science supported', desc: 'Practical tools and resources, guided by mental health research to help you feel good.', color: '#059669' },
         { icon: <Users size={24} />, title: 'Community Driven', desc: 'Strong community is formed with peer support and shared stories.', color: '#D97706' },
@@ -89,24 +60,20 @@ const AboutUs: React.FC = () => {
     ];
 
     const team = [
-        { name: 'Dr. Priya', role: 'Faculty Advisor', desc: 'Assistant Professor in Psychology, NIT Kurukshetra. 12+ years in student counseling.', emoji: '👩‍🏫', gradient: 'linear-gradient(135deg,#FFF5F7,#FFE8ED)' },
-        { name: 'Arav Mehta', role: 'Lead Developer', desc: 'CSE final year student passionate about tech for social good. Built MindEase from scratch.', emoji: '👨‍💻', gradient: 'linear-gradient(135deg,#EEF2FF,#E0E7FF)' },
-        { name: 'Amica Aggarwal', role: 'UX Designer', desc: 'Makes MindEase feel warm and human. ECE student with a love for accessible design.', emoji: '🎨', gradient: 'linear-gradient(135deg,#FDF4FF,#FAE8FF)' },
-        { name: 'Trishna', role: 'Content Curator', desc: 'Researches and crafts every resource, article, and guide on the platform.', emoji: '📝', gradient: 'linear-gradient(135deg,#F0FDF4,#DCFCE7)' },
-        { name: 'Hari ram Chhembra', role: 'Mental Health Expert', desc: 'Certified therapist and wellness coach. Reviews all clinical content on the platform.', emoji: '🧠', gradient: 'linear-gradient(135deg,#FFFBEB,#FEF3C7)' },
-        { name: 'Krishna Kumar', role: 'Community Lead', desc: 'MSc student managing peer support groups and alumni mentorship programmes.', emoji: '🤝', gradient: 'linear-gradient(135deg,#FFF5F7,#FCE7F3)' },
+        { name: 'Priya', role: 'Team leader', desc: 'Student at NIT KKR in IT branch.', emoji: '👩‍🏫', gradient: 'linear-gradient(135deg,#FFF5F7,#FFE8ED)' },
+        { name: 'Amica Aggarwal', role: 'Developer', desc: 'Student at NIT KKR in IT branch.', emoji: '🎨', gradient: 'linear-gradient(135deg,#FDF4FF,#FAE8FF)' },
+        { name: 'Trishna', role: 'Developer', desc: 'Student at NIT KKR in IT branch.', emoji: '📝', gradient: 'linear-gradient(135deg,#F0FDF4,#DCFCE7)' },
+        { name: 'Hari ram Chhembra', role: 'Developer', desc: 'Student at NIT KKR in IT branch.', emoji: '🧠', gradient: 'linear-gradient(135deg,#FFFBEB,#FEF3C7)' },
+        { name: 'Krishna Kumar', role: 'Developer', desc: 'Student at NIT KKR in IT branch.', emoji: '🤝', gradient: 'linear-gradient(135deg,#FFF5F7,#FCE7F3)' },
     ];
 
     return (
         <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#FFF5F7 0%,#FFE8ED 50%,#FFF0F3 100%)' }}>
-            {/* ── Hero ── */}
-            <div className="relative overflow-hidden pt-28 pb-32 px-6 text-center"
+            <div className="relative overflow-hidden pt-20 pb-20 px-6 text-center"
                 style={{ background: 'linear-gradient(135deg,#E88FA3 0%,#D4617A 50%,#C96B84 100%)' }}>
-                {/* Grid Pattern */}
                     <div className="absolute inset-0 opacity-10"
                         style={{ backgroundImage:'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',
-backgroundSize: '40px 40px'}}/>
-                {/* Blobs */} 
+                        backgroundSize: '40px 40px'}}/>
                 <div className="absolute top-0 right-0 w-[420px] h-[420px] rounded-full opacity-30 blur-3xl"
                 style={{ background: '#FBCFE8', transform: 'translate(35%,-35%)' }} />
 
@@ -115,16 +82,17 @@ backgroundSize: '40px 40px'}}/>
 
                 <div className="absolute top-1/2 left-1/4 w-[200px] h-[200px] rounded-full opacity-20 blur-3xl"
                 style={{ background: '#FDE2E7', transform: 'translate(-50%,-50%)' }} />
-
+                <br/> <br/> 
                 <div className="relative max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-6 text-xs font-black uppercase tracking-widest"
                         style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)', color: 'white' }}>
-                        <Brain size={14} /> About MindEase
-                    </div>
+                        About MindEase
+                    </div> 
                     <h1 className="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-                        Mental Wellness for<br />
-                        <span className="text-pink-100">Every NITK Student</span>
+                        Mental Wellness For <br/> 
+                        <span className="text-pink-100"> Every NITK Student</span>
                     </h1>
+                    
                     <p className="text-white/75 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
                         MindEase is a safe place built with love at NIT Kurukshetra. Its aim is to help students, alumni, and faculty with the emotional challenges of college life.
                     </p>
@@ -137,39 +105,15 @@ backgroundSize: '40px 40px'}}/>
                         <Link to="/signup"
                             className="flex items-center gap-2 px-8 py-4 rounded-2xl font-black text-sm transition-all hover:-translate-y-0.5 hover:shadow-xl"
                             style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '1.5px solid rgba(255,255,255,0.3)' }}>
-                            Join Free <Sparkles size={16} />
+                            Join Free
                         </Link>
                     </div>
                 </div>
             </div> 
-   
-            {/* ── Stats ── */}
-            <div className="max-w-5xl mx-auto px-6 -mt-12">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {stats.map((s, i) => (
-                        <div key={i}
-                            className="p-6 rounded-[2rem] text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-default"
-                            style={{
-                                background: 'rgba(255,255,255,0.82)',
-                                backdropFilter: 'blur(12px)',
-                                border: '1.5px solid rgba(249,197,204,0.6)',
-                                boxShadow: '0 8px 32px rgba(212,97,122,0.10)',
-                            }}>
-                            <div className="text-2xl mb-2">{s.icon}</div>
-                            <p className="text-3xl font-black" style={{ color: '#D4617A' }}>
-                                <Counter end={s.n} suffix={s.s} />
-                            </p>
-                            <p className="text-[10px] uppercase font-black mt-1 tracking-wider" style={{ color: '#7A3545', opacity: 0.7 }}>{s.label}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
 
-            {/* ── Mission ── */}
-            <div className="max-w-6xl mx-auto px-6 py-20">
+            <div className="max-w-6xl mx-auto px-6 py-20" style={{ background: 'rgba(255,245,247,0.5)' }}>
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <SectionTag>Our Mission</SectionTag>
                         <h2 className="text-4xl font-black mb-6 leading-tight" style={{ color: '#3D1520' }}>
                             Breaking the stigma,<br />
                             <span style={{ color: '#D4617A' }}>one conversation at a time.</span>
@@ -180,7 +124,7 @@ backgroundSize: '40px 40px'}}/>
                         </p>
                         <p className="text-base leading-relaxed mb-8" style={{ color: '#7A3545', opacity: 0.85 }}>
                             We provide students with anonymous and non judgemental access to mental health tools,
-                            peer communities, professional mentors and also, AI driven support.
+                            peer communities, mentors and AI support also.
                         </p> 
                         <div className="space-y-3"> 
                             {[ 
@@ -197,7 +141,6 @@ backgroundSize: '40px 40px'}}/>
                         </div>
                     </div>
 
-                    {/* Visual Card */}
                     <div className="relative">
                         <div className="rounded-[2.5rem] p-8 text-center"
                             style={{
@@ -210,8 +153,7 @@ backgroundSize: '40px 40px'}}/>
                                     style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)' }}>
                                     🧠
                                 </div>
-                                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-xl flex items-center justify-center text-sm"
-                                    style={{ background: '#FFF5F7', border: '2px solid #F9C5CC' }}>💜</div>
+
                             </div>
                             <h3 className="text-2xl font-black mb-3" style={{ color: '#3D1520' }}>Your Safe Space</h3>
                             <p className="text-sm leading-relaxed mb-6" style={{ color: '#7A3545', opacity: 0.8 }}>
@@ -231,24 +173,13 @@ backgroundSize: '40px 40px'}}/>
                                 ))}
                             </div>
                         </div>
-                        {/* Floating badges */}
-                        <div className="absolute -top-4 -left-4 px-3 py-2 rounded-xl text-xs font-black"
-                            style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)', color: 'white', boxShadow: '0 4px 16px rgba(212,97,122,0.35)' }}>
-                            🔒 100% Anonymous
-                        </div>
-                        <div className="absolute -bottom-4 -right-4 px-3 py-2 rounded-xl text-xs font-black"
-                            style={{ background: 'white', color: '#059669', border: '2px solid #BBF7D0', boxShadow: '0 4px 16px rgba(5,150,105,0.15)' }}>
-                            ✅ Completely Free
-                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* ── Values ── */}
             <div className="py-16 px-6" style={{ background: 'rgba(255,245,247,0.5)' }}>
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-12">
-                        <SectionTag>Our Values</SectionTag>
                         <h2 className="text-3xl font-black" style={{ color: '#3D1520' }}>What We Stand For</h2>
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -257,32 +188,25 @@ backgroundSize: '40px 40px'}}/>
                 </div>
             </div>
 
-            {/* ── Team ── */}
-            <div className="py-16 px-6" style={{ background: 'rgba(255,245,247,0.5)' }}>
+            <div className="py-20 px-6" style={{ background: 'rgba(255,245,247,0.5)' }}>
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-12">
-                        <SectionTag>Our Team</SectionTag>
                         <h2 className="text-3xl font-black mb-3" style={{ color: '#3D1520' }}>The People Behind MindEase</h2>
-                        <p className="text-sm max-w-lg mx-auto" style={{ color: '#7A3545', opacity: 0.75 }}>
-                            Students, faculty, and mental health professionals working together to support NIT Kurukshetra.
-                        </p>
                     </div>
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center">
                         {team.map((t, i) => <TeamCard key={i} {...t} />)}
                     </div>
                 </div>
             </div>
 
-            {/* ── Features ── */}
-            <div className="max-w-6xl mx-auto px-6 py-20">
+            <div className="max-w-6xl mx-auto px-6 py-10">
                 <div className="text-center mb-12">
-                    <SectionTag>Platform Features</SectionTag>
                     <h2 className="text-3xl font-black" style={{ color: '#3D1520' }}>Everything You Need</h2>
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
                     {[
-                        { icon: '🤖', title: 'AI Chatbot', desc: '24/7 support, anytime of the day', link: '/chatbot', color: '#7C3AED' },
-                        { icon: '📊', title: 'Mood Tracker', desc: 'Daily mood tracking to understand youself better', link: '/mood', color: '#2563EB' },
+                        { icon: '🤖', title: 'AI Chatbot', desc: 'AI support, anytime of the day', link: '/chatbot', color: '#7C3AED' },
+                        { icon: '📊', title: 'Mood Tracker', desc: 'Daily mood tracking to understand yourself better', link: '/mood', color: '#2563EB' },
                         { icon: '👥', title: 'Mentor Connect', desc: 'Book 1 on 1 sessions with alumni and mentors', link: '/mentor', color: '#D4617A' },
                         { icon: '📅', title: 'Events', desc: 'Workshops and events by professors & alumni', link: '/events', color: '#D97706' },
                         { icon: '🏘️', title: 'Community', desc: 'Anonymous peer discussions support', link: '/community', color: '#059669' },
@@ -293,7 +217,7 @@ backgroundSize: '40px 40px'}}/>
                         <Link key={i} to={f.link}
                             className="p-5 rounded-[1.5rem] group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl block"
                             style={{
-                                background: 'rgba(255,255,255,0.78)',
+                                background: 'rgba(255,245,247,0.5)',
                                 backdropFilter: 'blur(10px)',
                                 border: '1.5px solid rgba(249,197,204,0.5)',
                             }}>
@@ -303,39 +227,37 @@ backgroundSize: '40px 40px'}}/>
                             <p className="text-xs leading-relaxed" style={{ color: '#7A3545', opacity: 0.75 }}>{f.desc}</p>
                             <div className="flex items-center gap-1 mt-3 text-xs font-black opacity-0 group-hover:opacity-100 transition-opacity"
                                 style={{ color: f.color }}>
-                                Learn more <ArrowRight size={11} />
+                                Learn more 
                             </div>
                         </Link>
                     ))}
                 </div>
             </div>
-            
-            {/* ── CTA ── */}
-            <div className="max-w-3xl mx-auto px-6 py-20 text-center">
+        
+            <div className="max-w-3xl mx-auto px-6 py-20 text-center" style={{ background: 'rgba(255,235,240,0.5)' }}>
                 <SectionTag>Join MindEase</SectionTag>
                 <h2 className="text-3xl font-black mb-4" style={{ color: '#3D1520' }}>
                     Your mental health matters. Start today.
                 </h2>
                 <p className="text-base mb-8 leading-relaxed" style={{ color: '#7A3545', opacity: 0.8 }}>
-                    Join 300+ NIT Kurukshetra students and faculty who use MindEase.
+                    Join NIT Kurukshetra students and faculty who use MindEase.
                 </p>
                 <div className="flex items-center justify-center gap-4 flex-wrap">
                     <Link to="/signup"
                         className="flex items-center gap-2 px-8 py-4 rounded-2xl font-black text-white text-sm transition-all hover:-translate-y-0.5 hover:shadow-xl"
                         style={{ background: 'linear-gradient(135deg,#D4617A,#C44A6A)', boxShadow: '0 8px 24px rgba(212,97,122,0.35)' }}>
-                        <GraduationCap size={18} /> Join Free Now
+                        Join Free Now
                     </Link>
                     <Link to="/contact"
                         className="flex items-center gap-2 px-8 py-4 rounded-2xl font-black text-sm transition-all hover:-translate-y-0.5"
-                        style={{ border: '2px solid #F9C5CC', color: '#D4617A', background: 'white' }}>
-                        <Mail size={18} /> Contact Us
+                        style={{ border: '2px solid #F9C5CC', color: '#D4617A', background: 'rgba(255,235,240,0.6)' }}>
+                        Contact Us
                     </Link>
                 </div>
                 <p className="text-xs mt-5" style={{ color: '#7A3545', opacity: 0.55 }}>
-                    <Star size={10} className="inline mr-1" /> No signup fee · No personal data shared · Cancel anytime
+                    No signup fee · Good security · Cancel anytime
                 </p>
             </div>
-
         </div>
     );
 };

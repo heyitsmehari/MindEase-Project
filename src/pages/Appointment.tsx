@@ -148,11 +148,10 @@ Please reply to ${email} with confirmed slot(s).
         }
     };
 
-    // ── SUCCESS ───────────────────────────────────────────────────────
     if (step === 'success') {
         return (
             <div className="min-h-screen flex items-center justify-center px-6 pt-28 pb-20"
-                style={{ background: 'linear-gradient(160deg,#FFF5F7,#FFE8ED,#FFF0F3)' }}>
+                style={{ background: 'linear-gradient(135deg,#E88FA3 0%,#D4617A 50%,#C96B84 100%)' }}>
                 <div className="max-w-md w-full text-center">
                     {/* Big checkmark card */}
                     <div className="rounded-[2.5rem] p-10 mb-6"
