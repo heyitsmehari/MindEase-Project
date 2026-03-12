@@ -822,14 +822,6 @@ const Home: React.FC = () => {
 
 
               <div className="relative z-10 px-8 py-20">
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.5 }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold mb-8"
-                  style={{ background: 'rgba(255,255,255,0.18)', border: '1.5px solid rgba(255,255,255,0.30)', color: 'white' }}
-                >
-                  <Heart size={14} className="fill-current animate-pulse" /> Trusted by 5,000+ Students Across NIT Kurukshetra
-                </motion.div>
 
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
