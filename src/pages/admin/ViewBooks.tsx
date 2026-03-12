@@ -10,15 +10,14 @@ interface Book {
     genre: string;
     description: string;
     link?: string;
-}
-
-const GENRES: Record<string, string> = { 
-    'self-help': '📗 Self Help', 'fiction': '😰 Fiction',
-    'professional': '🧘 Professional', 'memoir': '💙 Memoir',
-    'creative': '❤️ Creative', 
-}; 
-
-const ViewBooks: React.FC = () => {
+} 
+ 
+const GENRES: Record<string, string> = {  
+    'mindfulness': 'Mindfulness', 'anxiety': 'Anxiety & Stress', 
+    'depression': 'Depression','memoir': 'Memoir', 
+};
+ 
+const ViewBooks: React.FC = () => { 
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingBook, setEditingBook] = useState<Book | null>(null);

@@ -23,23 +23,19 @@ interface Book {
 }
 
 const VIDEO_CATS = [
-    { value: 'all', emoji: '🌟', label: 'All' },
-    { value: 'meditation', emoji: '🧘', label: 'Meditation' },
-    { value: 'therapy', emoji: '💬', label: 'Therapy' },
-    { value: 'coping', emoji: '🛡️', label: 'Coping' },
-    { value: 'general', emoji: '📚', label: 'General' },
-    { value: 'yoga', emoji: '🌿', label: 'Yoga' },
+    { value: 'all', label: 'All Videos' },
+    { value: 'tedtalks', label: 'TED Talks' },
+    { value: 'comforting', label: 'Comforting' },
+    { value: 'coping', label: 'Coping' },
+    { value: 'stories', label: 'Real stories' },
 ];
 
 const BOOK_GENRES = [
-    { value: 'all', emoji: '📖', label: 'All Books' },
-    { value: 'self-help', emoji: '📗', label: 'Self Help' },
-    { value: 'anxiety', emoji: '😰', label: 'Anxiety & Stress' },
-    { value: 'mindfulness', emoji: '🧘', label: 'Mindfulness' },
-    { value: 'depression', emoji: '💙', label: 'Depression' },
-    { value: 'relationships', emoji: '❤️', label: 'Relationships' },
-    { value: 'productivity', emoji: '⚡', label: 'Productivity' },
-    { value: 'general', emoji: '📚', label: 'General' },
+    { value: 'all', label: 'All Books' },
+    { value: 'mindfulness', label: 'Mindfulness' },
+    { value: 'anxiety', label: 'Anxiety & Stress' },
+    { value: 'depression', label: 'Depression' },
+    { value: 'memoirs', label: 'Memoirs' },
 ];
 
 const getYtThumb = (url: string) => {
@@ -52,7 +48,6 @@ const getYtThumb = (url: string) => {
 };
 
 const Resources: React.FC = () => {
-
     const [mainTab, setMainTab] = useState<'videos' | 'books'>('videos');
     const [videos, setVideos] = useState<VideoSession[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
@@ -132,21 +127,9 @@ const Resources: React.FC = () => {
             style={{ background: '#FFF5F7' }}
         >
 
-            {/* HERO */}
-
             <div className="text-center py-10 px-4 mb-6">
 
-                <div
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold mb-4"
-                    style={{
-                        background: 'rgba(212,97,122,0.12)',
-                        backdropFilter: 'blur(10px)',
-                        color: '#D4617A',
-                    }}
-                >
-                    ✨ Curated by MindEase Team
-                </div>
-
+                
                 <h1 className="text-4xl md:text-5xl font-black mb-2" style={{ color: '#3D1520' }}>
                     Mental Wellness <span style={{ color: '#D4617A' }}>Resources</span>
                 </h1>
@@ -253,19 +236,16 @@ const Resources: React.FC = () => {
 
                 {mainTab === 'videos' && (
                     <>
-
-                        {/* CATEGORY FILTER */}
-
                         <div className="flex flex-wrap gap-2 justify-center mb-5">
 
-                            {VIDEO_CATS.map(cat => (
+                            {VIDEO_CATS.map(category => (
 
                                 <button
-                                    key={cat.value}
-                                    onClick={() => setActiveVideoCat(cat.value)}
+                                    key={category.value}
+                                    onClick={() => setActiveVideoCat(category.value)}
                                     className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 hover:scale-105"
                                     style={
-                                        activeVideoCat === cat.value
+                                        activeVideoCat === category.value
                                             ? {
                                                   background: 'linear-gradient(135deg,#D4617A,#C44A6A)',
                                                   color: 'white',
@@ -279,7 +259,7 @@ const Resources: React.FC = () => {
                                               }
                                     }
                                 >
-                                    {cat.emoji} {cat.label}
+                                    {category.label}
                                 </button>
 
                             ))}
@@ -431,23 +411,19 @@ const Resources: React.FC = () => {
 
                     </>
                 )}
-                {/* BOOK SECTION */}
 
                 {mainTab === 'books' && (
                     <>
-
-                        {/* GENRE FILTER */}
-
                         <div className="flex flex-wrap gap-2 justify-center mb-5">
 
-                            {BOOK_GENRES.map(g => (
+                            {BOOK_GENRES.map(bgenre => (
 
                                 <button
-                                    key={g.value}
-                                    onClick={() => setActiveBookGenre(g.value)}
+                                    key={bgenre.value}
+                                    onClick={() => setActiveBookGenre(bgenre.value)}
                                     className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 hover:scale-105"
                                     style={
-                                        activeBookGenre === g.value
+                                        activeBookGenre === bgenre.value
                                             ? {
                                                   background: 'linear-gradient(135deg,#D4617A,#C44A6A)',
                                                   color: 'white',
@@ -461,7 +437,7 @@ const Resources: React.FC = () => {
                                               }
                                     }
                                 >
-                                    {g.emoji} {g.label}
+                                    {bgenre.label}
                                 </button>
 
                             ))}

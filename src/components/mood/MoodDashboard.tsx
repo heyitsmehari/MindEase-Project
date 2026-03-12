@@ -255,28 +255,38 @@ const MoodDashboard: React.FC = () => {
                 </div>
             )}
 
-            {/* Weekly Summary */}
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-6 text-white shadow-xl">
-                <div className="flex items-center justify-between mb-6">
+            {/* Weekly Summary - New Pink/Rose Gradient */}
+            <div className="rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden"
+                style={{ background: 'linear-gradient(135deg,#D4617A 0%,#C44A6A 45%,#7B1D4A 100%)' }}>
+
+                <div className="flex items-center justify-between mb-8 relative z-10">
                     <div className="flex items-center gap-3">
-                        <Calendar size={22} />
-                        <h3 className="text-lg font-bold">Weekly Summary</h3>
-                        <span className="text-xs bg-white/20 px-2 py-1 rounded-full">Last {recentEntries.length} entries</span>
+                        <div className="p-2 bg-white/20 rounded-xl backdrop-blur-md">
+                            <Calendar size={20} className="text-white" />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black uppercase tracking-tight">Weekly Summary</h3>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-white/60">
+                                Insights from last {recentEntries.length} logs
+                            </p>
+                        </div>
                     </div>
                     <button
                         onClick={handleClear}
-                        className="flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg transition-colors"
+                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/10 hover:bg-white/20 px-4 py-2.5 rounded-2xl transition-all border border-white/10"
                     >
-                        <Trash2 size={14} />
-                        Clear All
+                        <Trash2 size={12} />
+                        Reset Data
                     </button>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+
+                {/* The grid of cards */}
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 relative z-10">
                     <SummaryCard label="Avg Score" value={`${avgMoodScore}`} />
-                    <SummaryCard label="Dominant Mood" value={`${moodEmojis[dominantMood] || ''} ${dominantMood}`} />
-                    <SummaryCard label="Avg Sleep" value={`${avgSleep}/10`} />
-                    <SummaryCard label="Avg Stress" value={`${avgStress}/10`} />
-                    <SummaryCard label="Avg Energy" value={`${avgEnergy}/10`} />
+                    <SummaryCard label="Top Mood" value={`${moodEmojis[dominantMood] || ''} ${dominantMood}`} />
+                    <SummaryCard label="Avg Sleep" value={`${avgSleep}`} />
+                    <SummaryCard label="Avg Stress" value={`${avgStress}`} />
+                    <SummaryCard label="Avg Energy" value={`${avgEnergy}`} />
                 </div>
             </div>
 

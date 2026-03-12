@@ -69,9 +69,9 @@ const ViewVideos: React.FC = () => {
 
     const CATEGORIES = [
         { value: 'comforting', emoji: '💬', label: 'Comforting', color: 'bg-purple-100 text-purple-700' },
-        { value: 'tedx', emoji: '🛡️', label: 'TedX', color: 'bg-green-100  text-green-700' },
-        { value: 'prof', emoji: '📚', label: 'Professional', color: 'bg-gray-100   text-gray-700' },
-        { value: 'advice', emoji: '🌿', label: 'Advice', color: 'bg-teal-100   text-teal-700' },
+        { value: 'tedtalks', emoji: '🧘', label: 'TED Talks', color: 'bg-green-100  text-green-700' },
+        { value: 'coping', emoji: '🛡️', label: 'Coping', color: 'bg-gray-100   text-gray-700' },
+        { value: 'stories', emoji: '🌿', label: 'Real stories', color: 'bg-teal-100   text-teal-700' },
     ];
 
     const getCategoryMeta = (category: string) =>
