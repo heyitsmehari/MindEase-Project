@@ -17,6 +17,19 @@ export interface Mentor {
 export const MENTORS: Mentor[] = [
     {
         id: 1,
+        name: "Dr. Anjali Taneja",
+        role: "Psychologist",
+        specialty: "Counselling",
+        experience: "12+ Years",
+        rating: 5.0,
+        sessions: 340,
+        image: "https://i.ibb.co/x0hpFwN/Whats-App-Image-2026-03-13-at-10-10-35.jpg",
+        email: "mentor1@mindease.edu", // Replace with real mentor email
+        bio: "Experienced Counselling Psychologist and Assistant Professor in NIT Kurukshetra.",
+        tags: ["Career", "Relationships", "Counselling", "Stress Management"]
+    },
+    {
+        id: 2,
         name: "Priya",
         role: "Team Leader",
         specialty: "Developer",
@@ -30,7 +43,7 @@ export const MENTORS: Mentor[] = [
     },
     
     {
-        id: 2,
+        id: 3,
         name: "Trishna Saini",
         role: "Team Member",
         specialty: "Developer",
@@ -43,7 +56,7 @@ export const MENTORS: Mentor[] = [
         tags: ["Cognitive Behavioral Therapy", "Stress Reduction", "Thought Patterns", "Exam Anxiety"],
     },
     {
-        id: 3,
+        id: 4,
         name: "Krishna Kumar",
         role: "Team Member",
         specialty: "Developer",
@@ -56,7 +69,7 @@ export const MENTORS: Mentor[] = [
         tags: ["Conflict Resolution", "Communication", "Relationships", "Social Skills", "Peer Dynamics"],
     },
     {
-        id: 4,
+        id: 5,
         name: "Hariram Chembra",
         role: "Team Member",
         specialty: "Emotional Healing",
@@ -69,7 +82,7 @@ export const MENTORS: Mentor[] = [
         tags: ["Trauma Healing", "Emotional Safety", "Self-Compassion", "Resilience Building"],
     },
     {
-        id: 5,
+        id: 6,
         name: "Amica Aggarwal",
         role: "Team Member",
         specialty: "Developer",
