@@ -13,6 +13,7 @@ const ManageEvents: React.FC = () => {
     desc: '',
     location: '',
     registrationLink: '',
+    pdfLink: '',
     lastDate: '',
     startDate: ''
   });
@@ -32,7 +33,8 @@ const ManageEvents: React.FC = () => {
     author: '',
     genre: 'self-help',
     description: '',
-    link: ''
+    link: '',
+    coverUrl: ''
   });
 
   // Bookable Session form state
@@ -59,6 +61,7 @@ const ManageEvents: React.FC = () => {
         desc: '',
         location: '',
         registrationLink: '',
+        pdfLink: '',
         lastDate: '',
         startDate: ''
       });
@@ -97,7 +100,7 @@ const ManageEvents: React.FC = () => {
         ...book,
         createdAt: serverTimestamp()
       });
-      setBook({ title: '', author: '', genre: 'self-help', description: '', link: '' });
+      setBook({ title: '', author: '', genre: 'self-help', description: '', link: '', coverUrl: '' });
       alert('Book Added Successfully!');
     } catch (error) {
       console.error('Error adding book:', error);
@@ -235,15 +238,27 @@ const ManageEvents: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <label className="text-xs font-bold text-gray-500 mb-2 block">Registration Link (Optional)</label>
-              <input
-                type="url"
-                placeholder="https://forms.google.com/... or any registration URL"
-                className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500"
-                value={event.registrationLink}
-                onChange={e => setEvent({ ...event, registrationLink: e.target.value })}
-              />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">Registration Link (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://forms.google.com/..."
+                  className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500"
+                  value={event.registrationLink}
+                  onChange={e => setEvent({ ...event, registrationLink: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">PDF Document Link (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://drive.google.com/file/d/..."
+                  className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500"
+                  value={event.pdfLink}
+                  onChange={e => setEvent({ ...event, pdfLink: e.target.value })}
+                />
+              </div>
             </div>
 
             <textarea
@@ -390,6 +405,17 @@ const ManageEvents: React.FC = () => {
                   onChange={e => setBook({ ...book, link: e.target.value })}
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-gray-500 mb-2 block">Cover Image URL (Optional)</label>
+              <input
+                type="url"
+                placeholder="https://example.com/cover.jpg"
+                className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
+                value={book.coverUrl}
+                onChange={e => setBook({ ...book, coverUrl: e.target.value })}
+              />
             </div>
 
 

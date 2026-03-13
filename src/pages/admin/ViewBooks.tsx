@@ -10,6 +10,7 @@ interface Book {
     genre: string;
     description: string;
     link?: string;
+    coverUrl?: string;
 } 
  
 const GENRES: Record<string, string> = {  
@@ -133,6 +134,9 @@ const ViewBooks: React.FC = () => {
                             <input type="url" placeholder="Buy / Read Link (optional)" value={editingBook.link || ''}
                                 className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
                                 onChange={e => setEditingBook({ ...editingBook, link: e.target.value })} />
+                            <input type="url" placeholder="Cover Image URL (optional)" value={editingBook.coverUrl || ''}
+                                className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-amber-400"
+                                onChange={e => setEditingBook({ ...editingBook, coverUrl: e.target.value })} />
                             <textarea placeholder="Description" rows={3} value={editingBook.description} required
                                 className="w-full p-4 bg-gray-50 rounded-2xl outline-none resize-none focus:ring-2 focus:ring-amber-400"
                                 onChange={e => setEditingBook({ ...editingBook, description: e.target.value })} />
