@@ -468,7 +468,7 @@ const Home: React.FC = () => {
         <FeedbackMarquee />
 
         {/* FAQ */}
-        <section className="py-20 px-6">
+        <section id="faq" className="py-20 px-6">
           <FadeIn>
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-14">

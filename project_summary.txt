@@ -1,0 +1,65 @@
+# MindEase Project Overview
+=============
+
+## 1. Introduction
+MindEase is a comprehensive mental health and wellness application specifically tailored for students and university communities. It provides a secure platform featuring an AI chatbot, mood tracking engines, appointment scheduling, access to mentors (alumni and professors), and emergency help mechanisms.
+
+## 2. Tech Stack Setup & Tooling
+The application is built using a modern frontend web configuration:
+- Frontend Core: React (v19.2.0)
+- Build Tool: Vite (v7.2.4)
+- Language: TypeScript (~5.9.3) configured with strict type checking.
+- State & Routing: React Router DOM (v7.12.0)
+- Styling: Tailwind CSS (v4.1.18) paired with PostCSS and autoprefixer.
+- UI Enhancements: Framer Motion (v12.34.3) for smooth animations, and Lucide React (v0.562.0) for iconography.
+- Data Visualisation: Chart.js (v4.5.1) and react-chartjs-2 (v5.3.1).
+- Cloud & BaaS: Firebase (v12.8.0) for backend operations, data stores, and potential authentication.
+- AI Integration: OpenAI SDK (v6.27.0) integration for chatbot logic and insights.
+- Linting/Formatting: ESLint (v9) loaded with React Hooks, React Refresh, and TypeScript-eslint configurations. 
+
+## 3. Project Architecture & Statistics
+- Number of Total Unique Files in `src`: Approx. 55+ files.
+- Architecture Breakup:
+  - `/pages`: Contains 29 components splitting functionality into logical flows.
+  - `/components`: Contains 9+ items separating UI features (e.g., Navbar, ProtectedRoute, MoodForm).
+  - `/engines`: Houses specialized modules like `PredictionEngine.ts` (2.9KB) and `InsightEngine.ts` (5.1KB) handling user mood metrics.
+  - `/services`: Contains abstractions such as `storageService.ts` and `emailService.ts`.
+  - `/firebase`: Contains the cloud initialization configurations (`firebase.ts`).
+- Heavyweight Pages:
+  - `Home.tsx` (~56KB)
+  - `Appointment.tsx` (~33KB)
+  - `UserProfile.tsx` (~33KB)
+  - `Resources.tsx` (~28KB)
+  - `MentorDetail.tsx` (~24KB)
+
+## 4. Key Features & Functionalities
+1. Authentication & Role-Based Access:
+   - Contains 3 distinctive user dashboards (`StudentDashboard`, `AlumniProfessorDashboard`, and `AdminDashboard`).
+   - Hardened via `ProtectedRoute.tsx` wrapper ensuring unauthenticated/unauthorized users cannot access data.
+
+2. Mood Tracking ecosystem:
+   - A multi-step flow combining energy, physical state, academic tracking, and behavioral triggers.
+   - Computes a "Mood Score" dynamically (out of 100).
+   - Insights Engine identifies highlights, areas of concern, and triggers warnings (e.g. burnout streaks).
+   - Generates historical data visualizing emotional breakdown through line and radar charts from Chart.js.
+
+3. Interactions & Content Distribution:
+   - "Smart" Resource fetching and Blogs (`Blog.tsx`, `Resources.tsx`). 
+   - Interactive Community forums (`Community.tsx`) and Stories. 
+   - A dedicated 24/7 AI-driven Chatbot (`Chatbot.tsx`).
+
+4. Booking & Scheduling:
+   - `Mentor.tsx` and `Appointment.tsx` to handle 1:1 scheduling between students and alumni or faculty.
+
+5. Emergency Help Network:
+   - `Emergency.tsx` (11KB page) which routes users to immediate suicide prevention hotlines or security units proactively if keyword detection triggers on tracking or chatbot.
+
+6. Admin Workspace:
+   - Extensive tools for content management such as `ApproveStories`, `ManageEvents`, `ViewVideos`, `ViewSessions`, and `ViewBooks`. Validates and moderates student content prior to broadcasting.
+
+## 5. Design Aesthetics
+- Follows contemporary Glassmorphism styles, blur effects, gradient backgrounds, and deep rich colors (e.g., deep Rose/Pink themes for Wellness pages, Blue/Purple transitions).
+- Detailed animated micro-interactions configured via Framer Motion for slides, transitions, page load fades, and hover states across cards.
+
+## 6. Closing Note
+MindEase stands out robustly by linking mental wellbeing insights tightly to academic performance matrices. Its predictive engines processing real-time student sentiment along with administrative overhead controls give the application a highly functional, secure, and supportive environment.

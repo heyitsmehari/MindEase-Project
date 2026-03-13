@@ -1,10 +1,39 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, ArrowRight, Brain } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNav = (path: string) => {
+    // Special case: FAQ anchor link → navigate to home and scroll to #faq
+    if (path === '/#faq') {
+      if (location.pathname === '/') {
+        // Already on home page: just scroll to the faq section
+        const el = document.getElementById('faq');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Navigate to home, then scroll after render
+        navigate('/');
+        setTimeout(() => {
+          const el = document.getElementById('faq');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 350);
+      }
+      return;
+    }
+
+    if (location.pathname === path) {
+      // Same page → scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Different page → navigate then scroll to top
+      navigate(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer className="pt-16 pb-8 px-6 bg-[#0F172A]">
@@ -59,7 +88,7 @@ const Footer: React.FC = () => {
               ].map((l, i) => (
                 <li key={i}>
                   <button
-                    onClick={() => navigate(l.path)}
+                    onClick={() => handleNav(l.path)}
                     className="flex items-center gap-2 text-sm text-gray-400 hover:text-pink-400 transition"
                   >
                     <ArrowRight size={13} />
@@ -83,7 +112,7 @@ const Footer: React.FC = () => {
               ].map((l, i) => (
                 <li key={i}>
                   <button
-                    onClick={() => navigate(l.path)}
+                    onClick={() => handleNav(l.path)}
                     className="flex items-center gap-2 text-sm text-gray-400 hover:text-pink-400 transition"
                   >
                     <ArrowRight size={13} />
