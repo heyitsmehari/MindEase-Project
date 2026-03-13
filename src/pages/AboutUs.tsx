@@ -7,6 +7,8 @@ import {
     Crown, Star, Github, Linkedin, Mail
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { TEAM } from '../data/teamData';
+import type { TeamMember } from '../data/teamData';
 
 const SectionTag = ({ children }: { children: React.ReactNode }) => (
     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-5"
@@ -44,71 +46,9 @@ const AboutUs: React.FC = () => {
         { icon: <Zap size={24} />, title: 'Available 24/7', desc: '24/7 access to AI chatbot, mood tracking, and best resources.', color: '#2563EB' },
         { icon: <Globe size={24} />, title: 'Inclusive', desc: 'MindEase welcomes all students, alumni, and faculty because mental wellness matters at every stage.', color: '#EC4899' },
     ];
-
-    const TEAM = [
-        {
-            id: 1,
-            name: 'Priya Katariya',
-            role: 'Team Leader & Full Stack Developer',
-            desc: 'Visionary behind MindEase. Leads the product strategy, UI architecture, and backend integration. Passionate about mental health tech and student wellbeing.',
-            avatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Priya&backgroundColor=b6e3f4',
-            tags: ['React', 'TypeScript', 'Firebase', 'UI/UX'],
-            github: '#', linkedin: '#', email: 'priya@mindease.edu',
-            isLeader: true,
-            color: '#D4617A',
-            light: '#FFE8ED',
-        },
-        {
-            id: 2,
-            name: 'Arjun Sharma',
-            role: 'AI & Backend Engineer',
-            desc: 'Builds the AI chatbot pipeline and server logic. Specializes in NLP models and emotional intelligence systems.',
-            avatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Arjun&backgroundColor=c0aede',
-            tags: ['Python', 'OpenAI API', 'Node.js'],
-            github: '#', linkedin: '#', email: 'arjun@mindease.edu',
-            isLeader: false,
-            color: '#C44A6A',
-            light: '#FFE0E6',
-        },
-        {
-            id: 3,
-            name: 'Meera Nair',
-            role: 'UI/UX Designer',
-            desc: 'Crafts the calming, accessible interfaces that make MindEase feel warm and safe. Expert in design systems and emotional UX.',
-            avatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Meera&backgroundColor=ffd5dc',
-            tags: ['Figma', 'Design Systems', 'Accessibility'],
-            github: '#', linkedin: '#', email: 'meera@mindease.edu',
-            isLeader: false,
-            color: '#EC4899',
-            light: '#FCE7F3',
-        },
-        {
-            id: 4,
-            name: 'Rohan Verma',
-            role: 'Database & DevOps',
-            desc: 'Manages Firebase configuration, authentication flows, and deployment pipelines. Keeps the platform secure and performant.',
-            avatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Rohan&backgroundColor=d1fae5',
-            tags: ['Firebase', 'CI/CD', 'Security'],
-            github: '#', linkedin: '#', email: 'rohan@mindease.edu',
-            isLeader: false,
-            color: '#10B981',
-            light: '#D1FAE5',
-        },
-        {
-            id: 5,
-            name: 'Kavya Reddy',
-            role: 'Content & Mental Health Advisor',
-            desc: 'Psychology graduate who ensures all content, resources, and bot responses are clinically informed and empathetic.',
-            avatar: 'https://api.dicebear.com/7.x/notionists/svg?seed=Kavya&backgroundColor=fde68a',
-            tags: ['Psychology', 'Content', 'Wellbeing'],
-            github: '#', linkedin: '#', email: 'kavya@mindease.edu',
-            isLeader: false,
-            color: '#F59E0B',
-            light: '#FEF3C7',
-        },
-    ];
-    const leader = TEAM.find(m => m.isLeader)!;
-    const members = TEAM.filter(m => !m.isLeader);
+    // Explicitly typed the TEAM data usage
+    const leader = TEAM.find((m: TeamMember) => m.isLeader)!;
+    const members = TEAM.filter((m: TeamMember) => !m.isLeader);
 
     return (
         <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#FFF5F7 0%,#FFE8ED 50%,#FFF0F3 100%)' }}>
@@ -264,7 +204,7 @@ const AboutUs: React.FC = () => {
                             <div className="relative flex-shrink-0">
                                 <div className="w-44 h-44 rounded-[2rem] overflow-hidden"
                                     style={{ border: '4px solid rgba(212,97,122,0.40)', boxShadow: '0 12px 40px rgba(212,97,122,0.25)' }}>
-                                    <img src={leader.avatar} alt={leader.name} className="w-full h-full object-cover" />
+                                    <img src={leader.image} alt={leader.name} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-full flex items-center justify-center text-lg hidden sm:flex"
                                     style={{ background: '#D4617A', boxShadow: '0 4px 16px rgba(212,97,122,0.50)' }}>
@@ -313,7 +253,7 @@ const AboutUs: React.FC = () => {
                                     style={{ background: `linear-gradient(90deg, ${m.color}, #F4A0B0)` }} />
                                 <div className="w-20 h-20 rounded-2xl overflow-hidden mb-5 mx-auto"
                                     style={{ border: `3px solid ${m.color}40`, boxShadow: `0 6px 20px ${m.color}30` }}>
-                                    <img src={m.avatar} alt={m.name} className="w-full h-full object-cover" />
+                                    <img src={m.image} alt={m.name} className="w-full h-full object-cover" />
                                 </div>
                                 <h3 className="text-lg font-black text-center mb-1" style={{ color: '#3D1520' }}>{m.name}</h3>
                                 <p className="text-xs font-black text-center mb-3" style={{ color: m.color }}>{m.role}</p>
