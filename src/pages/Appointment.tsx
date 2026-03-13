@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { auth, db } from '../firebase';
+import usePageTitle from '../hooks/usePageTitle';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import {
     Calendar, User, Heart, CheckCircle, Sparkles,
@@ -61,6 +62,7 @@ const inputBase: React.CSSProperties = {
 type Step = 'form' | 'sending' | 'success' | 'error';
 
 export default function Appointment() {
+    usePageTitle('Book a Session');
     const user = auth.currentUser;
 
     const [name, setName] = useState(user?.displayName || '');

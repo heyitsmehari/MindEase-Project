@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import usePageTitle from '../hooks/usePageTitle';
 import { PhoneCall, ShieldAlert, HeartPulse, AlertTriangle, ArrowRight } from 'lucide-react';
 
 export default function Emergency() {
+    usePageTitle('Urgent Help ⚡');
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);

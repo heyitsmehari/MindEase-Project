@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import usePageTitle from '../hooks/usePageTitle';
 import {
   Brain, Heart, Lightbulb, LayoutDashboard,
   ArrowRight, ArrowLeft, Save, CheckCircle2,
@@ -52,6 +53,7 @@ const moodBg: Record<string, string> = {
 };
 
 const MoodTracker: React.FC = () => {
+  usePageTitle('How are you feeling?');
   const [activeTab, setActiveTab] = useState<Tab>('log');
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);

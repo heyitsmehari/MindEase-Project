@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Send, Bot, User, Heart, RefreshCw, AlertTriangle } from "lucide-react";
+import usePageTitle from "../hooks/usePageTitle";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 interface Message {
@@ -113,6 +114,7 @@ const SUGGESTIONS = [
 
 // ── Component ─────────────────────────────────────────────────────────────
 const Chatbot: React.FC = () => {
+    usePageTitle('AI Assistant');
     const WELCOME: Message = {
         role: "assistant",
         content:

@@ -1,5 +1,6 @@
 import React, { } from 'react';
 import { Link } from 'react-router-dom';
+import usePageTitle from '../hooks/usePageTitle';
 import {
     Heart, Brain, Shield, Users,
     ArrowRight, CheckCircle, Zap, Globe,
@@ -34,6 +35,7 @@ const ValueCard = ({ icon, title, desc, color }: { icon: React.ReactNode; title:
 
 
 const AboutUs: React.FC = () => {
+    usePageTitle('About Us');
     const values = [
         { icon: <Shield size={24} />, title: 'Anonymous', desc: 'Interactions on MindEase are confidential and secure. Privacy is our top priority.', color: '#7C3AED' },
         { icon: <Heart size={24} />, title: 'Student Oriented', desc: 'Built specifically for NIT Kurukshetra students, understanding the pressures of college life.', color: '#D4617A' },

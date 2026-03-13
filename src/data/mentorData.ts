@@ -61,7 +61,7 @@ export const MENTORS: Mentor[] = [
         role: "Team Member",
         specialty: "Developer",
         experience: "15 Years",
-        rating: 4.7,
+        rating: 4.9,
         sessions: 420,
         image: "https://i.ibb.co/jPp4fWPk/IMG-20260311-WA0010.jpg",
         email: "mentor4@mindease.edu", // Replace with real mentor email
