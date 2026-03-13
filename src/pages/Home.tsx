@@ -9,6 +9,7 @@ import { MENTORS } from '../data/mentorData';
 import { db } from '../firebase';
 import { collection, getCountFromServer, query, where, onSnapshot } from 'firebase/firestore';
 import FloatingChatWidget from '../components/FloatingChatWidget';
+import usePageTitle from '../hooks/usePageTitle';
 
 const FAQ_DATA = [
   {
@@ -183,6 +184,7 @@ const HERO_IMAGES = [
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  usePageTitle('');
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [carouselDir, setCarouselDir] = useState(1);
   const [heroImgIdx, setHeroImgIdx] = useState(0);

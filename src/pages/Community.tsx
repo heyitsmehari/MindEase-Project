@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Calendar, MessageSquare, Users, ArrowRight } from 'lucide-react';
+import usePageTitle from '../hooks/usePageTitle';
 
 export default function Community() {
+  usePageTitle('Student Stories');
   return (
     <div className="min-h-screen py-20 px-4" style={{ background: '#FFF5F7' }}>
       <div className="max-w-5xl mx-auto">

@@ -133,6 +133,18 @@ const Navbar = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  const handleNavClick = (path: string) => {
+    if (location.pathname === path) {
+      // Same page — scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setIsMobileMenuOpen(false);
+    setIsProfileDropdownOpen(false);
+  };
+
   const guestLinks: NavLink[] = [
     { to: '/', label: 'Home', icon: <HomeIcon size={18} /> },
     { to: '/about', label: 'About', icon: <Info size={18} /> },
@@ -190,9 +202,9 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navigationLinks.map((link) => (
-              <Link
+              <button
                 key={link.to}
-                to={link.to}
+                onClick={() => handleNavClick(link.to)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm ${link.highlight
                   ? 'bg-red-50 text-red-600 hover:bg-red-100 animate-pulse'
                   : isActive(link.to)
@@ -202,7 +214,7 @@ const Navbar = () => {
               >
                 {link.icon}
                 <span>{link.label}</span>
-              </Link>
+              </button>
             ))}
           </div>
 
@@ -290,10 +302,10 @@ const Navbar = () => {
         <div className="px-4 pt-2 pb-4 bg-white border-t border-rose-100 shadow-inner">
           <div className="space-y-1 mb-4">
             {navigationLinks.map((link) => (
-              <Link
+              <button
                 key={link.to}
-                to={link.to}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${link.highlight
+                onClick={() => handleNavClick(link.to)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 text-left ${link.highlight
                   ? 'bg-red-50 text-red-600 border border-red-200'
                   : isActive(link.to)
                     ? 'bg-rose-500 text-white shadow-md'
@@ -302,7 +314,7 @@ const Navbar = () => {
               >
                 {link.icon}
                 <span>{link.label}</span>
-              </Link>
+              </button>
             ))}
           </div>
 

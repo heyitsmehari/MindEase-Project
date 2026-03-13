@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../../firebase';
+import usePageTitle from '../../hooks/usePageTitle';
 import {
   collection, addDoc, query, where, onSnapshot,
   serverTimestamp, doc, updateDoc, deleteDoc, getDoc,
@@ -231,6 +232,7 @@ const EventCard = ({ ev }: { ev: EventItem }) => (
 
 // ─── Main Component ────────────────────────────────────────────────────
 const StudentDashboard: React.FC = () => {
+  usePageTitle('Dashboard');
   const navigate = useNavigate();
   const [myPosts, setMyPosts] = useState<Article[]>([]);
   const [events, setEvents] = useState<EventItem[]>([]);
